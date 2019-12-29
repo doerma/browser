@@ -13,4 +13,12 @@
     <color name="color_shadow">#A6263238</color>
     <color name="color_shadow_light">@color/cardview_shadow_start_color</color>
 
+    <!-- doer added -->
+    <color name="finestBlack20">#33202020</color>
+    <color name="color_green">#00b4aa</color>
+    <color name="color_pink">#FF6A6E</color>
+    <color name="color_red_light">#FFB4B6</color>
+    <color name="color_blue">#03A9F4</color>
+    <color name="color_dark">#455A64</color>
+
 </resources>

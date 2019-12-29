@@ -13,5 +13,6 @@
     <dimen name="layout_margin_12dp">12dp</dimen>
     <dimen name="layout_margin_8dp">8dp</dimen>
 
-
+    <!-- doer added -->
+    <dimen name="defaultMaggintextbar">16dp</dimen>
 </resources>
