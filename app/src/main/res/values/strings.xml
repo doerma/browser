@@ -445,6 +445,9 @@
 
 
     <!-- doer added -->
+    <string name="mode_namewintan">Wintan</string>
+    <string name="mode_nameYCY">YueYue</string>
+
     <string name="menu_share">Share …</string>
     <string name="menu_save">Save …</string>
     <string name="menu_more">More …</string>

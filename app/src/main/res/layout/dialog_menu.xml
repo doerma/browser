@@ -128,7 +128,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/menu_closeTab"
                 android:layout_width="match_parent"

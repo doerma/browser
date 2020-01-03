@@ -15,4 +15,5 @@
 
     <!-- doer added -->
     <dimen name="defaultMaggintextbar">16dp</dimen>
+    <dimen name="defaultMaggintogglebar">8dp</dimen>
 </resources>
