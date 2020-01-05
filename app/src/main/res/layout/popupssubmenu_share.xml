@@ -23,7 +23,7 @@
             <TextView
                 android:id="@+id/submenu_shareScreenshot"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:includeFontPadding="false"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
@@ -41,7 +41,7 @@
                 android:id="@+id/submenu_sharePDF"
                 android:text="@string/menu_share_pdf"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:includeFontPadding="false"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
@@ -57,7 +57,7 @@
             <TextView
                 android:id="@+id/submenu_shareLink"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:includeFontPadding="false"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
@@ -74,7 +74,7 @@
             <TextView
                 android:id="@+id/submenu_shareClipboard"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:includeFontPadding="false"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
@@ -91,7 +91,7 @@
             <TextView
                 android:id="@+id/submenu_openWith"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:includeFontPadding="false"
                 android:ellipsize="end"
                 android:gravity="center_vertical"

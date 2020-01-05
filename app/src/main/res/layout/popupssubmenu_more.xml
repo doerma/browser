@@ -21,29 +21,11 @@
         android:paddingBottom="4dp">
 
 
-        <TextView
-            android:id="@+id/submenu_tabPreview"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:includeFontPadding="false"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:text="@string/main_menu_tabPreview"
-            android:textAppearance="?android:attr/textAppearance"
-            android:textColor="?android:attr/textColorPrimary"
-            android:background="?android:attr/selectableItemBackground"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:clickable="true"
-            android:textSize="16sp" />
-
-
 
         <TextView
             android:id="@+id/submenu_newTabOpen"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:includeFontPadding="false"
             android:ellipsize="end"
             android:gravity="center_vertical"
@@ -63,7 +45,7 @@
         <TextView
             android:id="@+id/submenu_openFav"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:includeFontPadding="false"
             android:ellipsize="end"
             android:gravity="center_vertical"
@@ -82,7 +64,7 @@
         <TextView
             android:id="@+id/submenu_closeTab"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:includeFontPadding="false"
             android:ellipsize="end"
             android:gravity="center_vertical"
@@ -99,27 +81,9 @@
 
 
         <TextView
-            android:id="@+id/submenu_quit"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:includeFontPadding="false"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:text="@string/menu_quit"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimary"
-            android:background="?android:attr/selectableItemBackground"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:clickable="true"
-            android:textSize="16sp"/>
-
-
-        <TextView
             android:id="@+id/submenu_searchSite"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:includeFontPadding="false"
             android:ellipsize="end"
             android:gravity="center_vertical"
@@ -134,27 +98,9 @@
             android:textSize="16sp"/>
 
         <TextView
-            android:id="@+id/submenu_fav"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:includeFontPadding="false"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:text="@string/menu_fav"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimary"
-            android:background="?android:attr/selectableItemBackground"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:clickable="true"
-            android:textSize="16sp"/>
-
-
-        <TextView
             android:id="@+id/submenu_fileManager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:includeFontPadding="false"
             android:ellipsize="end"
             android:gravity="center_vertical"
@@ -173,7 +119,7 @@
         <TextView
             android:id="@+id/submenu_download"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:includeFontPadding="false"
             android:ellipsize="end"
             android:gravity="center_vertical"
