@@ -135,6 +135,7 @@
                 android:layout_height="1dp"
                 android:background="?android:attr/colorButtonNormal" />
 
+            <!--doer deleted begin
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
@@ -160,7 +161,7 @@
                     android:includeFontPadding="false"
                     android:gravity="center_vertical"
                     android:text="@string/setting_title_adblock"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="?android:attr/textAppearance"
                     android:textColor="?android:attr/textColorPrimary" />
 
                 <CheckBox
@@ -211,7 +212,7 @@
                     android:includeFontPadding="false"
                     android:gravity="center_vertical"
                     android:text="@string/setting_title_javascript"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="?android:attr/textAppearance"
                     android:textColor="?android:attr/textColorPrimary" />
 
                 <CheckBox
@@ -264,7 +265,7 @@
                     android:includeFontPadding="false"
                     android:gravity="center_vertical"
                     android:text="@string/setting_title_cookie"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="?android:attr/textAppearance"
                     android:textColor="?android:attr/textColorPrimary"/>
 
                 <CheckBox
@@ -295,6 +296,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/colorButtonNormal" />
+            doer deleted end-->
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -311,7 +313,7 @@
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="0dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_marginEnd="3dp"
                         android:orientation="vertical">
 
 
@@ -320,8 +322,7 @@
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_gravity="center_vertical|center_horizontal"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp"
+
                             android:background="?attr/actionBarItemBackground"
                             android:src="@drawable/icon_block" />
                         <View
@@ -335,8 +336,8 @@
                     <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
                         android:orientation="vertical">
 
                         <ImageButton
@@ -344,8 +345,6 @@
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_gravity="center_vertical|center_horizontal"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp"
                             android:background="?attr/actionBarItemBackground"
                             android:src="@drawable/icon_java" />
 
@@ -360,8 +359,8 @@
                     <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -371,8 +370,6 @@
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_gravity="center_vertical|center_horizontal"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp"
                             android:background="?attr/actionBarItemBackground"
                             android:src="@drawable/icon_cookie" />
                         <View
@@ -386,8 +383,8 @@
                     <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
                         android:orientation="vertical">
 
 
@@ -411,8 +408,8 @@
                     <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
                         android:orientation="vertical">
 
 
@@ -436,8 +433,8 @@
                     <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
                         android:orientation="vertical">
 
                          <ImageButton
@@ -461,8 +458,8 @@
                     <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="0dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
                         android:orientation="vertical">
 
 
@@ -489,7 +486,7 @@
                         android:id="@+id/toggle_inverttheme"
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="3dp"
                         android:layout_marginEnd="6dp"
                         android:gravity="center"
                         android:orientation="vertical">

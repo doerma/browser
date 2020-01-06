@@ -1720,13 +1720,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         bottomSheetDialog = new BottomSheetDialog(context);
         View dialogView = View.inflate(context, R.layout.dialog_toggle, null);
 
-        CheckBox sw_java = dialogView.findViewById(R.id.switch_js);
-        final ImageButton whiteList_js = dialogView.findViewById(R.id.imageButton_js);
-        CheckBox sw_adBlock = dialogView.findViewById(R.id.switch_adBlock);
-        final ImageButton whiteList_ab = dialogView.findViewById(R.id.imageButton_ab);
-        CheckBox sw_cookie = dialogView.findViewById(R.id.switch_cookie);
-        final ImageButton whitelist_cookie = dialogView.findViewById(R.id.imageButton_cookie);
-
         TextView dialog_title = dialogView.findViewById(R.id.dialog_title);
         dialog_title.setText(HelperUnit.domain(ninjaWebView.getUrl()));
 
@@ -1737,6 +1730,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         final String url = ninjaWebView.getUrl();
 
+        /*doer deleted
         if (sp.getBoolean(getString(R.string.sp_javascript), true)){
             sw_java.setChecked(true);
         } else {
@@ -1847,6 +1841,75 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
             }
         });
+        */
+
+        //doer added begin
+        final ImageButton toggle_adblock = dialogView.findViewById(R.id.toggle_adblock);
+        final View toggle_adblockView = dialogView.findViewById(R.id.toggle_adblockView);
+
+        final ImageButton toggle_JavaScrip = dialogView.findViewById(R.id.toggle_JavaScrip);
+        final View toggle_JavaScriptView = dialogView.findViewById(R.id.toggle_JavaScriptView);
+
+        final ImageButton toggle_cookies = dialogView.findViewById(R.id.toggle_cookies);
+        final View toggle_cookiesView = dialogView.findViewById(R.id.toggle_cookiesView);
+
+
+        if (javaHosts.isWhite(ninjaWebView.getUrl())) {
+            toggle_JavaScriptView.setVisibility(View.VISIBLE);
+        } else {
+            toggle_JavaScriptView.setVisibility(View.INVISIBLE);
+        }
+
+        toggle_JavaScrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (javaHosts.isWhite(ninjaWebView.getUrl())) {
+                    toggle_JavaScriptView.setVisibility(View.INVISIBLE);
+                    javaHosts.removeDomain(HelperUnit.domain(url));
+                } else {
+                    toggle_JavaScriptView.setVisibility(View.VISIBLE);
+                    javaHosts.addDomain(HelperUnit.domain(url));
+                }
+            }
+        });
+
+        if (cookieHosts.isWhite(ninjaWebView.getUrl())) {
+            toggle_cookiesView.setVisibility(View.VISIBLE);
+        } else {
+            toggle_cookiesView.setVisibility(View.INVISIBLE);
+        }
+        toggle_cookies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cookieHosts.isWhite(ninjaWebView.getUrl())) {
+                    toggle_cookiesView.setVisibility(View.INVISIBLE);
+                    cookieHosts.removeDomain(HelperUnit.domain(url));
+                } else {
+                    toggle_cookiesView.setVisibility(View.VISIBLE);
+                    cookieHosts.addDomain(HelperUnit.domain(url));
+                }
+            }
+        });
+
+        if (adBlock.isWhite(ninjaWebView.getUrl())) {
+            toggle_adblockView.setVisibility(View.VISIBLE);
+        } else {
+            toggle_adblockView.setVisibility(View.INVISIBLE);
+        }
+        toggle_adblock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (adBlock.isWhite(ninjaWebView.getUrl())) {
+                    toggle_adblockView.setVisibility(View.INVISIBLE);
+                    adBlock.removeDomain(HelperUnit.domain(url));
+                } else {
+                    toggle_adblockView.setVisibility(View.VISIBLE);
+                    adBlock.addDomain(HelperUnit.domain(url));
+                }
+            }
+        });
+        //doer added end
+
 
         final ImageButton toggle_history = dialogView.findViewById(R.id.toggle_history);
         final View toggle_historyView = dialogView.findViewById(R.id.toggle_historyView);
