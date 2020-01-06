@@ -78,13 +78,14 @@
                     android:id="@+id/button_Background_black"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:text="@string/text_black"
-                    android:textColor="@color/color_light"
                     android:background="@color/color_dark"
-                    android:layout_margin="4dp"/>
+                    android:text="@string/text_black"
+                    android:textColor="@color/color_light" />
 
-            </LinearLayout>
+
+              </LinearLayout>
 
             <View
                 android:layout_margin="8dp"
@@ -103,7 +104,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="A"
-                    android:textSize="10sp"/>
+                    android:textSize="10sp"
+                    android:layout_gravity="center"/>
 
                 <com.xw.repo.BubbleSeekBar
                     android:id="@+id/textsize_seek_bar"
@@ -123,7 +125,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="A"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
             <View
@@ -142,7 +145,7 @@
                     android:id="@+id/abIcon"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="24dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:layout_marginEnd="16dp"
@@ -295,27 +298,22 @@
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/defaultMaggintogglebar">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal">
+                    android:layout_gravity="center_vertical">
 
                     <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="0dp"
                         android:layout_marginEnd="6dp"
                         android:orientation="vertical">
 
-                        <View
-                            android:id="@+id/toggle_adblockView"
-                            android:layout_width="42dp"
-                            android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
 
                         <ImageButton
                             android:id="@+id/toggle_adblock"
@@ -326,6 +324,11 @@
                             android:layout_marginEnd="2dp"
                             android:background="?attr/actionBarItemBackground"
                             android:src="@drawable/icon_block" />
+                        <View
+                            android:id="@+id/toggle_adblockView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="?android:attr/colorAccent" />
 
                     </LinearLayout>
 
@@ -335,12 +338,6 @@
                         android:layout_marginStart="6dp"
                         android:layout_marginEnd="6dp"
                         android:orientation="vertical">
-
-                        <View
-                            android:id="@+id/toggle_JavaScriptView"
-                            android:layout_width="42dp"
-                            android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
 
                         <ImageButton
                             android:id="@+id/toggle_JavaScrip"
@@ -352,6 +349,12 @@
                             android:background="?attr/actionBarItemBackground"
                             android:src="@drawable/icon_java" />
 
+                        <View
+                            android:id="@+id/toggle_JavaScriptView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="?android:attr/colorAccent" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -362,11 +365,6 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <View
-                            android:id="@+id/toggle_cookiesView"
-                            android:layout_width="42dp"
-                            android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
 
                         <ImageButton
                             android:id="@+id/toggle_cookies"
@@ -377,6 +375,11 @@
                             android:layout_marginEnd="2dp"
                             android:background="?attr/actionBarItemBackground"
                             android:src="@drawable/icon_cookie" />
+                        <View
+                            android:id="@+id/toggle_cookiesView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="?android:attr/colorAccent" />
 
                     </LinearLayout>
 
@@ -387,11 +390,6 @@
                         android:layout_marginEnd="6dp"
                         android:orientation="vertical">
 
-                        <View
-                            android:id="@+id/toggle_historyView"
-                            android:layout_width="42dp"
-                            android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
 
                         <ImageButton
                             android:id="@+id/toggle_history"
@@ -402,6 +400,11 @@
                             android:layout_marginEnd="2dp"
                             android:background="?attr/actionBarItemBackground"
                             android:src="@drawable/icon_history" />
+                        <View
+                            android:id="@+id/toggle_historyView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="?android:attr/colorAccent" />
 
                     </LinearLayout>
 
@@ -412,11 +415,6 @@
                         android:layout_marginEnd="6dp"
                         android:orientation="vertical">
 
-                        <View
-                            android:id="@+id/toggle_locationView"
-                            android:layout_width="42dp"
-                            android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
 
                         <ImageButton
                             android:id="@+id/toggle_location"
@@ -427,6 +425,11 @@
                             android:layout_marginEnd="2dp"
                             android:background="?attr/actionBarItemBackground"
                             android:src="@drawable/icon_location" />
+                        <View
+                            android:id="@+id/toggle_locationView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="?android:attr/colorAccent" />
 
                     </LinearLayout>
 
@@ -437,13 +440,7 @@
                         android:layout_marginEnd="6dp"
                         android:orientation="vertical">
 
-                        <View
-                            android:id="@+id/toggle_imagesView"
-                            android:layout_width="42dp"
-                            android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
-
-                        <ImageButton
+                         <ImageButton
                             android:id="@+id/toggle_images"
                             android:layout_width="42dp"
                             android:layout_height="42dp"
@@ -452,6 +449,12 @@
                             android:layout_marginEnd="2dp"
                             android:background="?attr/actionBarItemBackground"
                             android:src="@drawable/icon_image" />
+                        <View
+                            android:id="@+id/toggle_imagesView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="?android:attr/colorAccent" />
+
 
                     </LinearLayout>
 
@@ -459,14 +462,9 @@
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_marginEnd="0dp"
                         android:orientation="vertical">
 
-                        <View
-                            android:id="@+id/toggle_remoteView"
-                            android:layout_width="42dp"
-                            android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
 
                         <ImageButton
                             android:id="@+id/toggle_remote"
@@ -477,12 +475,42 @@
                             android:layout_marginEnd="2dp"
                             android:background="?attr/actionBarItemBackground"
                             android:src="@drawable/icon_remote" />
+                        <View
+                            android:id="@+id/toggle_remoteView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="?android:attr/colorAccent" />
 
                     </LinearLayout>
 
 
 
+                    <LinearLayout
+                        android:id="@+id/toggle_inverttheme"
+                        android:layout_width="42dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
+
+                        <ImageButton
+                            android:id="@+id/toggle_invert"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:background="?attr/actionBarItemBackground"
+                            android:src="@drawable/icon_night" />
+
+                        <View
+                            android:id="@+id/toggle_invertView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="?android:attr/colorAccent" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -500,35 +528,10 @@
                 android:minHeight="46dp"
                 android:padding="@dimen/defaultMaggintogglebar">
 
-                <LinearLayout
-                    android:id="@+id/toggle_inverttheme"
-                    android:layout_width="42dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
 
-                    <View
-                        android:id="@+id/toggle_invertView"
-                        android:layout_width="42dp"
-                        android:layout_height="2dp"
-                        android:background="?android:attr/colorAccent" />
-
-                    <ImageButton
-                        android:id="@+id/toggle_invert"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
-                        android:background="?attr/actionBarItemBackground"
-                        android:src="@drawable/icon_night" />
-
-                </LinearLayout>
 
                 <LinearLayout
-                    android:layout_toEndOf="@+id/toggle_inverttheme"
+
                     android:layout_width="42dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"

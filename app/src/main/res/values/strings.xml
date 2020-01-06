@@ -2,7 +2,6 @@
 
 <resources>
 
-
     <!-- App -->
     <string name="app_name">FOSS Browser</string>
     <string name="app_ok">OK</string>
