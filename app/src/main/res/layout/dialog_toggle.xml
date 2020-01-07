@@ -111,13 +111,13 @@
                     android:id="@+id/textsize_seek_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="15"
+                    android:layout_weight="16"
                     app:bsb_second_track_color="@color/color_blue"
-                    app:bsb_section_count="62"
+                    app:bsb_section_count="270"
                     app:bsb_show_thumb_text="true"
                     app:bsb_touch_to_seek="true"
-                    app:bsb_min="5"
-                    app:bsb_max="36"
+                    app:bsb_min="30"
+                    app:bsb_max="300"
                     app:bsb_seek_step_section="true"/>
 
                 <TextView
@@ -329,7 +329,7 @@
                             android:id="@+id/toggle_adblockView"
                             android:layout_width="42dp"
                             android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
+                            android:background="@color/color_red_light" />
 
                     </LinearLayout>
 
@@ -352,7 +352,7 @@
                             android:id="@+id/toggle_JavaScriptView"
                             android:layout_width="42dp"
                             android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
+                            android:background="@color/color_red_light" />
 
                     </LinearLayout>
 
@@ -376,7 +376,7 @@
                             android:id="@+id/toggle_cookiesView"
                             android:layout_width="42dp"
                             android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
+                            android:background="@color/color_red_light" />
 
                     </LinearLayout>
 
@@ -572,7 +572,7 @@
                     android:includeFontPadding="false"
                     android:background="?attr/selectableItemBackground"
                     android:textColor="?android:attr/colorAccent"
-                    android:text="@string/app_ok"/>
+                    android:text="@string/dialog_toggle_instant"/>
 
             </RelativeLayout>
 

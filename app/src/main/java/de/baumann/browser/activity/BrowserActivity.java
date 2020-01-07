@@ -57,8 +57,6 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -74,6 +72,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.mobapphome.mahencryptorlib.MAHEncryptor;
+import com.xw.repo.BubbleSeekBar;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -210,6 +209,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private String overViewTab;
     private BroadcastReceiver downloadReceiver;
     private BottomSheetBehavior mBehavior;
+    private toggleOptions option;
 
 
     private Activity activity;
@@ -220,6 +220,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private Cookie cookieHosts;
     private AdBlock adBlock;
     private GridAdapter gridAdapter;
+
 
     private boolean prepareRecord() {
         NinjaWebView webView = (NinjaWebView) currentAlbumController;
@@ -372,6 +373,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
             }, 250);
         }
+
+        //doer added begin
+        option=new toggleOptions();
+        option.intFontzoom=Integer.parseInt(Objects.requireNonNull(sp.getString("sp_fontSize", "100")));
+        option.bSaveHistory=sp.getBoolean("saveHistory", false);
+        option.bLocation=sp.getBoolean(getString(R.string.sp_location), false);
+        option.bImageView=sp.getBoolean(getString(R.string.sp_images), true);
+        option.bRemote=sp.getBoolean("sp_remote", true);
+        option.bInvertView=sp.getBoolean("sp_invert", false);
+        //doer added end
+
     }
 
     @Override
@@ -1730,6 +1742,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         final String url = ninjaWebView.getUrl();
 
+
         /*doer deleted
         if (sp.getBoolean(getString(R.string.sp_javascript), true)){
             sw_java.setChecked(true);
@@ -1843,7 +1856,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         });
         */
 
-        //doer added begin
+
         final ImageButton toggle_adblock = dialogView.findViewById(R.id.toggle_adblock);
         final View toggle_adblockView = dialogView.findViewById(R.id.toggle_adblockView);
 
@@ -1908,6 +1921,33 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
             }
         });
+
+        // doer added begin
+        final BubbleSeekBar bubbleSeekBar=dialogView.findViewById(R.id.textsize_seek_bar);
+        bubbleSeekBar.setProgress(option.intFontzoom);
+
+        bubbleSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
+            @Override
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+                int color;
+                if (progress < 100) {
+                    color = getResources().getColor(R.color.color_green);
+                } else if (progress > 100) {
+                    color = getResources().getColor(R.color.color_red);
+                } else {
+                    color = getResources().getColor( R.color.color_blue);
+                }
+
+                bubbleSeekBar.setThumbColor(color);
+                bubbleSeekBar.setTrackColor(color);
+
+                option.intFontzoom=bubbleSeekBar.getProgress();
+                //sp.edit().putString("sp_fontSize",Integer.toString(option.intFontzoom)).commit();
+
+            }
+        });
+
+
         //doer added end
 
 
@@ -1937,7 +1977,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }
         });
 
-        if (sp.getBoolean("saveHistory", false)) {
+        if (option.bSaveHistory) {
             toggle_historyView.setVisibility(View.VISIBLE);
         } else {
             toggle_historyView.setVisibility(View.INVISIBLE);
@@ -1946,17 +1986,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sp.getBoolean("saveHistory", false)) {
+                if (option.bSaveHistory) {
                     toggle_historyView.setVisibility(View.INVISIBLE);
-                    sp.edit().putBoolean("saveHistory", false).commit();
+                    option.bSaveHistory=false;
                 } else {
                     toggle_historyView.setVisibility(View.VISIBLE);
-                    sp.edit().putBoolean("saveHistory", true).commit();
+                    option.bSaveHistory=true;
                 }
             }
         });
 
-        if (sp.getBoolean(getString(R.string.sp_location), false)) {
+        if (option.bLocation) {
             toggle_locationView.setVisibility(View.VISIBLE);
         } else {
             toggle_locationView.setVisibility(View.INVISIBLE);
@@ -1965,17 +2005,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sp.getBoolean(getString(R.string.sp_location), false)) {
+                if (option.bLocation) {
                     toggle_locationView.setVisibility(View.INVISIBLE);
-                    sp.edit().putBoolean(getString(R.string.sp_location), false).commit();
+                    option.bLocation=false;
                 } else {
                     toggle_locationView.setVisibility(View.VISIBLE);
-                    sp.edit().putBoolean(getString(R.string.sp_location), true).commit();
+                    option.bLocation=true;
                 }
             }
         });
 
-        if (sp.getBoolean(getString(R.string.sp_images), true)) {
+        if (option.bImageView) {
             toggle_imagesView.setVisibility(View.VISIBLE);
         } else {
             toggle_imagesView.setVisibility(View.INVISIBLE);
@@ -1984,17 +2024,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_images.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sp.getBoolean(getString(R.string.sp_images), true)) {
+                if (option.bImageView) {
                     toggle_imagesView.setVisibility(View.INVISIBLE);
-                    sp.edit().putBoolean(getString(R.string.sp_images), false).commit();
+                    option.bImageView =false;
                 } else {
                     toggle_imagesView.setVisibility(View.VISIBLE);
-                    sp.edit().putBoolean(getString(R.string.sp_images), true).commit();
+                    option.bImageView =true;
                 }
             }
         });
 
-        if (sp.getBoolean("sp_remote", true)) {
+        if (option.bRemote) {
             toggle_remoteView.setVisibility(View.VISIBLE);
         } else {
             toggle_remoteView.setVisibility(View.INVISIBLE);
@@ -2003,17 +2043,18 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_remote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sp.getBoolean("sp_remote", true)) {
+                if (option.bRemote) {
                     toggle_remoteView.setVisibility(View.INVISIBLE);
-                    sp.edit().putBoolean("sp_remote", false).commit();
+                    option.bRemote=false;
                 } else {
                     toggle_remoteView.setVisibility(View.VISIBLE);
-                    sp.edit().putBoolean("sp_remote", true).commit();
+                    option.bRemote=true;
+
                 }
             }
         });
 
-        if (sp.getBoolean("sp_invert", false)) {
+        if (option.bInvertView) {
             toggle_invertView.setVisibility(View.VISIBLE);
         } else {
             toggle_invertView.setVisibility(View.INVISIBLE);
@@ -2022,14 +2063,15 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_invert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sp.getBoolean("sp_invert", false)) {
+                if (option.bInvertView) {
                     toggle_invertView.setVisibility(View.INVISIBLE);
-                    sp.edit().putBoolean("sp_invert", false).commit();
+                    option.bInvertView =false;
                 } else {
                     toggle_invertView.setVisibility(View.VISIBLE);
-                    sp.edit().putBoolean("sp_invert", true).commit();
+                    option.bInvertView =true;
                 }
-                HelperUnit.initRendering(contentFrame);
+                //still not work
+                HelperUnit.initRendering(contentFrame,option.bInvertView);
             }
         });
 
@@ -2037,11 +2079,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         but_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (ninjaWebView != null) {
-                    hideBottomSheetDialog ();
+                    sp.edit().putBoolean("sp_invert", option.bInvertView).commit();
+                    sp.edit().putBoolean("sp_remote", option.bRemote).commit();
+                    sp.edit().putBoolean(getString(R.string.sp_images), option.bImageView).commit();
+                    sp.edit().putBoolean(getString(R.string.sp_location), option.bLocation).commit();
+                    sp.edit().putBoolean("saveHistory", option.bSaveHistory).commit();
                     ninjaWebView.initPreferences();
                     ninjaWebView.reload();
                 }
+                hideBottomSheetDialog ();
             }
         });
 
@@ -2049,6 +2097,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         action_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (ninjaWebView != null) {
+                    ninjaWebView.initToggle(option);
+                    ninjaWebView.reload();
+                }
                 hideBottomSheetDialog ();
             }
         });
