@@ -35,5 +35,5 @@ dependencies {
     implementation 'com.mobapphome.library:mah-encryptor-lib:1.0.1'
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
-    implementation 'com.xw.repo:bubbleseekbar:3.20-lite'
+    implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
 }

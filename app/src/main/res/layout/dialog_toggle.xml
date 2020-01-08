@@ -28,7 +28,9 @@
         android:layout_height="1dp"
         android:background="?android:attr/colorButtonNormal" />
 
-    <ScrollView android:layout_width="match_parent"
+    <de.baumann.browser.activity.BubbleSeekBarScrollView
+        android:id="@+id/toggle_scrollView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/colorBackground">
 
@@ -38,60 +40,72 @@
             android:layout_height="wrap_content" >
 
 
-            <LinearLayout
+            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/TextTheme_RadioGroup"
                 android:orientation="horizontal"
                 android:padding="@dimen/defaultMaggintogglebar">
 
-                <Button
+                <RadioButton
                     android:id="@+id/button_Background_default"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
                     android:layout_weight="1"
                     android:text="@string/text_default"
+                    android:button="@null"
+                    android:gravity="center"
                     android:textColor="@color/color_dark"
-                    android:background="@color/color_light"
-                    android:layout_margin="4dp"/>
+                    android:background="@drawable/btn_webpagedefault_bg"
+                    android:layout_margin="4dp"
+                    android:checked="true"/>
 
-                <Button
+                <RadioButton
                     android:id="@+id/button_Background_green"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
                     android:layout_weight="1"
                     android:text="@string/text_green"
+                    android:button="@null"
+                    android:gravity="center"
                     android:textColor="@color/color_dark"
-                    android:background="@color/color_green"
+                    android:background="@drawable/btn_webpagegreen_bg"
                     android:layout_margin="4dp"/>
 
-                <Button
+                <RadioButton
                     android:id="@+id/button_Background_pink"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
                     android:layout_weight="1"
                     android:text="@string/text_pink"
+                    android:button="@null"
+                    android:gravity="center"
                     android:textColor="@color/color_dark"
-                    android:background="@color/color_pink"
+                    android:background="@drawable/btn_webpagepink_bg"
                     android:layout_margin="4dp"/>
 
-                <Button
+                <RadioButton
                     android:id="@+id/button_Background_black"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:background="@color/color_dark"
                     android:text="@string/text_black"
-                    android:textColor="@color/color_light" />
+                    android:button="@null"
+                    android:gravity="center"
+                    android:textColor="@color/color_light"
+                    android:background="@drawable/btn_webpagedark_bg"
+                    android:layout_margin="4dp"/>
 
 
-              </LinearLayout>
+
+              </RadioGroup>
 
             <View
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/colorButtonNormal" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -107,18 +121,16 @@
                     android:textSize="10sp"
                     android:layout_gravity="center"/>
 
-                <com.xw.repo.BubbleSeekBar
-                    android:id="@+id/textsize_seek_bar"
+                <com.warkiz.widget.IndicatorSeekBar
+                    android:id="@+id/textzoom_seek_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="16"
-                    app:bsb_second_track_color="@color/color_blue"
-                    app:bsb_section_count="270"
-                    app:bsb_show_thumb_text="true"
-                    app:bsb_touch_to_seek="true"
-                    app:bsb_min="30"
-                    app:bsb_max="300"
-                    app:bsb_seek_step_section="true"/>
+                    app:isb_track_progress_color="@color/color_blue"
+                    app:isb_show_thumb_text="true"
+                    app:isb_min="30"
+                    app:isb_max="300"
+                    app:isb_seek_smoothly="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -381,6 +393,33 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/toggle_inverttheme"
+                        android:layout_width="42dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="6dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <ImageButton
+                            android:id="@+id/toggle_invert"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:background="?attr/actionBarItemBackground"
+                            android:src="@drawable/icon_night" />
+
+                        <View
+                            android:id="@+id/toggle_invertView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="@color/color_red" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="3dp"
@@ -482,32 +521,7 @@
 
 
 
-                    <LinearLayout
-                        android:id="@+id/toggle_inverttheme"
-                        android:layout_width="42dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginEnd="6dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
 
-
-                        <ImageButton
-                            android:id="@+id/toggle_invert"
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp"
-                            android:background="?attr/actionBarItemBackground"
-                            android:src="@drawable/icon_night" />
-
-                        <View
-                            android:id="@+id/toggle_invertView"
-                            android:layout_width="42dp"
-                            android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
-                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -562,23 +576,15 @@
                     android:includeFontPadding="false"
                     android:background="?attr/selectableItemBackground"
                     android:textColor="?android:attr/colorAccent"
-                    android:text="@string/dialog_toggle_reload"
+                    android:text="@string/app_ok"
                     android:layout_marginEnd="6dp"/>
 
-                <Button android:id="@+id/action_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/action_ok"
-                    android:includeFontPadding="false"
-                    android:background="?attr/selectableItemBackground"
-                    android:textColor="?android:attr/colorAccent"
-                    android:text="@string/dialog_toggle_instant"/>
 
             </RelativeLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+    </de.baumann.browser.activity.BubbleSeekBarScrollView>
 
 </LinearLayout>
 

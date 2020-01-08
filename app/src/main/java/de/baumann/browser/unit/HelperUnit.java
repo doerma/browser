@@ -365,21 +365,4 @@ public class HelperUnit {
             view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         }
     }
-    public static void initRendering(View view,boolean bInvert) {
-        if (bInvert) {
-            Paint paint = new Paint();
-            ColorMatrix matrix = new ColorMatrix();
-            matrix.set(NEGATIVE_COLOR);
-            ColorMatrix gcm = new ColorMatrix();
-            gcm.setSaturation(0);
-            ColorMatrix concat = new ColorMatrix();
-            concat.setConcat(matrix, gcm);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(concat);
-            paint.setColorFilter(filter);
-            // maybe sometime LAYER_TYPE_NONE would better?
-            view.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
-        } else {
-            view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        }
-    }
 }

@@ -67,12 +67,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.mobapphome.mahencryptorlib.MAHEncryptor;
-import com.xw.repo.BubbleSeekBar;
+import com.warkiz.widget.IndicatorSeekBar;
+import com.warkiz.widget.OnSeekChangeListener;
+import com.warkiz.widget.SeekParams;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -1734,6 +1737,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         TextView dialog_title = dialogView.findViewById(R.id.dialog_title);
         dialog_title.setText(HelperUnit.domain(ninjaWebView.getUrl()));
+        BubbleSeekBarScrollView toggle_scrollview = dialogView.findViewById(R.id.toggle_scrollView);
+
 
         javaHosts = new Javascript(context);
         cookieHosts = new Cookie(context);
@@ -1923,27 +1928,24 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         });
 
         // doer added begin
-        final BubbleSeekBar bubbleSeekBar=dialogView.findViewById(R.id.textsize_seek_bar);
-        bubbleSeekBar.setProgress(option.intFontzoom);
+        final IndicatorSeekBar seekBar=dialogView.findViewById(R.id.textzoom_seek_bar);
+        seekBar.setIndicatorTextFormat("${PROGRESS} %");
+        seekBar.setProgress(option.intFontzoom);
 
-        bubbleSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
+        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
-            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-                int color;
-                if (progress < 100) {
-                    color = getResources().getColor(R.color.color_green);
-                } else if (progress > 100) {
-                    color = getResources().getColor(R.color.color_red);
-                } else {
-                    color = getResources().getColor( R.color.color_blue);
-                }
+            public void onSeeking(SeekParams seekParams) {
+                option.intFontzoom=seekParams.progress;
+            }
 
-                bubbleSeekBar.setThumbColor(color);
-                bubbleSeekBar.setTrackColor(color);
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+                option.intFontzoom=seekBar.getProgress();
+            }
 
-                option.intFontzoom=bubbleSeekBar.getProgress();
-                //sp.edit().putString("sp_fontSize",Integer.toString(option.intFontzoom)).commit();
-
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                option.intFontzoom=seekBar.getProgress();
             }
         });
 
@@ -2070,8 +2072,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     toggle_invertView.setVisibility(View.VISIBLE);
                     option.bInvertView =true;
                 }
-                //still not work
-                HelperUnit.initRendering(contentFrame,option.bInvertView);
+                HelperUnit.initRendering(contentFrame);
             }
         });
 
@@ -2082,29 +2083,13 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
                 if (ninjaWebView != null) {
                     sp.edit().putBoolean("sp_invert", option.bInvertView).commit();
-                    sp.edit().putBoolean("sp_remote", option.bRemote).commit();
-                    sp.edit().putBoolean(getString(R.string.sp_images), option.bImageView).commit();
-                    sp.edit().putBoolean(getString(R.string.sp_location), option.bLocation).commit();
-                    sp.edit().putBoolean("saveHistory", option.bSaveHistory).commit();
-                    ninjaWebView.initPreferences();
-                    ninjaWebView.reload();
-                }
-                hideBottomSheetDialog ();
-            }
-        });
-
-        Button action_cancel = dialogView.findViewById(R.id.action_cancel);
-        action_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (ninjaWebView != null) {
                     ninjaWebView.initToggle(option);
                     ninjaWebView.reload();
                 }
                 hideBottomSheetDialog ();
             }
         });
+
 
         bottomSheetDialog.setContentView(dialogView);
         bottomSheetDialog.show();

@@ -20,5 +20,7 @@
     <color name="color_red_light">#FFB4B6</color>
     <color name="color_blue">#03A9F4</color>
     <color name="color_dark">#455A64</color>
-
+    <color name="primary_light">#F5F5F5</color>
+    <color name="primary_dark">#616161</color>
+    <color name="colorPrimaryDark">#303F9F</color>
 </resources>
