@@ -456,4 +456,23 @@
     <string name="text_pink">Pink</string>
     <string name="text_black">Black</string>
 
+    <!-- toggle dialog tips -->
+    <string name="text_toggle_tips">Change options and click \"ok\" to aplly.</string>
+    <string name="text_JavaScript_add_tips">Domain added into JavaScript whitelist.</string>
+    <string name="text_JavaScript_remove_tips">Domain removed from JavaScript whitelist.</string>
+    <string name="text_cookie_add_tips">Domain added into cookie whitelist.</string>
+    <string name="text_cookie_remove_tips">Domain removed from cookie whitelist.</string>
+    <string name="text_adblock_add_tips">Domain added into adblock whitelist.</string>
+    <string name="text_adblock_remove_tips">Domain removed from adblock whitelist.</string>
+    <string name="text_Fontzoom_tips">Font size changed.</string>
+    <string name="text_history_record_tips">Record history.</string>
+    <string name="text_history_ignore_tips">Ingore history.</string>
+    <string name="text_location_on_tips">Location on.</string>
+    <string name="text_location_off_tips">Location off.</string>
+    <string name="text_images_show_tips">Show images.</string>
+    <string name="text_images_hide_tips">Hide images.</string>
+    <string name="text_remote_show_tips">Show remote content.</string>
+    <string name="text_remote_hide_tips">Hide remote content.</string>
+    <string name="text_invert_on_tips">Invert webview.</string>
+    <string name="text_invert_off_tips">Normal webview.</string>
 </resources>

@@ -57,7 +57,7 @@
                     android:gravity="center"
                     android:textColor="@color/color_dark"
                     android:background="@drawable/btn_webpagedefault_bg"
-                    android:layout_margin="4dp"
+                    android:layout_marginEnd="4dp"
                     android:checked="true"/>
 
                 <RadioButton
@@ -70,7 +70,7 @@
                     android:gravity="center"
                     android:textColor="@color/color_dark"
                     android:background="@drawable/btn_webpagegreen_bg"
-                    android:layout_margin="4dp"/>
+                    android:layout_marginHorizontal="4dp"/>
 
                 <RadioButton
                     android:id="@+id/button_Background_pink"
@@ -82,7 +82,7 @@
                     android:gravity="center"
                     android:textColor="@color/color_dark"
                     android:background="@drawable/btn_webpagepink_bg"
-                    android:layout_margin="4dp"/>
+                    android:layout_marginHorizontal="4dp"/>
 
                 <RadioButton
                     android:id="@+id/button_Background_black"
@@ -94,7 +94,7 @@
                     android:gravity="center"
                     android:textColor="@color/color_light"
                     android:background="@drawable/btn_webpagedark_bg"
-                    android:layout_margin="4dp"/>
+                    android:layout_marginStart="4dp"/>
 
 
 
@@ -118,27 +118,27 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="A"
-                    android:textSize="10sp"
-                    android:layout_gravity="center"/>
+                    android:textSize="10sp" />
 
                 <com.warkiz.widget.IndicatorSeekBar
                     android:id="@+id/textzoom_seek_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="16"
+                    android:layout_weight="20"
                     app:isb_track_progress_color="@color/color_blue"
                     app:isb_show_thumb_text="true"
                     app:isb_min="30"
                     app:isb_max="300"
-                    app:isb_seek_smoothly="true" />
+                    app:isb_seek_smoothly="true"
+                    app:isb_clear_default_padding="true"
+                    android:paddingHorizontal="12dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="A"
-                    android:textSize="16sp"
-                    android:layout_gravity="center"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <View
@@ -539,34 +539,16 @@
                 android:minHeight="46dp"
                 android:padding="@dimen/defaultMaggintogglebar">
 
+                <TextView
+                    android:id="@+id/toggle_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/text_toggle_tips"
+                    android:textColor="@color/primary_dark"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentStart="true"
+                    android:maxLines="1" />
 
-
-                <LinearLayout
-
-                    android:layout_width="42dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <View
-                        android:layout_width="42dp"
-                        android:layout_height="2dp"
-                        android:background="?android:attr/colorAccent"
-                        android:visibility="invisible" />
-
-                    <ImageButton
-                        android:id="@+id/toggle_font"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
-                        android:background="?attr/actionBarItemBackground"
-                        android:src="@drawable/icon_settings" />
-
-                </LinearLayout>
 
                 <Button
                     android:id="@+id/action_ok"
@@ -576,8 +558,7 @@
                     android:includeFontPadding="false"
                     android:background="?attr/selectableItemBackground"
                     android:textColor="?android:attr/colorAccent"
-                    android:text="@string/app_ok"
-                    android:layout_marginEnd="6dp"/>
+                    android:text="@string/app_ok" />
 
 
             </RelativeLayout>

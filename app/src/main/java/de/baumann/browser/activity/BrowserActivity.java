@@ -1737,6 +1737,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         TextView dialog_title = dialogView.findViewById(R.id.dialog_title);
         dialog_title.setText(HelperUnit.domain(ninjaWebView.getUrl()));
+        final TextView toggle_tips = dialogView.findViewById(R.id.toggle_tips);
 
 
         javaHosts = new Javascript(context);
@@ -1883,9 +1884,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (javaHosts.isWhite(ninjaWebView.getUrl())) {
                     toggle_JavaScriptView.setVisibility(View.INVISIBLE);
                     javaHosts.removeDomain(HelperUnit.domain(url));
+                    toggle_tips.setText(R.string.text_JavaScript_remove_tips);
                 } else {
                     toggle_JavaScriptView.setVisibility(View.VISIBLE);
                     javaHosts.addDomain(HelperUnit.domain(url));
+                    toggle_tips.setText(R.string.text_JavaScript_add_tips);
                 }
             }
         });
@@ -1901,9 +1904,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (cookieHosts.isWhite(ninjaWebView.getUrl())) {
                     toggle_cookiesView.setVisibility(View.INVISIBLE);
                     cookieHosts.removeDomain(HelperUnit.domain(url));
+                    toggle_tips.setText(R.string.text_cookie_remove_tips);
                 } else {
                     toggle_cookiesView.setVisibility(View.VISIBLE);
                     cookieHosts.addDomain(HelperUnit.domain(url));
+                    toggle_tips.setText(R.string.text_cookie_add_tips);
                 }
             }
         });
@@ -1919,9 +1924,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (adBlock.isWhite(ninjaWebView.getUrl())) {
                     toggle_adblockView.setVisibility(View.INVISIBLE);
                     adBlock.removeDomain(HelperUnit.domain(url));
+                    toggle_tips.setText(R.string.text_adblock_remove_tips);
                 } else {
                     toggle_adblockView.setVisibility(View.VISIBLE);
                     adBlock.addDomain(HelperUnit.domain(url));
+                    toggle_tips.setText(R.string.text_adblock_add_tips);
                 }
             }
         });
@@ -1945,6 +1952,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             @Override
             public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
                 option.intFontzoom=seekBar.getProgress();
+                toggle_tips.setText(R.string.text_Fontzoom_tips);
             }
         });
 
@@ -1967,6 +1975,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         final ImageButton toggle_invert = dialogView.findViewById(R.id.toggle_invert);
         final View toggle_invertView = dialogView.findViewById(R.id.toggle_invertView);
 
+        /* doer deleted
         final ImageButton toggle_font = dialogView.findViewById(R.id.toggle_font);
 
         toggle_font.setOnClickListener(new View.OnClickListener() {
@@ -1977,6 +1986,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 startActivity(intent);
             }
         });
+        */
+
 
         if (option.bSaveHistory) {
             toggle_historyView.setVisibility(View.VISIBLE);
@@ -1990,9 +2001,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (option.bSaveHistory) {
                     toggle_historyView.setVisibility(View.INVISIBLE);
                     option.bSaveHistory=false;
+                    toggle_tips.setText(R.string.text_history_ignore_tips);
                 } else {
                     toggle_historyView.setVisibility(View.VISIBLE);
                     option.bSaveHistory=true;
+                    toggle_tips.setText(R.string.text_history_record_tips);
                 }
             }
         });
@@ -2009,9 +2022,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (option.bLocation) {
                     toggle_locationView.setVisibility(View.INVISIBLE);
                     option.bLocation=false;
+                    toggle_tips.setText(R.string.text_location_off_tips);
                 } else {
                     toggle_locationView.setVisibility(View.VISIBLE);
                     option.bLocation=true;
+                    toggle_tips.setText(R.string.text_location_on_tips);
                 }
             }
         });
@@ -2028,9 +2043,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (option.bImageView) {
                     toggle_imagesView.setVisibility(View.INVISIBLE);
                     option.bImageView =false;
+                    toggle_tips.setText(R.string.text_images_hide_tips);
                 } else {
                     toggle_imagesView.setVisibility(View.VISIBLE);
                     option.bImageView =true;
+                    toggle_tips.setText(R.string.text_images_show_tips);
                 }
             }
         });
@@ -2047,10 +2064,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (option.bRemote) {
                     toggle_remoteView.setVisibility(View.INVISIBLE);
                     option.bRemote=false;
+                    toggle_tips.setText(R.string.text_remote_hide_tips);
                 } else {
                     toggle_remoteView.setVisibility(View.VISIBLE);
                     option.bRemote=true;
-
+                    toggle_tips.setText(R.string.text_remote_show_tips);
                 }
             }
         });
@@ -2067,9 +2085,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (option.bInvertView) {
                     toggle_invertView.setVisibility(View.INVISIBLE);
                     option.bInvertView =false;
+                    toggle_tips.setText(R.string.text_invert_off_tips);
                 } else {
                     toggle_invertView.setVisibility(View.VISIBLE);
                     option.bInvertView =true;
+                    toggle_tips.setText(R.string.text_invert_on_tips);
                 }
                 HelperUnit.initRendering(contentFrame);
             }
