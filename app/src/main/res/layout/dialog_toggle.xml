@@ -28,7 +28,7 @@
         android:layout_height="1dp"
         android:background="?android:attr/colorButtonNormal" />
 
-    <de.baumann.browser.activity.BubbleSeekBarScrollView
+    <ScrollView
         android:id="@+id/toggle_scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -584,7 +584,7 @@
 
         </LinearLayout>
 
-    </de.baumann.browser.activity.BubbleSeekBarScrollView>
+    </ScrollView>
 
 </LinearLayout>
 

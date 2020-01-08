@@ -1737,7 +1737,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         TextView dialog_title = dialogView.findViewById(R.id.dialog_title);
         dialog_title.setText(HelperUnit.domain(ninjaWebView.getUrl()));
-        BubbleSeekBarScrollView toggle_scrollview = dialogView.findViewById(R.id.toggle_scrollView);
 
 
         javaHosts = new Javascript(context);
