@@ -134,4 +134,21 @@
     <string name="sp_clear_cookie">SP_CLEAR_COOKIE_9</string>
     <string name="sp_clear_history">SP_CLEAR_HISTORY_9</string>
 
+
+    <string-array name="listArrayOrientation">
+        <item>Auto rotate (sensor)</item>
+        <item>Auto rotate (device)</item>
+        <item>Portrait</item>
+        <item>Landscape</item>
+    </string-array>
+
+    <string-array name="listValuesOrientation">
+        <item>auto</item>
+        <item>device</item>
+        <item>portrait</item>
+        <item>landscape</item>
+    </string-array>
+
+    <string name="def_rot">device</string>
+
 </resources>
