@@ -1210,27 +1210,22 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
     @SuppressLint("ClickableViewAccessibility")
     private void initOverview() {
-
         bottomSheetDialog_OverView = new BottomSheetDialog(context);
         View dialogView = View.inflate(context, R.layout.dialog_overview, null);
 
         tab_container = dialogView.findViewById(R.id.tab_container);
         tab_plus = dialogView.findViewById(R.id.tab_plus);
         tab_plus.setOnClickListener(this);
-        tab_close = dialogView.findViewById(R.id.tab_close);
-        tab_close.setOnClickListener(this);
 
         tab_ScrollView = dialogView.findViewById(R.id.tab_ScrollView);
         overview_top = dialogView.findViewById(R.id.overview_top);
         overview_topButtons = dialogView.findViewById(R.id.overview_topButtons);
 
         bottomSheetDialog_OverView.setContentView(dialogView);
-
-
     }
+
     @SuppressLint("ClickableViewAccessibility")
     private void initRecords() {
-
         bottomSheetDialog_Records = new BottomSheetDialog(context);
         View dialogView = View.inflate(context, R.layout.dialog_records, null);
 
@@ -1426,8 +1421,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         bottomSheetDialog_Records.setContentView(dialogView);
 
         mBehavior = BottomSheetBehavior.from((View) dialogView.getParent());
-        int peekHeight = Math.round(200 * getResources().getDisplayMetrics().density);
-        mBehavior.setPeekHeight(peekHeight);
+        //int peekHeight = Math.round(200 * getResources().getDisplayMetrics().density);
+        //mBehavior.setPeekHeight(peekHeight);
         mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
