@@ -23,4 +23,6 @@
     <color name="primary_light">#F5F5F5</color>
     <color name="primary_dark">#616161</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorDark_trans">#60757575</color>
+    <color name="divider">#B6B6B6</color>
 </resources>

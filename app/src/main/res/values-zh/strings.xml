@@ -98,12 +98,12 @@
     <string name="setting_title_cookie">Cookie</string>
     <string name="setting_summary_cookie_delete">如果启用，将删除所有Cookie，包括可信网站的cookie。</string>
     <string name="setting_summary_cookie">启用Cookie。Cookie是存储在设备上的小文本文件。网站使用它们来存储用户设置（例如搜索设置）。但它们也可以用来收集个人用户数据。第三方cookie（它们收集用户数据用于广告）始终处于禁用状态。</string>
-    <string name="setting_title_whitelistCookie">Cookie白名单</string>
-    <string name="setting_summary_whitelistCookie">如果禁用Cookie，则可以使用此白名单允许您信任的站点使用Cookie。</string>
+    <string name="setting_title_whitelistCookie">Cookie黑名单</string>
+    <string name="setting_summary_whitelistCookie">如果启用Cookie，则可以使用此黑名单允许您信任的站点拒绝使用Cookie。</string>
     <string name="setting_title_javascript">JavaScript</string>
     <string name="setting_summary_javascript">启用JavaScript。许多网站的功能（菜单、加载和显示图像等）都需要JavaScript。但它们也有风险，可用于攻击。</string>
-    <string name="setting_title_whitelistJS">JavaScript白名单</string>
-    <string name="setting_summary_whitelistJS">如果禁用JavaScript，则可以使用此白名单允许信任的站点使用JavaScript。</string>
+    <string name="setting_title_whitelistJS">JavaScript黑名单</string>
+    <string name="setting_summary_whitelistJS">如果启用JavaScript，则可以使用此黑名单允许信任的站点拒绝使用JavaScript。</string>
     <string name="setting_title_adblock">广告屏蔽</string>
     <string name="setting_summary_adblock">启用广告屏蔽以阻止恼人的广告。启用时站点加载速度也更快。</string>
     <string name="setting_title_whitelist">广告屏蔽白名单</string>
@@ -122,13 +122,13 @@
     <string name="clear_title_history">清除历史记录</string>
     <string name="clear_title_indexedDB">清除 \"indexed databases\" 和 \"local webview storage\"</string>
     <string name="clear_title_deleteDatabase">删除数据库</string>
-    <string name="clear_summary_deleteDatabase">删除整个数据库（起始页、收藏夹、历史记录和所有白名单）。</string>
+    <string name="clear_summary_deleteDatabase">删除整个数据库（起始页、收藏夹、历史记录和所有白/黑名单）。</string>
     <!-- App setting -->
     <string name="setting_title_app">应用设置</string>
     <string name="setting_title_ui">行为/界面</string>
     <string name="setting_title_data">备份</string>
     <string name="setting_summary_ui">更改应用程序的行为和用户界面设置以适合您的习惯。</string>
-    <string name="setting_summary_data">导入和导出多个应用数据（白名单、收藏夹等）。</string>
+    <string name="setting_summary_data">导入和导出多个应用数据（白/黑名单、收藏夹等）。</string>
     <string name="setting_filter">收藏夹过滤器</string>
     <string name="setting_filter_summary">要长按“概述”中的收藏夹图标以显示“过滤器”对话框。决定要使用哪些过滤器。</string>
     <string name="setting_title_fav">起始页</string>
@@ -144,7 +144,7 @@
     <string name="setting_theme_summary">设置主题模式</string>
     <string name="setting_theme_system">系统主题</string>
     <string name="setting_theme_light">浅色主题</string>
-    <string name="setting_theme_dark">轻主题</string>
+    <string name="setting_theme_dark">深色主题</string>
     <string name="setting_title_theme">用户界面</string>
     <string name="setting_title_behavior">行为模式</string>
     <string name="setting_summary_toolbarShow">按返回键时，在返回之前将使工具栏可见。</string>
@@ -190,11 +190,11 @@
     <string name="setting_title_export_whitelist">导出广告屏蔽白名单</string>
     <string name="setting_title_import_whitelist">导入广告屏蔽白名单</string>
     <string name="export_whitelistAdBlock">export_whitelist_AdBlock</string>
-    <string name="setting_title_export_whitelistJS">导出JavaScript白名单</string>
-    <string name="setting_title_import_whitelistJS">导入JavaScript白名单</string>
+    <string name="setting_title_export_whitelistJS">导出JavaScript黑名单</string>
+    <string name="setting_title_import_whitelistJS">导入JavaScript黑名单</string>
     <string name="export_whitelistJS">export_whitelist_Javascript</string>
-    <string name="setting_title_export_whitelistCookie">导出Cookie白名单</string>
-    <string name="setting_title_import_whitelistCookie">导入Cookie白名单</string>
+    <string name="setting_title_export_whitelistCookie">导出Cookie黑名单</string>
+    <string name="setting_title_import_whitelistCookie">导入Cookie黑名单</string>
     <string name="export_whitelistCookie">export_whitelist_Cookie</string>
     <string name="setting_title_export_appData">导出应用数据</string>
     <string name="setting_title_import_appData">导入应用数据</string>
@@ -205,9 +205,9 @@
     <!-- Others setting -->
     <string name="setting_title_others">其它</string>
     <string name="setting_title_license">许可</string>
-    <string name="setting_title_appSettings">App settings</string>
+    <string name="setting_title_appSettings">应用信息</string>
     <string name="setting_summary_appSettings">打开该应用系统设置界面。在那里，你可以根据你的Android版本不同进行授予权限，清除应用程序数据等等。</string>
-    <string name="setting_title_community">Contributing</string>
+    <string name="setting_title_community">贡献</string>
     <!-- Toast -->
     <string name="toast_add_to_home_successful">Successfully added to Home</string>
     <string name="toast_add_to_home_failed">Failed to add to Home</string>
@@ -351,9 +351,51 @@
 
 
     <!-- doer added -->
+
+    <string name="mode_namewintan">Wintan</string>
+    <string name="mode_nameYCY">YueYue</string>
     <string name="menu_share">分享…</string>
     <string name="menu_save">保存…</string>
     <string name="menu_more">更多…</string>
 
+
+    <string name="text_default">默认</string>
+    <string name="text_green">绿色</string>
+    <string name="text_pink">粉色</string>
+    <string name="text_black">暗黑</string>
+
+    <!-- toggle dialog tips -->
+    <string name="text_toggle_tips">点击“确认”应用变更。</string>
+    <string name="text_JavaScript_add_tips">本域名已添加到JavaScript黑名单。</string>
+    <string name="text_JavaScript_remove_tips">本域名已从JavaScript黑名单中移除。</string>
+    <string name="text_cookie_add_tips">本域名已添加到Cookie黑名单。</string>
+    <string name="text_cookie_remove_tips">本域名已从Cookie黑名单中移除。</string>
+    <string name="text_adblock_add_tips">本域名已添加到广告屏蔽白名单。</string>
+    <string name="text_adblock_remove_tips">本域名已从广告屏蔽白名单中移除。</string>
+    <string name="text_Fontzoom_tips">字体大小已改变。</string>
+    <string name="text_history_record_tips">记录浏览历史。</string>
+    <string name="text_history_ignore_tips">不记录浏览历史。</string>
+    <string name="text_location_on_tips">允许使用定位信息。</string>
+    <string name="text_location_off_tips">禁止使用定位信息</string>
+    <string name="text_images_show_tips">显示网站中的图像。</string>
+    <string name="text_images_hide_tips">隐藏网站中的图像。</string>
+    <string name="text_remote_show_tips">显示远程内容。</string>
+    <string name="text_remote_hide_tips">隐藏远程内容。</string>
+    <string name="text_invert_on_tips">负片模式显示网页。</string>
+    <string name="text_invert_off_tips">正常显示网页。</string>
+
+    <string name="setting_Wintan">Wintan</string>
+    <string name="preference_left_hand">左手模式</string>
+    <string name="preference_left_hand_summary">应用布局便于左手使用。</string>
+    <string name="preference_blcokscreen">安全屏幕</string>
+    <string name="preference_blcokscreen_summary">当应用切换到后台时禁止显示应用截屏。</string>
+    <string name="action_translucentstatus">Translucent Status Bar *</string>
+    <string name="action_translucentstatus_summary">Not Work on Every Devices.</string>
+    <string name="action_rotation">旋转</string>
+    <string name="action_rotation_summary">设置应用的旋转模式：自动、竖屏、横屏。</string>
+
+
+    <string name="settings_Wintan_title">Wintan布局</string>
+    <string name="settings_Wintan_summary">应用启动时显示Wintan布局。</string>
 
 </resources>

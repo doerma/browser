@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/TextTheme_RadioGroup"
                 android:orientation="horizontal"
-                android:padding="@dimen/defaultMaggintogglebar">
+                android:padding="@dimen/default_Maggin_togglebar_8dp">
 
                 <RadioButton
                     android:id="@+id/button_Background_default"
@@ -111,14 +111,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/defaultMaggintogglebar">
+                android:padding="@dimen/default_Maggin_togglebar_8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/textzoomout"
+                    android:layout_width="@dimen/layout_margin_16dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="A"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="?attr/selectableItemBackground"/>
 
                 <com.warkiz.widget.IndicatorSeekBar
                     android:id="@+id/textzoom_seek_bar"
@@ -133,12 +136,15 @@
                     app:isb_clear_default_padding="true"
                     android:paddingHorizontal="12dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/textzoomin"
+                    android:layout_width="@dimen/layout_margin_16dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="A"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="?attr/selectableItemBackground"/>
             </LinearLayout>
 
             <View
@@ -313,7 +319,7 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/defaultMaggintogglebar">
+                android:padding="@dimen/default_Maggin_togglebar_8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -341,7 +347,7 @@
                             android:id="@+id/toggle_adblockView"
                             android:layout_width="42dp"
                             android:layout_height="2dp"
-                            android:background="@color/color_red_light" />
+                            android:background="@color/color_pink" />
 
                     </LinearLayout>
 
@@ -537,7 +543,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:minHeight="46dp"
-                android:padding="@dimen/defaultMaggintogglebar">
+                android:padding="@dimen/default_Maggin_togglebar_8dp">
 
                 <TextView
                     android:id="@+id/toggle_tips"

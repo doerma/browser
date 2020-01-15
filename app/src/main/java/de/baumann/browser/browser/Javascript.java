@@ -62,7 +62,7 @@ public class Javascript {
         loadDomains(context);
     }
 
-    public boolean isWhite(String url) {
+    public boolean isInBlacklist(String url) {
         for (String domain : whitelistJS) {
             if (url != null && url.contains(domain)) {
                 return true;

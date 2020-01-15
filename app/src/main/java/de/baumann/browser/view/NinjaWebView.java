@@ -231,15 +231,15 @@ public class NinjaWebView extends WebView implements AlbumController {
             NinjaToast.show(context, R.string.toast_load_error);
             return;
         } else {
-            if (!sp.getBoolean(context.getString(R.string.sp_javascript), true)) {
-                if (javaHosts.isWhite(url)) {
-                    webSettings = getSettings();
-                    webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-                    webSettings.setJavaScriptEnabled(true);
-                } else {
+            if (sp.getBoolean(context.getString(R.string.sp_javascript), true)) {
+                if (javaHosts.isInBlacklist(url)) {
                     webSettings = getSettings();
                     webSettings.setJavaScriptCanOpenWindowsAutomatically(false);
                     webSettings.setJavaScriptEnabled(false);
+                } else {
+                    webSettings = getSettings();
+                    webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+                    webSettings.setJavaScriptEnabled(true);
                 }
             }
         }

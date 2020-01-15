@@ -159,14 +159,14 @@ public class NinjaWebViewClient extends WebViewClient {
                     new ByteArrayInputStream("".getBytes())
             );
         }
-        if (!sp.getBoolean(context.getString(R.string.sp_cookies), true)) {
-            if (cookie.isWhite(url)) {
+        if (sp.getBoolean(context.getString(R.string.sp_cookies), true)) {
+            if (cookie.isInBlacklist(url)) {
+                CookieManager manager = CookieManager.getInstance();
+                manager.setAcceptCookie(false);
+            } else {
                 CookieManager manager = CookieManager.getInstance();
                 manager.getCookie(url);
                 manager.setAcceptCookie(true);
-            } else {
-                CookieManager manager = CookieManager.getInstance();
-                manager.setAcceptCookie(false);
             }
         }
         return super.shouldInterceptRequest(view, url);
@@ -181,14 +181,14 @@ public class NinjaWebViewClient extends WebViewClient {
                     new ByteArrayInputStream("".getBytes())
             );
         }
-        if (!sp.getBoolean(context.getString(R.string.sp_cookies), true)) {
-            if (cookie.isWhite(request.getUrl().toString())) {
+        if (sp.getBoolean(context.getString(R.string.sp_cookies), true)) {
+            if (cookie.isInBlacklist(request.getUrl().toString())) {
+                CookieManager manager = CookieManager.getInstance();
+                manager.setAcceptCookie(false);
+            } else {
                 CookieManager manager = CookieManager.getInstance();
                 manager.getCookie(request.getUrl().toString());
                 manager.setAcceptCookie(true);
-            } else {
-                CookieManager manager = CookieManager.getInstance();
-                manager.setAcceptCookie(false);
             }
         }
         return super.shouldInterceptRequest(view, request);
