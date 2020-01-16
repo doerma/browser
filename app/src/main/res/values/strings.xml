@@ -491,5 +491,7 @@
 
     <string name="settings_Wintan_title">Wintan mode</string>
     <string name="settings_Wintan_summary">Use wintan mode on start.</string>
+    <string name="toast_Wintan">Wintan mode</string>
+    <string name="toast_Normal">YueYue mode</string>
 
 </resources>

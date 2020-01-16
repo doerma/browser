@@ -207,8 +207,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private VideoView videoView;
 
     private HorizontalScrollView tab_ScrollView;
-    private LinearLayout overview_top;
-    private LinearLayout overview_topButtons;
 
     // Layouts
 
@@ -633,6 +631,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         RecordAction action = new RecordAction(context);
         ninjaWebView = (NinjaWebView) currentAlbumController;
+        Intent settings;
 
         try {
             title = ninjaWebView.getTitle().trim();
@@ -643,29 +642,59 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         switch (v.getId()) {
 
+
+            case R.id.popupmenu_wintan:
+                setWintanUI();
+                popupMainMenu.dismiss();
+                NinjaToast.show(context, getString(R.string.toast_Wintan));
+                break;
+            case R.id.popupmenu_normalw:
+                setNormalUI();
+                popupMainMenuW.dismiss();
+                NinjaToast.show(context, getString(R.string.toast_Normal));
+                break;
             // Menu overflow
 
             case R.id.tab_plus:
-            case R.id.submenu_newTabOpen:
                 hideBottomSheetDialog();
+                hideOverview();
+                addAlbum(getString(R.string.app_name), sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"), true);
+                break;
+            case R.id.submenu_newTabOpen:
+                popupSubmenuMore.dismiss();
                 hideOverview();
                 addAlbum(getString(R.string.app_name), sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"), true);
                 break;
 
             case R.id.submenu_closeTab:
-                hideBottomSheetDialog ();
+                popupSubmenuMore.dismiss();
                 removeAlbum(currentAlbumController);
                 break;
 
             case R.id.menu_tabPreview:
+                popupMainMenu.dismiss();
+                showRecords();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
+                }, 250);
+                break;
             case R.id.menu_tabPrevieww:
-                hideBottomSheetDialog ();
-                showOverview();
+                popupMainMenuW.dismiss();
+                showRecords();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
+                }, 250);
                 break;
 
 
             case R.id.popupmenu_quitw:
-                hideBottomSheetDialog ();
+                popupMainMenuW.dismiss();
                 doubleTapsQuit();
                 break;
 
@@ -675,19 +704,19 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
                         HelperUnit.grantPermissionsStorage(activity);
                     } else {
-                        hideBottomSheetDialog ();
+                        popupSubmenuShare.dismiss();
                         sp.edit().putInt("screenshot", 1).apply();
                         new ScreenshotTask(context, ninjaWebView).execute();
                     }
                 } else {
-                    hideBottomSheetDialog ();
+                    popupSubmenuShare.dismiss();
                     sp.edit().putInt("screenshot", 1).apply();
                     new ScreenshotTask(context, ninjaWebView).execute();
                 }
                 break;
 
             case R.id.submenu_shareLink:
-                hideBottomSheetDialog ();
+                popupSubmenuShare.dismiss();
                 if (prepareRecord()) {
                     NinjaToast.show(context, getString(R.string.toast_share_failed));
                 } else {
@@ -696,12 +725,12 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
 
             case R.id.submenu_sharePDF:
-                hideBottomSheetDialog ();
+                popupSubmenuShare.dismiss();
                 printPDF(true);
                 break;
 
             case R.id.submenu_openWith:
-                hideBottomSheetDialog ();
+                popupSubmenuShare.dismiss();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
                 Intent chooser = Intent.createChooser(intent, getString(R.string.menu_open_with));
@@ -714,19 +743,19 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
                         HelperUnit.grantPermissionsStorage(activity);
                     } else {
-                        hideBottomSheetDialog ();
+                        popupSubmenuSave.dismiss();
                         sp.edit().putInt("screenshot", 0).apply();
                         new ScreenshotTask(context, ninjaWebView).execute();
                     }
                 } else {
-                    hideBottomSheetDialog ();
+                    popupSubmenuSave.dismiss();
                     sp.edit().putInt("screenshot", 0).apply();
                     new ScreenshotTask(context, ninjaWebView).execute();
                 }
                 break;
 
             case R.id.submenu_saveBookmark:
-                hideBottomSheetDialog ();
+                popupSubmenuSave.dismiss();
                 try {
 
                     MAHEncryptor mahEncryptor = MAHEncryptor.newInstance(Objects.requireNonNull(sp.getString("saved_key", "")));
@@ -749,7 +778,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
 
             case R.id.submenu_saveStart:
-                hideBottomSheetDialog ();
+                popupSubmenuSave.dismiss();
                 action.open(true);
                 if (action.checkGridItem(url)) {
                     NinjaToast.show(context, getString(R.string.toast_already_exist_in_home));
@@ -774,8 +803,12 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 // Omnibox
 
             case R.id.popupmenu_search_website:
+                popupMainMenu.dismiss();
+                hideKeyboard(activity);
+                showSearchPanel();
+                break;
             case R.id.popupmenu_search_websitew:
-                hideBottomSheetDialog ();
+                popupMainMenuW.dismiss();
                 hideKeyboard(activity);
                 showSearchPanel();
                 break;
@@ -786,13 +819,18 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
 
             case R.id.popupmenu_settings:
-                hideBottomSheetDialog ();
-                Intent settings = new Intent(BrowserActivity.this, Settings_Activity.class);
+                popupMainMenu.dismiss();
+                settings = new Intent(BrowserActivity.this, Settings_Activity.class);
+                startActivity(settings);
+                break;
+            case R.id.popupmenu_settingsw:
+                popupMainMenuW.dismiss();
+                settings = new Intent(BrowserActivity.this, Settings_Activity.class);
                 startActivity(settings);
                 break;
 
             case R.id.submenu_fileManager:
-                hideBottomSheetDialog();
+                popupSubmenuMore.dismiss();
                 Intent intent2 = new Intent(Intent.ACTION_VIEW);
                 intent2.setType( "*/*");
                 intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -800,19 +838,34 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
 
             case R.id.submenu_download:
-                hideBottomSheetDialog ();
+                popupSubmenuMore.dismiss();
                 startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
                 break;
 
             case R.id.popupmenu_other:
+                popupMainMenu.dismiss();
+                showMenuMore();
+                break;
+            case R.id.popupmenu_otherw:
+                popupMainMenuW.dismiss();
                 showMenuMore();
                 break;
 
             case R.id.popupmenu_share:
+                popupMainMenu.dismiss();
+                showMenuShare();
+                break;
+            case R.id.popupmenu_sharew:
+                popupMainMenuW.dismiss();
                 showMenuShare();
                 break;
 
             case R.id.popupmenu_save:
+                popupMainMenu.dismiss();
+                showMenuSave();
+                break;
+            case R.id.popupmenu_savew:
+                popupMainMenuW.dismiss();
                 showMenuSave();
                 break;
 
@@ -823,8 +876,9 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 showOverview();
                 break;
 
-            case R.id.omnibox_refresh:
             case R.id.popupmenu_refresh:
+                popupMainMenu.dismiss();
+            case R.id.omnibox_refresh:
                 if (url != null && ninjaWebView.isLoadFinish()) {
 
                     if (!url.startsWith("https://")) {
@@ -1227,7 +1281,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_openFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideBottomSheetDialog ();
+                popupSubmenuMore.dismiss();
                 updateAlbum(sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"));
             }
         });
@@ -1235,7 +1289,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_openFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideBottomSheetDialog ();
+                popupSubmenuMore.dismiss();
                 updateAlbum(sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"));
             }
         });
@@ -1268,7 +1322,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_sc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideBottomSheetDialog ();
+                popupSubmenuSave.dismiss();
                 HelperUnit.createShortcut(context, ninjaWebView.getTitle(), ninjaWebView.getUrl());
             }
         });
@@ -1276,17 +1330,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideBottomSheetDialog ();
+                popupSubmenuSave.dismiss();
                 HelperUnit.setFavorite(context, url);
             }
         });
 
 
         View submenushareview = View.inflate(context, R.layout.popupsubmenu_share, null);
-        popupSubmenuShare = new PopupWindow(submenusaveview);
+        popupSubmenuShare = new PopupWindow(submenushareview);
         popupSubmenuShare.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupSubmenuShare.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupSubmenuShare.setContentView(submenusaveview);
+        popupSubmenuShare.setContentView(submenushareview);
         popupSubmenuShare.setFocusable(true);
         popupSubmenuShare.setTouchable(true);
         popupSubmenuShare.setOutsideTouchable(true);
@@ -1311,7 +1365,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_shareCP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideBottomSheetDialog ();
+                popupSubmenuShare.dismiss();
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("text", url);
                 Objects.requireNonNull(clipboard).setPrimaryClip(clip);
@@ -1331,8 +1385,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         tab_plus.setOnClickListener(this);
 
         tab_ScrollView = dialogView.findViewById(R.id.tab_ScrollView);
-        overview_top = dialogView.findViewById(R.id.overview_top);
-        overview_topButtons = dialogView.findViewById(R.id.overview_topButtons);
 
         bottomSheetDialog_OverView.setContentView(dialogView);
     }
@@ -2768,37 +2820,37 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             popupmenu_backW.setEnabled(ninjaWebView.canGoBack());
             popupmenu_forwardW.setEnabled(ninjaWebView.canGoForward());
             if (sp.getBoolean(getString(R.string.sp_rtl),false))
-                popupMainMenuW.showAsDropDown(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, 56 + 20);
+                popupMainMenuW.showAtLocation(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
             else
-                popupMainMenuW.showAsDropDown(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, 56 + 20);
+                popupMainMenuW.showAtLocation(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         }
         else {
             if (sp.getBoolean(getString(R.string.sp_rtl),false))
-                popupMainMenu.showAsDropDown(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, 56 + 20);
+                popupMainMenu.showAtLocation(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
             else
-                popupMainMenu.showAsDropDown(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, 56 + 20);
+                popupMainMenu.showAtLocation(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         }
         return true;
     }
     private boolean showMenuMore() {
         if (sp.getBoolean(getString(R.string.sp_rtl),false))
-            popupSubmenuMore.showAsDropDown(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, 56 + 20);
+            popupSubmenuMore.showAtLocation(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         else
-            popupSubmenuMore.showAsDropDown(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, 56 + 20);
+            popupSubmenuMore.showAtLocation(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         return true;
     }
     private boolean showMenuSave() {
         if (sp.getBoolean(getString(R.string.sp_rtl),false))
-            popupSubmenuSave.showAsDropDown(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, 56 + 20);
+            popupSubmenuSave.showAtLocation(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         else
-            popupSubmenuSave.showAsDropDown(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, 56 + 20);
+            popupSubmenuSave.showAtLocation(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         return true;
     }
     private boolean showMenuShare() {
         if (sp.getBoolean(getString(R.string.sp_rtl),false))
-            popupSubmenuShare.showAsDropDown(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, 56 + 20);
+            popupSubmenuShare.showAtLocation(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         else
-            popupSubmenuShare.showAsDropDown(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, 56 + 20);
+            popupSubmenuShare.showAtLocation(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         return true;
     }
 
@@ -3219,4 +3271,54 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         }
         return list.get(index);
     }
+
+    public void setWintanUI(){
+        //todo
+        /*
+        {//Show something in Wintan
+            history_refresh.setVisibility(View.VISIBLE);
+            favorite_home.setVisibility(View.VISIBLE);
+            Title.setVisibility(View.VISIBLE);
+        }
+        {//Hide something in normal
+            normalCenterLayout.setVisibility(View.GONE);
+            close.setVisibility(View.GONE);
+            back.setVisibility(View.GONE);
+            forward.setVisibility(View.GONE);
+        }
+        */
+        sp.edit().putBoolean(getString(R.string.sp_wintan_mode),true).commit();
+    }
+
+    public void setNormalUI() {
+        //todo
+        /*
+        {//Hide something in Wintan
+            //wintan button
+            history_refresh.setVisibility(View.GONE);
+            favorite_home.setVisibility(View.GONE);
+
+            //Wintan title
+            Title.setVisibility(View.GONE);
+        }
+        {//Show something in normal
+            normalCenterLayout.setVisibility(View.VISIBLE);
+            close.setVisibility(View.VISIBLE);
+        }
+        {   //Show something in normal
+            if (ninjaWebView.canGoBack() || ninjaWebView.canGoForward()) {
+                back.setVisibility(showIconBack ? View.VISIBLE : View.GONE);
+                forward.setVisibility(showIconForward ? View.VISIBLE : View.GONE);
+                back.setEnabled(!disableIconBack && mWebView.canGoBack());
+                forward.setEnabled(!disableIconForward && mWebView.canGoForward());
+            } else {
+                back.setVisibility(View.GONE);
+                forward.setVisibility(View.GONE);
+            }
+
+        }
+        */
+        sp.edit().putBoolean(getString(R.string.sp_wintan_mode),false).commit();
+    }
+
 }
