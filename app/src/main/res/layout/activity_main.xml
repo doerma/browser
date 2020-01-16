@@ -55,7 +55,7 @@
                 android:hint="@string/main_omnibox_input_hint"
                 android:textCursorDrawable="@null"
                 android:textAppearance="?android:attr/textColorPrimaryNoDisable"
-                android:textSize="@dimen/large_Title_Size_18dp"
+                android:textSize="@dimen/large_Title_Size_18sp"
                 android:selectAllOnFocus="true"
                 android:completionThreshold="1"
                 android:imeOptions="actionGo"
@@ -76,7 +76,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/app_name"
-                android:textSize="@dimen/large_Title_Size_18dp"
+                android:textSize="@dimen/large_Title_Size_18sp"
                 android:textColor="?android:attr/textColorPrimaryNoDisable"
                 android:background="?android:attr/colorBackground" />
 

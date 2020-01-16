@@ -41,7 +41,7 @@
 
 
         <TextView
-            android:id="@+id/submenu_contextLink_saveAs"
+            android:id="@+id/submenu_contextLink_saveAsPDF"
             android:text="@string/menu_save_pdf"
             android:layout_width="match_parent"
             android:layout_height="40dp"

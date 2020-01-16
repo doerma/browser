@@ -17,7 +17,6 @@ import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import de.baumann.browser.activity.toggleOptions;
 import de.baumann.browser.browser.*;
 import de.baumann.browser.Ninja.R;
 import de.baumann.browser.unit.BrowserUnit;
@@ -181,30 +180,6 @@ public class NinjaWebView extends WebView implements AlbumController {
         webSettings.setJavaScriptEnabled(sp.getBoolean(context.getString(R.string.sp_javascript), true));
         webSettings.setJavaScriptCanOpenWindowsAutomatically(sp.getBoolean(context.getString(R.string.sp_javascript), true));
         webSettings.setGeolocationEnabled(sp.getBoolean(context.getString(R.string.sp_location), false));
-        CookieManager manager = CookieManager.getInstance();
-        manager.setAcceptCookie(sp.getBoolean(context.getString(R.string.sp_cookies), true));
-    }
-
-    public synchronized void initToggle(toggleOptions option) {
-        sp = PreferenceManager.getDefaultSharedPreferences(context);
-        String userAgent = sp.getString("userAgent", "");
-        webSettings = getSettings();
-
-        if (!userAgent.isEmpty()) {
-            String MyUA = "\"" + userAgent + "\"";
-            webSettings.setUserAgentString(MyUA);
-        }
-
-        webViewClient.enableAdBlock(sp.getBoolean(context.getString(R.string.sp_ad_block), true));
-        webSettings = getSettings();
-        webSettings.setTextZoom(option.intFontzoom);
-        webSettings.setAllowFileAccessFromFileURLs(option.bRemote);
-        webSettings.setAllowUniversalAccessFromFileURLs(option.bRemote);
-        webSettings.setDomStorageEnabled(option.bRemote);
-        webSettings.setBlockNetworkImage(!option.bImageView);
-        webSettings.setJavaScriptEnabled(sp.getBoolean(context.getString(R.string.sp_javascript), true));
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(sp.getBoolean(context.getString(R.string.sp_javascript), true));
-        webSettings.setGeolocationEnabled(option.bLocation);
         CookieManager manager = CookieManager.getInstance();
         manager.setAcceptCookie(sp.getBoolean(context.getString(R.string.sp_cookies), true));
     }

@@ -58,23 +58,6 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/submenu_searchSite"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="@string/menu_other_searchSite"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="16sp" />
-
-        <TextView
             android:id="@+id/submenu_openFav"
             android:layout_width="match_parent"
             android:layout_height="40dp"

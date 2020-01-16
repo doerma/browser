@@ -92,6 +92,19 @@
             android:background="?android:attr/selectableItemBackground"
             android:lines="1"
             android:ellipsize="end" />
+            <TextView
+                android:id="@+id/popupmenu_quitw"
+                android:text="@string/menu_quit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:clickable="true"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:lines="1"
+                android:ellipsize="end" />
         </LinearLayout>
 
         <LinearLayout
@@ -124,7 +137,7 @@
                 android:background="?android:attr/selectableItemBackground" />
 
             <ImageButton
-                android:id="@+id/popupmenu_addbookmarkw"
+                android:id="@+id/menu_tabPrevieww"
                 android:layout_width="40dp"
                 android:layout_height="42dp"
                 android:background="?android:attr/selectableItemBackground"

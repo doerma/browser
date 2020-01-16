@@ -22,6 +22,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -30,6 +31,7 @@ import android.os.Environment;
 import android.os.Handler;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.preference.PreferenceManager;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
@@ -44,10 +46,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
@@ -66,6 +71,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
@@ -118,43 +124,58 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
     // Menus
 
-    private LinearLayout menu_tabPreview;
-    private LinearLayout menu_newTabOpen;
-    private LinearLayout menu_closeTab;
-    private LinearLayout menu_quit;
+    private TextView menu_newTabOpen;
+    private TextView menu_closeTab;
+    private TextView popupmenu_quitW;
 
-    private LinearLayout menu_shareScreenshot;
-    private LinearLayout menu_shareLink;
-    private LinearLayout menu_sharePDF;
-    private LinearLayout menu_openWith;
+    private TextView menu_shareScreenshot;
+    private TextView menu_shareLink;
+    private TextView menu_sharePDF;
+    private TextView menu_openWith;
 
-    private LinearLayout menu_searchSite;
-    private LinearLayout menu_settings;
-    private LinearLayout menu_download;
-    private LinearLayout menu_saveScreenshot;
-    private LinearLayout menu_saveBookmark;
-    private LinearLayout menu_savePDF;
-    private LinearLayout menu_saveStart;
-    private LinearLayout menu_fileManager;
+    private TextView menu_download;
+    private TextView menu_saveScreenshot;
+    private TextView menu_saveBookmark;
+    private TextView menu_savePDF;
+    private TextView menu_saveStart;
+    private TextView menu_fileManager;
 
-    private LinearLayout menu_fav;
-    private LinearLayout menu_sc;
-    private LinearLayout menu_openFav;
-    private LinearLayout menu_shareCP;
+    private TextView menu_fav;
+    private TextView menu_sc;
+    private TextView menu_openFav;
+    private TextView menu_shareCP;
 
-    private View floatButton_tabView;
-    private View floatButton_saveView;
-    private View floatButton_shareView;
-    private View floatButton_moreView;
-
-    private ImageButton fab_tab;
-    private ImageButton fab_share;
-    private ImageButton fab_save;
-    private ImageButton fab_more;
     private ImageButton tab_plus;
     private ImageButton tab_close;
 
     private Adapter_Record adapter;
+
+    // main menunormal and submenu
+    private PopupWindow popupMainMenu;
+    private PopupWindow popupMainMenuW;
+    private PopupWindow popupSubmenuMore;
+    private PopupWindow popupSubmenuSave;
+    private PopupWindow popupSubmenuShare;
+    //popupmenuw
+    private TextView popupmenu_normalW;
+    private TextView popupmenu_shareW;
+    private TextView popupmenu_saveW;
+    private TextView popupmenu_settingsW;
+    private TextView popupmenu_otherW;
+    private AppCompatImageButton popupmenu_backW;
+    private AppCompatImageButton popupmenu_forwardW;
+    private AppCompatImageButton popupmenu_search_websiteW;
+    private AppCompatImageButton popupmenu_tabPreviewW;
+    //popupmenu
+    private TextView popupmenu_wintan;
+    private TextView popupmenu_share;
+    private TextView popupmenu_save;
+    private TextView popupmenu_settings;
+    private TextView popupmenu_other;
+    private AppCompatImageButton popupmenu_tabPreview;
+    private AppCompatImageButton popupmenu_search_website;
+    private AppCompatImageButton popupmenu_refresh;
+
 
     // Views
 
@@ -213,7 +234,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private String overViewTab;
     private BroadcastReceiver downloadReceiver;
     private BottomSheetBehavior mBehavior;
-    private toggleOptions option;
+    private int intFontzoom;
 
 
     private Activity activity;
@@ -331,6 +352,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         initSearchPanel();
         initOverview();
         initRecords();
+        initMenu();
 
         new AdBlock(context); // For AdBlock cold boot
         new Javascript(context);
@@ -379,15 +401,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }, 250);
         }
 
-        //doer added begin
-        option=new toggleOptions();
-        option.intFontzoom=Integer.parseInt(Objects.requireNonNull(sp.getString("sp_fontSize", "100")));
-        option.bSaveHistory=sp.getBoolean("saveHistory", false);
-        option.bLocation=sp.getBoolean(getString(R.string.sp_location), false);
-        option.bImageView=sp.getBoolean(getString(R.string.sp_images), true);
-        option.bRemote=sp.getBoolean("sp_remote", true);
-        option.bInvertView=sp.getBoolean("sp_invert", false);
-        //doer added end
 
     }
 
@@ -633,29 +646,30 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             // Menu overflow
 
             case R.id.tab_plus:
-            //case R.id.tab_plus_bottom:
-            case R.id.menu_newTabOpen:
+            case R.id.submenu_newTabOpen:
                 hideBottomSheetDialog();
                 hideOverview();
                 addAlbum(getString(R.string.app_name), sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"), true);
                 break;
 
-            case R.id.menu_closeTab:
+            case R.id.submenu_closeTab:
                 hideBottomSheetDialog ();
                 removeAlbum(currentAlbumController);
                 break;
 
             case R.id.menu_tabPreview:
+            case R.id.menu_tabPrevieww:
                 hideBottomSheetDialog ();
                 showOverview();
                 break;
 
-            case R.id.menu_quit:
+
+            case R.id.popupmenu_quitw:
                 hideBottomSheetDialog ();
                 doubleTapsQuit();
                 break;
 
-            case R.id.menu_shareScreenshot:
+            case R.id.submenu_shareScreenshot:
                 if (android.os.Build.VERSION.SDK_INT >= 23) {
                     int hasWRITE_EXTERNAL_STORAGE = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
@@ -672,7 +686,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
                 break;
 
-            case R.id.menu_shareLink:
+            case R.id.submenu_shareLink:
                 hideBottomSheetDialog ();
                 if (prepareRecord()) {
                     NinjaToast.show(context, getString(R.string.toast_share_failed));
@@ -681,12 +695,12 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
                 break;
 
-            case R.id.menu_sharePDF:
+            case R.id.submenu_sharePDF:
                 hideBottomSheetDialog ();
                 printPDF(true);
                 break;
 
-            case R.id.menu_openWith:
+            case R.id.submenu_openWith:
                 hideBottomSheetDialog ();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
@@ -694,7 +708,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 startActivity(chooser);
                 break;
 
-            case R.id.menu_saveScreenshot:
+            case R.id.submenu_saveScreenshot:
                 if (android.os.Build.VERSION.SDK_INT >= 23) {
                     int hasWRITE_EXTERNAL_STORAGE = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     if (hasWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
@@ -711,7 +725,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
                 break;
 
-            case R.id.menu_saveBookmark:
+            case R.id.submenu_saveBookmark:
                 hideBottomSheetDialog ();
                 try {
 
@@ -734,7 +748,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
                 break;
 
-            case R.id.menu_saveStart:
+            case R.id.submenu_saveStart:
                 hideBottomSheetDialog ();
                 action.open(true);
                 if (action.checkGridItem(url)) {
@@ -759,7 +773,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
                 // Omnibox
 
-            case R.id.menu_searchSite:
+            case R.id.popupmenu_search_website:
+            case R.id.popupmenu_search_websitew:
                 hideBottomSheetDialog ();
                 hideKeyboard(activity);
                 showSearchPanel();
@@ -770,13 +785,13 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 printPDF(false);
                 break;
 
-            case R.id.menu_settings:
+            case R.id.popupmenu_settings:
                 hideBottomSheetDialog ();
                 Intent settings = new Intent(BrowserActivity.this, Settings_Activity.class);
                 startActivity(settings);
                 break;
 
-            case R.id.menu_fileManager:
+            case R.id.submenu_fileManager:
                 hideBottomSheetDialog();
                 Intent intent2 = new Intent(Intent.ACTION_VIEW);
                 intent2.setType( "*/*");
@@ -784,149 +799,32 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 context.startActivity(Intent.createChooser(intent2, null));
                 break;
 
-            case R.id.menu_download:
+            case R.id.submenu_download:
                 hideBottomSheetDialog ();
                 startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
                 break;
 
-            case R.id.floatButton_tab:
-                menu_newTabOpen.setVisibility(View.VISIBLE);
-                menu_closeTab.setVisibility(View.VISIBLE);
-                menu_tabPreview.setVisibility(View.VISIBLE);
-                menu_quit.setVisibility(View.VISIBLE);
-
-                menu_shareScreenshot.setVisibility(View.GONE);
-                menu_shareLink.setVisibility(View.GONE);
-                menu_sharePDF.setVisibility(View.GONE);
-                menu_openWith.setVisibility(View.GONE);
-
-                menu_saveScreenshot.setVisibility(View.GONE);
-                menu_saveBookmark.setVisibility(View.GONE);
-                menu_savePDF.setVisibility(View.GONE);
-                menu_saveStart.setVisibility(View.GONE);
-
-                floatButton_tabView.setVisibility(View.VISIBLE);
-                floatButton_saveView.setVisibility(View.INVISIBLE);
-                floatButton_shareView.setVisibility(View.INVISIBLE);
-                floatButton_moreView.setVisibility(View.INVISIBLE);
-
-                menu_searchSite.setVisibility(View.GONE);
-                menu_fileManager.setVisibility(View.GONE);
-                menu_settings.setVisibility(View.GONE);
-                menu_download.setVisibility(View.GONE);
-
-                menu_fav.setVisibility(View.GONE);
-                menu_sc.setVisibility(View.GONE);
-                menu_openFav.setVisibility(View.VISIBLE);
-                menu_shareCP.setVisibility(View.GONE);
-
+            case R.id.popupmenu_other:
+                showMenuMore();
                 break;
 
-            case R.id.floatButton_share:
-                menu_newTabOpen.setVisibility(View.GONE);
-                menu_closeTab.setVisibility(View.GONE);
-                menu_tabPreview.setVisibility(View.GONE);
-                menu_quit.setVisibility(View.GONE);
-
-                menu_shareScreenshot.setVisibility(View.VISIBLE);
-                menu_shareLink.setVisibility(View.VISIBLE);
-                menu_sharePDF.setVisibility(View.VISIBLE);
-                menu_openWith.setVisibility(View.VISIBLE);
-
-                menu_saveScreenshot.setVisibility(View.GONE);
-                menu_saveBookmark.setVisibility(View.GONE);
-                menu_savePDF.setVisibility(View.GONE);
-                menu_saveStart.setVisibility(View.GONE);
-
-                floatButton_tabView.setVisibility(View.INVISIBLE);
-                floatButton_saveView.setVisibility(View.INVISIBLE);
-                floatButton_shareView.setVisibility(View.VISIBLE);
-                floatButton_moreView.setVisibility(View.INVISIBLE);
-
-                menu_searchSite.setVisibility(View.GONE);
-                menu_fileManager.setVisibility(View.GONE);
-                menu_settings.setVisibility(View.GONE);
-                menu_download.setVisibility(View.GONE);
-
-                menu_fav.setVisibility(View.GONE);
-                menu_sc.setVisibility(View.GONE);
-                menu_openFav.setVisibility(View.GONE);
-                menu_shareCP.setVisibility(View.VISIBLE);
+            case R.id.popupmenu_share:
+                showMenuShare();
                 break;
 
-            case R.id.floatButton_save:
-                menu_newTabOpen.setVisibility(View.GONE);
-                menu_closeTab.setVisibility(View.GONE);
-                menu_tabPreview.setVisibility(View.GONE);
-                menu_quit.setVisibility(View.GONE);
-
-                menu_shareScreenshot.setVisibility(View.GONE);
-                menu_shareLink.setVisibility(View.GONE);
-                menu_sharePDF.setVisibility(View.GONE);
-                menu_openWith.setVisibility(View.GONE);
-
-                menu_saveScreenshot.setVisibility(View.VISIBLE);
-                menu_saveBookmark.setVisibility(View.VISIBLE);
-                menu_savePDF.setVisibility(View.VISIBLE);
-                menu_saveStart.setVisibility(View.VISIBLE);
-
-                menu_searchSite.setVisibility(View.GONE);
-                menu_fileManager.setVisibility(View.GONE);
-
-                floatButton_tabView.setVisibility(View.INVISIBLE);
-                floatButton_saveView.setVisibility(View.VISIBLE);
-                floatButton_shareView.setVisibility(View.INVISIBLE);
-                floatButton_moreView.setVisibility(View.INVISIBLE);
-
-                menu_settings.setVisibility(View.GONE);
-                menu_download.setVisibility(View.GONE);
-
-                menu_fav.setVisibility(View.GONE);
-                menu_sc.setVisibility(View.VISIBLE);
-                menu_openFav.setVisibility(View.GONE);
-                menu_shareCP.setVisibility(View.GONE);
-                break;
-
-            case R.id.floatButton_more:
-                menu_newTabOpen.setVisibility(View.GONE);
-                menu_closeTab.setVisibility(View.GONE);
-                menu_tabPreview.setVisibility(View.GONE);
-                menu_quit.setVisibility(View.GONE);
-
-                menu_shareScreenshot.setVisibility(View.GONE);
-                menu_shareLink.setVisibility(View.GONE);
-                menu_sharePDF.setVisibility(View.GONE);
-                menu_openWith.setVisibility(View.GONE);
-
-                menu_saveScreenshot.setVisibility(View.GONE);
-                menu_saveBookmark.setVisibility(View.GONE);
-                menu_savePDF.setVisibility(View.GONE);
-                menu_saveStart.setVisibility(View.GONE);
-
-                floatButton_tabView.setVisibility(View.INVISIBLE);
-                floatButton_saveView.setVisibility(View.INVISIBLE);
-                floatButton_shareView.setVisibility(View.INVISIBLE);
-                floatButton_moreView.setVisibility(View.VISIBLE);
-
-                menu_settings.setVisibility(View.VISIBLE);
-                menu_searchSite.setVisibility(View.VISIBLE);
-                menu_fileManager.setVisibility(View.VISIBLE);
-                menu_download.setVisibility(View.VISIBLE);
-
-                menu_fav.setVisibility(View.VISIBLE);
-                menu_sc.setVisibility(View.GONE);
-                menu_openFav.setVisibility(View.GONE);
-                menu_shareCP.setVisibility(View.GONE);
-
+            case R.id.popupmenu_save:
+                showMenuSave();
                 break;
 
             // Buttons
+
 
             case R.id.omnibox_overview:
                 showOverview();
                 break;
 
             case R.id.omnibox_refresh:
+            case R.id.popupmenu_refresh:
                 if (url != null && ninjaWebView.isLoadFinish()) {
 
                     if (!url.startsWith("https://")) {
@@ -1208,6 +1106,221 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private void initMenu() {
+
+        View menuviewW = LayoutInflater.from(this).inflate(R.layout.popupmenuw, null);
+        popupMainMenuW = new PopupWindow(menuviewW);
+        popupMainMenuW.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupMainMenuW.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupMainMenuW.setContentView(menuviewW);
+        popupMainMenuW.setFocusable(true);
+        popupMainMenuW.setTouchable(true);
+        popupMainMenuW.setOutsideTouchable(true);
+        popupMainMenuW.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        if (Build.VERSION.SDK_INT >= 21)
+            popupMainMenuW.setElevation(getResources().getDimension(R.dimen.menu_elevation));
+        popupMainMenuW.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        popupmenu_backW = menuviewW.findViewById(R.id.popupmenu_backw);
+        popupmenu_forwardW = menuviewW.findViewById(R.id.popupmenu_forwardw);
+        popupmenu_search_websiteW = menuviewW.findViewById(R.id.popupmenu_search_websitew);
+        popupmenu_tabPreviewW = menuviewW.findViewById(R.id.menu_tabPrevieww);
+        popupmenu_normalW = menuviewW.findViewById(R.id.popupmenu_normalw);
+        popupmenu_otherW = menuviewW.findViewById(R.id.popupmenu_otherw);
+        popupmenu_saveW = menuviewW.findViewById(R.id.popupmenu_savew);
+        popupmenu_shareW = menuviewW.findViewById(R.id.popupmenu_sharew);
+        popupmenu_settingsW = menuviewW.findViewById(R.id.popupmenu_settingsw);
+        popupmenu_quitW=menuviewW.findViewById(R.id.popupmenu_quitw);
+
+        popupmenu_backW.setOnClickListener(BrowserActivity.this);
+        popupmenu_forwardW.setOnClickListener(BrowserActivity.this);
+        popupmenu_search_websiteW.setOnClickListener(BrowserActivity.this);
+        popupmenu_tabPreviewW.setOnClickListener(BrowserActivity.this);
+        popupmenu_normalW.setOnClickListener(BrowserActivity.this);
+        popupmenu_saveW.setOnClickListener(BrowserActivity.this);
+        popupmenu_shareW.setOnClickListener(BrowserActivity.this);
+        popupmenu_settingsW.setOnClickListener(BrowserActivity.this);
+        popupmenu_otherW.setOnClickListener(BrowserActivity.this);
+        popupmenu_quitW.setOnClickListener(BrowserActivity.this);
+
+
+        /*
+        fab_share = dialogView.findViewById(R.id.floatButton_share);
+        fab_share.setOnClickListener(BrowserActivity.this);
+        fab_save = dialogView.findViewById(R.id.floatButton_save);
+        fab_save.setOnClickListener(BrowserActivity.this);
+        fab_more = dialogView.findViewById(R.id.floatButton_more);
+        fab_more.setOnClickListener(BrowserActivity.this);
+
+        floatButton_tabView = dialogView.findViewById(R.id.floatButton_tabView);
+        floatButton_saveView = dialogView.findViewById(R.id.floatButton_saveView);
+        floatButton_shareView = dialogView.findViewById(R.id.floatButton_shareView);
+        floatButton_moreView = dialogView.findViewById(R.id.floatButton_moreView);
+
+
+
+        menu_searchSite = dialogView.findViewById(R.id.menu_searchSite);
+        menu_searchSite.setOnClickListener(BrowserActivity.this);
+        menu_settings = dialogView.findViewById(R.id.menu_settings);
+        menu_settings.setOnClickListener(BrowserActivity.this);
+      */
+
+
+        View menuview = LayoutInflater.from(this).inflate(R.layout.popupmenu, null);
+        popupMainMenu = new PopupWindow(menuview);
+        popupMainMenu.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupMainMenu.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupMainMenu.setContentView(menuview);
+        popupMainMenu.setFocusable(true);
+        popupMainMenu.setTouchable(true);
+        popupMainMenu.setOutsideTouchable(true);
+        popupMainMenu.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        if (Build.VERSION.SDK_INT >= 21)
+            popupMainMenu.setElevation(getResources().getDimension(R.dimen.menu_elevation));
+        popupMainMenu.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        popupmenu_search_website = menuview.findViewById(R.id.popupmenu_search_website);
+        popupmenu_tabPreview = menuview.findViewById(R.id.menu_tabPreview);
+        popupmenu_wintan = menuview.findViewById(R.id.popupmenu_wintan);
+        popupmenu_other = menuview.findViewById(R.id.popupmenu_other);
+        popupmenu_save = menuview.findViewById(R.id.popupmenu_save);
+        popupmenu_share = menuview.findViewById(R.id.popupmenu_share);
+        popupmenu_settings = menuview.findViewById(R.id.popupmenu_settings);
+        popupmenu_refresh = menuview.findViewById(R.id.popupmenu_refresh);
+
+        popupmenu_search_website.setOnClickListener(this);
+        popupmenu_tabPreview.setOnClickListener(this);
+        popupmenu_refresh.setOnClickListener(this);
+        popupmenu_wintan.setOnClickListener(this);
+        popupmenu_save.setOnClickListener(this);
+        popupmenu_share.setOnClickListener(this);
+        popupmenu_settings.setOnClickListener(this);
+        popupmenu_other.setOnClickListener(this);
+
+
+        View submenumoreview = View.inflate(context,R.layout.popupsubmenu_more, null);
+        popupSubmenuMore = new PopupWindow(submenumoreview);
+        popupSubmenuMore.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupSubmenuMore.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupSubmenuMore.setContentView(submenumoreview);
+        popupSubmenuMore.setFocusable(true);
+        popupSubmenuMore.setTouchable(true);
+        popupSubmenuMore.setOutsideTouchable(true);
+        popupSubmenuMore.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        if (Build.VERSION.SDK_INT >= 21)
+            popupSubmenuMore.setElevation(getResources().getDimension(R.dimen.menu_elevation));
+        popupSubmenuMore.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+
+        menu_newTabOpen = submenumoreview.findViewById(R.id.submenu_newTabOpen);
+        menu_newTabOpen.setOnClickListener(BrowserActivity.this);
+        menu_closeTab = submenumoreview.findViewById(R.id.submenu_closeTab);
+        menu_closeTab.setOnClickListener(BrowserActivity.this);
+        menu_download = submenumoreview.findViewById(R.id.submenu_download);
+        menu_download.setOnClickListener(BrowserActivity.this);
+        menu_fileManager = submenumoreview.findViewById(R.id.submenu_fileManager);
+        menu_fileManager.setOnClickListener(BrowserActivity.this);
+
+
+        menu_openFav = submenumoreview.findViewById(R.id.submenu_openFav);
+        menu_openFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideBottomSheetDialog ();
+                updateAlbum(sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"));
+            }
+        });
+        menu_openFav = submenumoreview.findViewById(R.id.submenu_openFav);
+        menu_openFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideBottomSheetDialog ();
+                updateAlbum(sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"));
+            }
+        });
+
+
+        View submenusaveview = View.inflate(context, R.layout.popupsubmenu_save, null);
+        popupSubmenuSave = new PopupWindow(submenusaveview);
+        popupSubmenuSave.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupSubmenuSave.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupSubmenuSave.setContentView(submenusaveview);
+        popupSubmenuSave.setFocusable(true);
+        popupSubmenuSave.setTouchable(true);
+        popupSubmenuSave.setOutsideTouchable(true);
+        popupSubmenuSave.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        if (Build.VERSION.SDK_INT >= 21)
+            popupSubmenuSave.setElevation(getResources().getDimension(R.dimen.menu_elevation));
+        popupSubmenuSave.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        menu_saveScreenshot = submenusaveview.findViewById(R.id.submenu_saveScreenshot);
+        menu_saveScreenshot.setOnClickListener(BrowserActivity.this);
+        menu_saveBookmark = submenusaveview.findViewById(R.id.submenu_saveBookmark);
+        menu_saveBookmark.setOnClickListener(BrowserActivity.this);
+        menu_savePDF = submenusaveview.findViewById(R.id.submenu_contextLink_saveAsPDF);
+        menu_savePDF.setOnClickListener(BrowserActivity.this);
+        menu_saveStart = submenusaveview.findViewById(R.id.submenu_saveStart);
+        menu_saveStart.setOnClickListener(BrowserActivity.this);
+
+
+        menu_sc = submenusaveview.findViewById(R.id.submenu_sc);
+        menu_sc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideBottomSheetDialog ();
+                HelperUnit.createShortcut(context, ninjaWebView.getTitle(), ninjaWebView.getUrl());
+            }
+        });
+        menu_fav = submenusaveview.findViewById(R.id.submenu_fav);
+        menu_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideBottomSheetDialog ();
+                HelperUnit.setFavorite(context, url);
+            }
+        });
+
+
+        View submenushareview = View.inflate(context, R.layout.popupsubmenu_share, null);
+        popupSubmenuShare = new PopupWindow(submenusaveview);
+        popupSubmenuShare.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupSubmenuShare.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupSubmenuShare.setContentView(submenusaveview);
+        popupSubmenuShare.setFocusable(true);
+        popupSubmenuShare.setTouchable(true);
+        popupSubmenuShare.setOutsideTouchable(true);
+        popupSubmenuShare.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        if (Build.VERSION.SDK_INT >= 21)
+            popupSubmenuShare.setElevation(getResources().getDimension(R.dimen.menu_elevation));
+        popupSubmenuShare.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+
+
+        menu_shareScreenshot = submenushareview.findViewById(R.id.submenu_shareScreenshot);
+        menu_shareScreenshot.setOnClickListener(BrowserActivity.this);
+        menu_shareLink = submenushareview.findViewById(R.id.submenu_shareLink);
+        menu_shareLink.setOnClickListener(BrowserActivity.this);
+        menu_sharePDF = submenushareview.findViewById(R.id.submenu_sharePDF);
+        menu_sharePDF.setOnClickListener(BrowserActivity.this);
+        menu_openWith = submenushareview.findViewById(R.id.submenu_openWith);
+        menu_openWith.setOnClickListener(BrowserActivity.this);
+
+
+        menu_shareCP = submenushareview.findViewById(R.id.submenu_shareClipboard);
+        menu_shareCP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideBottomSheetDialog ();
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("text", url);
+                Objects.requireNonNull(clipboard).setPrimaryClip(clip);
+                NinjaToast.show(context, R.string.toast_copy_successful);
+            }
+        });
+
+
+    }
     @SuppressLint("ClickableViewAccessibility")
     private void initOverview() {
         bottomSheetDialog_OverView = new BottomSheetDialog(context);
@@ -1710,6 +1823,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         bottomSheetDialog = new BottomSheetDialog(context);
         View dialogView = View.inflate(context, R.layout.dialog_toggle, null);
 
+
         TextView dialog_title = dialogView.findViewById(R.id.dialog_title);
         dialog_title.setText(HelperUnit.domain(ninjaWebView.getUrl()));
         final TextView toggle_tips = dialogView.findViewById(R.id.toggle_tips);
@@ -1722,146 +1836,111 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         final String url = ninjaWebView.getUrl();
 
-
-        /*doer deleted
-        if (sp.getBoolean(getString(R.string.sp_javascript), true)){
-            sw_java.setChecked(true);
-        } else {
-            sw_java.setChecked(false);
-        }
-
-        if (sp.getBoolean(getString(R.string.sp_ad_block), true)){
-            sw_adBlock.setChecked(true);
-        } else {
-            sw_adBlock.setChecked(false);
-        }
-
-        if (sp.getBoolean(getString(R.string.sp_cookies), true)){
-            sw_cookie.setChecked(true);
-        } else {
-            sw_cookie.setChecked(false);
-        }
-
-        if (javaHosts.isWhite(url)) {
-            whiteList_js.setImageResource(R.drawable.check_green);
-        } else {
-            whiteList_js.setImageResource(R.drawable.ic_action_close_red);
-        }
-
-        if (cookieHosts.isWhite(url)) {
-            whitelist_cookie.setImageResource(R.drawable.check_green);
-        } else {
-            whitelist_cookie.setImageResource(R.drawable.ic_action_close_red);
-        }
-
-        if (adBlock.isWhite(url)) {
-            whiteList_ab.setImageResource(R.drawable.check_green);
-        } else {
-            whiteList_ab.setImageResource(R.drawable.ic_action_close_red);
-        }
-
-        whiteList_js.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (javaHosts.isWhite(ninjaWebView.getUrl())) {
-                    whiteList_js.setImageResource(R.drawable.ic_action_close_red);
-                    javaHosts.removeDomain(HelperUnit.domain(url));
-                } else {
-                    whiteList_js.setImageResource(R.drawable.check_green);
-                    javaHosts.addDomain(HelperUnit.domain(url));
-                }
-            }
-        });
-
-        whitelist_cookie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (cookieHosts.isWhite(ninjaWebView.getUrl())) {
-                    whitelist_cookie.setImageResource(R.drawable.ic_action_close_red);
-                    cookieHosts.removeDomain(HelperUnit.domain(url));
-                } else {
-                    whitelist_cookie.setImageResource(R.drawable.check_green);
-                    cookieHosts.addDomain(HelperUnit.domain(url));
-                }
-            }
-        });
-
-
-        whiteList_ab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (adBlock.isWhite(ninjaWebView.getUrl())) {
-                    whiteList_ab.setImageResource(R.drawable.ic_action_close_red);
-                    adBlock.removeDomain(HelperUnit.domain(url));
-                } else {
-                    whiteList_ab.setImageResource(R.drawable.check_green);
-                    adBlock.addDomain(HelperUnit.domain(url));
-                }
-            }
-        });
-
-        sw_java.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    sp.edit().putBoolean(getString(R.string.sp_javascript), true).commit();
-                }else{
-                    sp.edit().putBoolean(getString(R.string.sp_javascript), false).commit();
-                }
-
-            }
-        });
-
-        sw_adBlock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    sp.edit().putBoolean(getString(R.string.sp_ad_block), true).commit();
-                }else{
-                    sp.edit().putBoolean(getString(R.string.sp_ad_block), false).commit();
-                }
-            }
-        });
-
-        sw_cookie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-                if(isChecked){
-                    sp.edit().putBoolean(getString(R.string.sp_cookies), true).commit();
-                }else{
-                    sp.edit().putBoolean(getString(R.string.sp_cookies), false).commit();
-                }
-            }
-        });
-        */
-
+        final int intFontzoomOld=Integer.parseInt(Objects.requireNonNull(sp.getString("sp_fontSize", "100")));
+        intFontzoom = intFontzoomOld;
 
         final ImageButton toggle_adblock = dialogView.findViewById(R.id.toggle_adblock);
         final View toggle_adblockView = dialogView.findViewById(R.id.toggle_adblockView);
 
-        final ImageButton toggle_JavaScrip = dialogView.findViewById(R.id.toggle_JavaScrip);
+        final ImageButton toggle_JavaScript = dialogView.findViewById(R.id.toggle_JavaScript);
         final View toggle_JavaScriptView = dialogView.findViewById(R.id.toggle_JavaScriptView);
 
         final ImageButton toggle_cookies = dialogView.findViewById(R.id.toggle_cookies);
         final View toggle_cookiesView = dialogView.findViewById(R.id.toggle_cookiesView);
 
 
-        if (javaHosts.isInBlacklist(ninjaWebView.getUrl())) {
+        if (sp.getBoolean(getString(R.string.sp_javascript), true)){
             toggle_JavaScriptView.setVisibility(View.VISIBLE);
         } else {
             toggle_JavaScriptView.setVisibility(View.INVISIBLE);
         }
 
-        toggle_JavaScrip.setOnClickListener(new View.OnClickListener() {
+        if (sp.getBoolean(getString(R.string.sp_ad_block), true)){
+            toggle_adblockView.setVisibility(View.VISIBLE);
+        } else {
+            toggle_adblockView.setVisibility(View.INVISIBLE);
+        }
+
+        if (sp.getBoolean(getString(R.string.sp_cookies), true)){
+            toggle_cookiesView.setVisibility(View.VISIBLE);
+        } else {
+            toggle_cookiesView.setVisibility(View.INVISIBLE);
+        }
+
+
+        toggle_JavaScript.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sp.getBoolean(getString(R.string.sp_javascript), true)){
+                    toggle_JavaScriptView.setVisibility(View.INVISIBLE);
+                    sp.edit().putBoolean(getString(R.string.sp_javascript), false).commit();
+                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                }else{
+                    toggle_JavaScriptView.setVisibility(View.VISIBLE);
+                    sp.edit().putBoolean(getString(R.string.sp_javascript), true).commit();
+                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                }
+
+            }
+        });
+
+        toggle_adblock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sp.getBoolean(getString(R.string.sp_ad_block), true)){
+                    toggle_adblockView.setVisibility(view.INVISIBLE);
+                    sp.edit().putBoolean(getString(R.string.sp_ad_block), false).commit();
+                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                }else{
+                    toggle_adblockView.setVisibility(view.VISIBLE);
+                    sp.edit().putBoolean(getString(R.string.sp_ad_block), true).commit();
+                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                }
+            }
+        });
+
+        toggle_cookies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sp.getBoolean(getString(R.string.sp_cookies), true)){
+                    toggle_cookiesView.setVisibility(view.INVISIBLE);
+                    sp.edit().putBoolean(getString(R.string.sp_cookies), false).commit();
+                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                }else{
+                    toggle_cookiesView.setVisibility(view.VISIBLE);
+                    sp.edit().putBoolean(getString(R.string.sp_cookies), true).commit();
+                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                }
+            }
+        });
+
+
+
+        final ImageButton whitelist_ab = dialogView.findViewById(R.id.whitelist_ab);
+        final View toggle_adblockWhitelistView = dialogView.findViewById(R.id.toggle_adblockwhitelistview);
+
+        final ImageButton whitelist_Javascript = dialogView.findViewById(R.id.whitelist_Javascript);
+        final View toggle_JavaScripWhitelistView = dialogView.findViewById(R.id.toggle_JavaScripwhitelistview);
+
+        final ImageButton whitelist_cookies = dialogView.findViewById(R.id.whitelist_cookies);
+        final View toggle_cookiesWhitelistView = dialogView.findViewById(R.id.toggle_cookieswhitelistview);
+
+
+        if (javaHosts.isInBlacklist(ninjaWebView.getUrl())) {
+            toggle_JavaScripWhitelistView.setVisibility(View.VISIBLE);
+        } else {
+            toggle_JavaScripWhitelistView.setVisibility(View.INVISIBLE);
+        }
+
+        whitelist_Javascript.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (javaHosts.isInBlacklist(ninjaWebView.getUrl())) {
-                    toggle_JavaScriptView.setVisibility(View.INVISIBLE);
+                    toggle_JavaScripWhitelistView.setVisibility(View.INVISIBLE);
                     javaHosts.removeDomain(HelperUnit.domain(url));
                     toggle_tips.setText(R.string.text_JavaScript_remove_tips);
                 } else {
-                    toggle_JavaScriptView.setVisibility(View.VISIBLE);
+                    toggle_JavaScripWhitelistView.setVisibility(View.VISIBLE);
                     javaHosts.addDomain(HelperUnit.domain(url));
                     toggle_tips.setText(R.string.text_JavaScript_add_tips);
                 }
@@ -1869,19 +1948,19 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         });
 
         if (cookieHosts.isInBlacklist(ninjaWebView.getUrl())) {
-            toggle_cookiesView.setVisibility(View.VISIBLE);
+            toggle_cookiesWhitelistView.setVisibility(View.VISIBLE);
         } else {
-            toggle_cookiesView.setVisibility(View.INVISIBLE);
+            toggle_cookiesWhitelistView.setVisibility(View.INVISIBLE);
         }
-        toggle_cookies.setOnClickListener(new View.OnClickListener() {
+        whitelist_cookies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (cookieHosts.isInBlacklist(ninjaWebView.getUrl())) {
-                    toggle_cookiesView.setVisibility(View.INVISIBLE);
+                    toggle_cookiesWhitelistView.setVisibility(View.INVISIBLE);
                     cookieHosts.removeDomain(HelperUnit.domain(url));
                     toggle_tips.setText(R.string.text_cookie_remove_tips);
                 } else {
-                    toggle_cookiesView.setVisibility(View.VISIBLE);
+                    toggle_cookiesWhitelistView.setVisibility(View.VISIBLE);
                     cookieHosts.addDomain(HelperUnit.domain(url));
                     toggle_tips.setText(R.string.text_cookie_add_tips);
                 }
@@ -1889,19 +1968,19 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         });
 
         if (adBlock.isWhite(ninjaWebView.getUrl())) {
-            toggle_adblockView.setVisibility(View.VISIBLE);
+            toggle_adblockWhitelistView.setVisibility(View.VISIBLE);
         } else {
-            toggle_adblockView.setVisibility(View.INVISIBLE);
+            toggle_adblockWhitelistView.setVisibility(View.INVISIBLE);
         }
-        toggle_adblock.setOnClickListener(new View.OnClickListener() {
+        whitelist_ab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (adBlock.isWhite(ninjaWebView.getUrl())) {
-                    toggle_adblockView.setVisibility(View.INVISIBLE);
+                    toggle_adblockWhitelistView.setVisibility(View.INVISIBLE);
                     adBlock.removeDomain(HelperUnit.domain(url));
                     toggle_tips.setText(R.string.text_adblock_remove_tips);
                 } else {
-                    toggle_adblockView.setVisibility(View.VISIBLE);
+                    toggle_adblockWhitelistView.setVisibility(View.VISIBLE);
                     adBlock.addDomain(HelperUnit.domain(url));
                     toggle_tips.setText(R.string.text_adblock_add_tips);
                 }
@@ -1911,22 +1990,22 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         // doer added begin
         final IndicatorSeekBar seekBar=dialogView.findViewById(R.id.textzoom_seek_bar);
         seekBar.setIndicatorTextFormat("${PROGRESS} %");
-        seekBar.setProgress(option.intFontzoom);
+        seekBar.setProgress(intFontzoom);
 
         seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
             public void onSeeking(SeekParams seekParams) {
-                option.intFontzoom=seekParams.progress;
+                intFontzoom=seekParams.progress;
             }
 
             @Override
             public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
-                option.intFontzoom=seekBar.getProgress();
+                intFontzoom=seekBar.getProgress();
             }
 
             @Override
             public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
-                option.intFontzoom=seekBar.getProgress();
+                intFontzoom=seekBar.getProgress();
                 toggle_tips.setText(R.string.text_Fontzoom_tips);
             }
         });
@@ -1980,8 +2059,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         });
         */
 
-
-        if (option.bSaveHistory) {
+        if (sp.getBoolean("saveHistory", false)) {
             toggle_historyView.setVisibility(View.VISIBLE);
         } else {
             toggle_historyView.setVisibility(View.INVISIBLE);
@@ -1990,19 +2068,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (option.bSaveHistory) {
+                if (sp.getBoolean("saveHistory", false)) {
                     toggle_historyView.setVisibility(View.INVISIBLE);
-                    option.bSaveHistory=false;
-                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                    sp.edit().putBoolean("saveHistory", false).commit();
                 } else {
                     toggle_historyView.setVisibility(View.VISIBLE);
-                    option.bSaveHistory=true;
-                    toggle_tips.setText(R.string.text_history_record_tips);
+                    sp.edit().putBoolean("saveHistory", true).commit();
                 }
             }
         });
 
-        if (option.bLocation) {
+        if (sp.getBoolean(getString(R.string.sp_location), false)) {
             toggle_locationView.setVisibility(View.VISIBLE);
         } else {
             toggle_locationView.setVisibility(View.INVISIBLE);
@@ -2011,19 +2087,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (option.bLocation) {
+                if (sp.getBoolean(getString(R.string.sp_location), false)) {
                     toggle_locationView.setVisibility(View.INVISIBLE);
-                    option.bLocation=false;
-                    toggle_tips.setText(R.string.text_location_off_tips);
+                    sp.edit().putBoolean(getString(R.string.sp_location), false).commit();
                 } else {
                     toggle_locationView.setVisibility(View.VISIBLE);
-                    option.bLocation=true;
-                    toggle_tips.setText(R.string.text_location_on_tips);
+                    sp.edit().putBoolean(getString(R.string.sp_location), true).commit();
                 }
             }
         });
 
-        if (option.bImageView) {
+        if (sp.getBoolean(getString(R.string.sp_images), true)) {
             toggle_imagesView.setVisibility(View.VISIBLE);
         } else {
             toggle_imagesView.setVisibility(View.INVISIBLE);
@@ -2032,19 +2106,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_images.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (option.bImageView) {
+                if (sp.getBoolean(getString(R.string.sp_images), true)) {
                     toggle_imagesView.setVisibility(View.INVISIBLE);
-                    option.bImageView =false;
-                    toggle_tips.setText(R.string.text_images_hide_tips);
+                    sp.edit().putBoolean(getString(R.string.sp_images), false).commit();
                 } else {
                     toggle_imagesView.setVisibility(View.VISIBLE);
-                    option.bImageView =true;
-                    toggle_tips.setText(R.string.text_images_show_tips);
+                    sp.edit().putBoolean(getString(R.string.sp_images), true).commit();
                 }
             }
         });
 
-        if (option.bRemote) {
+        if (sp.getBoolean("sp_remote", true)) {
             toggle_remoteView.setVisibility(View.VISIBLE);
         } else {
             toggle_remoteView.setVisibility(View.INVISIBLE);
@@ -2053,19 +2125,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_remote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (option.bRemote) {
+                if (sp.getBoolean("sp_remote", true)) {
                     toggle_remoteView.setVisibility(View.INVISIBLE);
-                    option.bRemote=false;
-                    toggle_tips.setText(R.string.text_remote_hide_tips);
+                    sp.edit().putBoolean("sp_remote", false).commit();
                 } else {
                     toggle_remoteView.setVisibility(View.VISIBLE);
-                    option.bRemote=true;
-                    toggle_tips.setText(R.string.text_remote_show_tips);
+                    sp.edit().putBoolean("sp_remote", true).commit();
                 }
             }
         });
 
-        if (option.bInvertView) {
+        if (sp.getBoolean("sp_invert", false)) {
             toggle_invertView.setVisibility(View.VISIBLE);
         } else {
             toggle_invertView.setVisibility(View.INVISIBLE);
@@ -2074,14 +2144,12 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_invert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (option.bInvertView) {
+                if (sp.getBoolean("sp_invert", false)) {
                     toggle_invertView.setVisibility(View.INVISIBLE);
-                    option.bInvertView =false;
-                    toggle_tips.setText(R.string.text_invert_off_tips);
+                    sp.edit().putBoolean("sp_invert", false).commit();
                 } else {
                     toggle_invertView.setVisibility(View.VISIBLE);
-                    option.bInvertView =true;
-                    toggle_tips.setText(R.string.text_invert_on_tips);
+                    sp.edit().putBoolean("sp_invert", true).commit();
                 }
                 HelperUnit.initRendering(contentFrame);
             }
@@ -2093,8 +2161,12 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             public void onClick(View view) {
 
                 if (ninjaWebView != null) {
-                    sp.edit().putBoolean("sp_invert", option.bInvertView).commit();
-                    ninjaWebView.initToggle(option);
+                    if(intFontzoomOld!=intFontzoom)
+                    {
+                        sp.edit().putString("sp_fontSize",Integer.toString(intFontzoom)).commit();
+                    }
+
+                    ninjaWebView.initPreferences();
                     ninjaWebView.reload();
                 }
                 hideBottomSheetDialog ();
@@ -2692,102 +2764,41 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     @SuppressWarnings("SameReturnValue")
     private boolean showOverflow() {
 
-        bottomSheetDialog = new BottomSheetDialog(context);
-
-        View dialogView = View.inflate(context, R.layout.dialog_menu, null);
-
-        fab_tab = dialogView.findViewById(R.id.floatButton_tab);
-        fab_tab.setOnClickListener(BrowserActivity.this);
-        fab_share = dialogView.findViewById(R.id.floatButton_share);
-        fab_share.setOnClickListener(BrowserActivity.this);
-        fab_save = dialogView.findViewById(R.id.floatButton_save);
-        fab_save.setOnClickListener(BrowserActivity.this);
-        fab_more = dialogView.findViewById(R.id.floatButton_more);
-        fab_more.setOnClickListener(BrowserActivity.this);
-
-        floatButton_tabView = dialogView.findViewById(R.id.floatButton_tabView);
-        floatButton_saveView = dialogView.findViewById(R.id.floatButton_saveView);
-        floatButton_shareView = dialogView.findViewById(R.id.floatButton_shareView);
-        floatButton_moreView = dialogView.findViewById(R.id.floatButton_moreView);
-
-        dialogTitle = dialogView.findViewById(R.id.dialog_title);
-        dialogTitle.setText(ninjaWebView.getTitle());
-
-        menu_newTabOpen = dialogView.findViewById(R.id.menu_newTabOpen);
-        menu_newTabOpen.setOnClickListener(BrowserActivity.this);
-        menu_closeTab = dialogView.findViewById(R.id.menu_closeTab);
-        menu_closeTab.setOnClickListener(BrowserActivity.this);
-        menu_tabPreview = dialogView.findViewById(R.id.menu_tabPreview);
-        menu_tabPreview.setOnClickListener(BrowserActivity.this);
-        menu_quit = dialogView.findViewById(R.id.menu_quit);
-        menu_quit.setOnClickListener(BrowserActivity.this);
-
-        menu_shareScreenshot = dialogView.findViewById(R.id.menu_shareScreenshot);
-        menu_shareScreenshot.setOnClickListener(BrowserActivity.this);
-        menu_shareLink = dialogView.findViewById(R.id.menu_shareLink);
-        menu_shareLink.setOnClickListener(BrowserActivity.this);
-        menu_sharePDF = dialogView.findViewById(R.id.menu_sharePDF);
-        menu_sharePDF.setOnClickListener(BrowserActivity.this);
-        menu_openWith = dialogView.findViewById(R.id.menu_openWith);
-        menu_openWith.setOnClickListener(BrowserActivity.this);
-
-        menu_saveScreenshot = dialogView.findViewById(R.id.menu_saveScreenshot);
-        menu_saveScreenshot.setOnClickListener(BrowserActivity.this);
-        menu_saveBookmark = dialogView.findViewById(R.id.menu_saveBookmark);
-        menu_saveBookmark.setOnClickListener(BrowserActivity.this);
-        menu_savePDF = dialogView.findViewById(R.id.contextLink_saveAs);
-        menu_savePDF.setOnClickListener(BrowserActivity.this);
-        menu_saveStart = dialogView.findViewById(R.id.menu_saveStart);
-        menu_saveStart.setOnClickListener(BrowserActivity.this);
-
-        menu_searchSite = dialogView.findViewById(R.id.menu_searchSite);
-        menu_searchSite.setOnClickListener(BrowserActivity.this);
-        menu_settings = dialogView.findViewById(R.id.menu_settings);
-        menu_settings.setOnClickListener(BrowserActivity.this);
-        menu_download = dialogView.findViewById(R.id.menu_download);
-        menu_download.setOnClickListener(BrowserActivity.this);
-        menu_fileManager = dialogView.findViewById(R.id.menu_fileManager);
-        menu_fileManager.setOnClickListener(BrowserActivity.this);
-
-        menu_shareCP = dialogView.findViewById(R.id.menu_shareClipboard);
-        menu_shareCP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideBottomSheetDialog ();
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("text", url);
-                Objects.requireNonNull(clipboard).setPrimaryClip(clip);
-                NinjaToast.show(context, R.string.toast_copy_successful);
-            }
-        });
-        menu_openFav = dialogView.findViewById(R.id.menu_openFav);
-        menu_openFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideBottomSheetDialog ();
-                updateAlbum(sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"));
-            }
-        });
-        menu_sc = dialogView.findViewById(R.id.menu_sc);
-        menu_sc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideBottomSheetDialog ();
-                HelperUnit.createShortcut(context, ninjaWebView.getTitle(), ninjaWebView.getUrl());
-            }
-        });
-        menu_fav = dialogView.findViewById(R.id.menu_fav);
-        menu_fav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideBottomSheetDialog ();
-                HelperUnit.setFavorite(context, url);
-            }
-        });
-
-        bottomSheetDialog.setContentView(dialogView);
-        bottomSheetDialog.show();
-        HelperUnit.setBottomSheetBehavior(bottomSheetDialog, dialogView, BottomSheetBehavior.STATE_EXPANDED);
+        if (sp.getBoolean(getString(R.string.sp_wintan_mode),true)) {
+            popupmenu_backW.setEnabled(ninjaWebView.canGoBack());
+            popupmenu_forwardW.setEnabled(ninjaWebView.canGoForward());
+            if (sp.getBoolean(getString(R.string.sp_rtl),false))
+                popupMainMenuW.showAsDropDown(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, 56 + 20);
+            else
+                popupMainMenuW.showAsDropDown(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, 56 + 20);
+        }
+        else {
+            if (sp.getBoolean(getString(R.string.sp_rtl),false))
+                popupMainMenu.showAsDropDown(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, 56 + 20);
+            else
+                popupMainMenu.showAsDropDown(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, 56 + 20);
+        }
+        return true;
+    }
+    private boolean showMenuMore() {
+        if (sp.getBoolean(getString(R.string.sp_rtl),false))
+            popupSubmenuMore.showAsDropDown(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, 56 + 20);
+        else
+            popupSubmenuMore.showAsDropDown(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, 56 + 20);
+        return true;
+    }
+    private boolean showMenuSave() {
+        if (sp.getBoolean(getString(R.string.sp_rtl),false))
+            popupSubmenuSave.showAsDropDown(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, 56 + 20);
+        else
+            popupSubmenuSave.showAsDropDown(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, 56 + 20);
+        return true;
+    }
+    private boolean showMenuShare() {
+        if (sp.getBoolean(getString(R.string.sp_rtl),false))
+            popupSubmenuShare.showAsDropDown(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, 56 + 20);
+        else
+            popupSubmenuShare.showAsDropDown(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, 56 + 20);
         return true;
     }
 

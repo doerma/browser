@@ -364,6 +364,8 @@
     <string name="text_pink">粉色</string>
     <string name="text_black">暗黑</string>
 
+    <string name="text_A">A</string>
+
     <!-- toggle dialog tips -->
     <string name="text_toggle_tips">点击“确认”应用变更。</string>
     <string name="text_JavaScript_add_tips">本域名已添加到JavaScript黑名单。</string>

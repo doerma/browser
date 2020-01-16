@@ -112,13 +112,13 @@
             android:title="@string/preference_left_hand"
             android:icon="@drawable/lefthand"
             android:summary="@string/preference_left_hand_summary"
-            android:key="rtl"
+            android:key="@string/sp_rtl"
             android:defaultValue="false" />
 
         <CheckBoxPreference
             android:title="@string/action_translucentstatus"
             android:defaultValue="false"
-            android:key="translucentstatus"
+            android:key="@string/sp_translucentstatus"
             android:summary="@string/action_translucentstatus_summary"
             android:icon="@drawable/fullscreen"/>
 
@@ -127,7 +127,7 @@
             android:title="@string/action_rotation"
             android:icon="@drawable/screen_rotation"
             android:summary="@string/action_rotation_summary"
-            android:key="orientation"
+            android:key="@string/sp_orientation"
             android:defaultValue="@string/def_rot"
             android:entries="@array/listArrayOrientation"
             android:entryValues="@array/listValuesOrientation" />
@@ -136,7 +136,7 @@
             android:title="@string/settings_Wintan_title"
             android:icon="@drawable/arrowupdown"
             android:summary="@string/settings_Wintan_summary"
-            android:key="wintan_mode"
+            android:key="@string/sp_wintan_mode"
             android:defaultValue="true" />
 
     </PreferenceCategory>

@@ -456,6 +456,8 @@
     <string name="text_pink">Pink</string>
     <string name="text_black">Black</string>
 
+    <string name="text_A">A</string>
+
     <!-- toggle dialog tips -->
     <string name="text_toggle_tips">Click \"ok\" to aplly changes.</string>
     <string name="text_JavaScript_add_tips">Domain added into JavaScript blacklist.</string>
