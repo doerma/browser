@@ -8,7 +8,7 @@
     <path
         android:pathData="M0,0 L24,0 L24,24 L0,24 Z" />
     <path
-        android:fillColor="#000000"
+        android:fillColor="?android:attr/textColorSecondary"
         android:pathData="M21,5 L3,5 C1.9,5,1,5.9,1,7 L1,17 C1,18.1,1.9,19,3,19 L21,19
 C22.1,19,23,18.1,23,17 L23,7 C23,5.9,22.1,5,21,5 Z M19,17 L5,17 L5,7 L19,7
 L19,17 Z M10,16 L14,16 C14.55,16,15,15.55,15,15 L15,12 C15,11.45,14.55,11,14,11

@@ -100,8 +100,7 @@
             android:orientation="horizontal"
             android:layout_below="@+id/popups"
             android:background="@color/finestBlack20"
-            android:gravity="center_horizontal"
-            >
+            android:gravity="center_horizontal">
 
 
             <ImageButton
@@ -109,7 +108,14 @@
                 android:layout_width="36dp"
                 android:layout_height="42dp"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/star_outline"/>
+                app:srcCompat="@drawable/ic_favorite"/>
+
+            <ImageButton
+                android:id="@+id/menu_addFavorite"
+                android:layout_width="36dp"
+                android:layout_height="42dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:srcCompat="@drawable/icon_bookmark"/>
 
             <ImageButton
                 android:id="@+id/popupmenu_refresh"

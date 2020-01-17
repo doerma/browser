@@ -684,6 +684,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             case R.id.menu_tabPrevieww:
                 popupMainMenuW.dismiss();
                 showRecords();
+                open_bookmark.performClick();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1926,11 +1927,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if(sp.getBoolean(getString(R.string.sp_javascript), true)){
                     toggle_JavaScriptView.setVisibility(View.INVISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_javascript), false).commit();
-                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                    toggle_tips.setText(R.string.text_JavaScript_off_tips);
                 }else{
                     toggle_JavaScriptView.setVisibility(View.VISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_javascript), true).commit();
-                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                    toggle_tips.setText(R.string.text_JavaScript_on_tips);
                 }
 
             }
@@ -1942,11 +1943,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if(sp.getBoolean(getString(R.string.sp_ad_block), true)){
                     toggle_adblockView.setVisibility(view.INVISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_ad_block), false).commit();
-                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                    toggle_tips.setText(R.string.text_adblock_off_tips);
                 }else{
                     toggle_adblockView.setVisibility(view.VISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_ad_block), true).commit();
-                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                    toggle_tips.setText(R.string.text_adblock_on_tips);
                 }
             }
         });
@@ -1957,11 +1958,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if(sp.getBoolean(getString(R.string.sp_cookies), true)){
                     toggle_cookiesView.setVisibility(view.INVISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_cookies), false).commit();
-                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                    toggle_tips.setText(R.string.text_cookie_off_tips);
                 }else{
                     toggle_cookiesView.setVisibility(view.VISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_cookies), true).commit();
-                    toggle_tips.setText(R.string.text_history_ignore_tips);
+                    toggle_tips.setText(R.string.text_cookie_on_tips);
                 }
             }
         });
@@ -2123,9 +2124,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (sp.getBoolean("saveHistory", false)) {
                     toggle_historyView.setVisibility(View.INVISIBLE);
                     sp.edit().putBoolean("saveHistory", false).commit();
+                    toggle_tips.setText(R.string.text_history_ignore_tips);
                 } else {
                     toggle_historyView.setVisibility(View.VISIBLE);
                     sp.edit().putBoolean("saveHistory", true).commit();
+                    toggle_tips.setText(R.string.text_history_record_tips);
                 }
             }
         });
@@ -2142,9 +2145,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (sp.getBoolean(getString(R.string.sp_location), false)) {
                     toggle_locationView.setVisibility(View.INVISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_location), false).commit();
+                    toggle_tips.setText(R.string.text_location_off_tips);
                 } else {
                     toggle_locationView.setVisibility(View.VISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_location), true).commit();
+                    toggle_tips.setText(R.string.text_location_on_tips);
                 }
             }
         });
@@ -2161,9 +2166,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (sp.getBoolean(getString(R.string.sp_images), true)) {
                     toggle_imagesView.setVisibility(View.INVISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_images), false).commit();
+                    toggle_tips.setText(R.string.text_images_hide_tips);
                 } else {
                     toggle_imagesView.setVisibility(View.VISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_images), true).commit();
+                    toggle_tips.setText(R.string.text_images_show_tips);
                 }
             }
         });
@@ -2180,9 +2187,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (sp.getBoolean("sp_remote", true)) {
                     toggle_remoteView.setVisibility(View.INVISIBLE);
                     sp.edit().putBoolean("sp_remote", false).commit();
+                    toggle_tips.setText(R.string.text_remote_hide_tips);
                 } else {
                     toggle_remoteView.setVisibility(View.VISIBLE);
                     sp.edit().putBoolean("sp_remote", true).commit();
+                    toggle_tips.setText(R.string.text_remote_show_tips);
                 }
             }
         });
@@ -2199,9 +2208,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (sp.getBoolean("sp_invert", false)) {
                     toggle_invertView.setVisibility(View.INVISIBLE);
                     sp.edit().putBoolean("sp_invert", false).commit();
+                    toggle_tips.setText(R.string.text_invert_off_tips);
                 } else {
                     toggle_invertView.setVisibility(View.VISIBLE);
                     sp.edit().putBoolean("sp_invert", true).commit();
+                    toggle_tips.setText(R.string.text_invert_on_tips);
                 }
                 HelperUnit.initRendering(contentFrame);
             }

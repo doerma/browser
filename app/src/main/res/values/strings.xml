@@ -477,6 +477,12 @@
     <string name="text_remote_hide_tips">Hide remote content.</string>
     <string name="text_invert_on_tips">Invert webview.</string>
     <string name="text_invert_off_tips">Normal webview.</string>
+    <string name="text_JavaScript_on_tips">JavaScript enabled.</string>
+    <string name="text_JavaScript_off_tips">JavaScript disabled.</string>
+    <string name="text_cookie_on_tips">Cookies enabled.</string>
+    <string name="text_cookie_off_tips">Cookies disabled.</string>
+    <string name="text_adblock_on_tips">Ads blocked.</string>
+    <string name="text_adblock_off_tips">Don\'t block Ads.</string>
 
     <string name="setting_Wintan">Wintan</string>
     <string name="preference_left_hand">left-hand</string>

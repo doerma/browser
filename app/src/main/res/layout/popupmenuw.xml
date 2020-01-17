@@ -120,14 +120,14 @@
                 android:layout_width="40dp"
                 android:layout_height="42dp"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/back_vector"/>
+                app:srcCompat="@drawable/ic_back"/>
 
             <ImageButton
                 android:id="@+id/popupmenu_forwardw"
                 android:layout_width="40dp"
                 android:layout_height="42dp"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/forward_vector"/>
+                app:srcCompat="@drawable/ic_forward"/>
 
             <ImageButton
                 android:id="@+id/popupmenu_search_websitew"
@@ -141,7 +141,7 @@
                 android:layout_width="40dp"
                 android:layout_height="42dp"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/star_outline"/>
+                app:srcCompat="@drawable/ic_favorite"/>
 
         </LinearLayout>
     </RelativeLayout>
