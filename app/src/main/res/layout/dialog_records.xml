@@ -80,7 +80,7 @@
                 android:layout_marginEnd="2dp"
                 android:layout_marginStart="2dp"
                 android:background="?attr/actionBarItemBackground"
-                android:src="@drawable/icon_earth" />
+                android:src="@drawable/icon_heart" />
 
         </LinearLayout>
 
@@ -106,7 +106,7 @@
                 android:layout_marginEnd="2dp"
                 android:layout_marginStart="2dp"
                 android:background="?attr/actionBarItemBackground"
-                android:src="@drawable/icon_bookmark" />
+                android:src="@drawable/icon_favorite" />
 
         </LinearLayout>
 

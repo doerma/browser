@@ -30,7 +30,7 @@
     <PreferenceCategory android:title="@string/setting_title_theme">
 
         <ListPreference
-            android:icon="@drawable/icon_ui"
+            android:icon="@drawable/icon_theme"
             android:key="sp_theme"
             android:defaultValue="1"
             android:title="@string/setting_theme"
@@ -83,21 +83,16 @@
 
     <PreferenceCategory android:title="@string/setting_overView">
 
-        <CheckBoxPreference android:key="overView_hide"
-            android:icon="@drawable/view_headline"
-            android:defaultValue="true"
-            android:title="@string/setting_overView_hide_title"
-            android:summary="@string/setting_overView_hide_summary"/>
 
         <CheckBoxPreference android:key="start_tabStart"
-            android:icon="@drawable/icon_refresh"
+            android:icon="@drawable/ic_collections_bookmark"
             android:defaultValue="false"
             android:title="@string/setting_overView_onStart_title"
             android:summary="@string/setting_overView_onStart_summary"/>
 
         <ListPreference
             android:title="@string/setting_overView"
-            android:icon="@drawable/icon_preview"
+            android:icon="@drawable/view_headline"
             android:summary="@string/setting_summary_tab"
             android:key="start_tab"
             android:defaultValue="0"

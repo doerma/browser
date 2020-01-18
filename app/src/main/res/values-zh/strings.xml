@@ -131,7 +131,7 @@
     <string name="setting_summary_data">导入和导出多个应用数据（白/黑名单、收藏夹等）。</string>
     <string name="setting_filter">收藏夹过滤器</string>
     <string name="setting_filter_summary">要长按“概述”中的收藏夹图标以显示“过滤器”对话框。决定要使用哪些过滤器。</string>
-    <string name="setting_title_fav">起始页</string>
+    <string name="setting_title_fav">主页</string>
     <string name="setting_summary_fav">在这里，您可以更改默认网站，该网站在本浏览器开始时自动加载。输入“about:blank”以获取空白的起始站点。</string>
     <string name="setting_title_searchEngine">自定义搜索引擎</string>
     <string name="setting_summary_searchEngine">您可以在此处输入自定义搜索URL。同时选择“自定义搜索引擎”作为默认搜索引擎。</string>
@@ -160,11 +160,9 @@
     <string name="setting_summary_confirm_exit">关闭浏览器时出现确认对话框。</string>
     <string name="setting_title_confirm_tab_close">关闭标签页需确认</string>
     <string name="setting_summary_confirm_tab_close">关闭标签页时显示确认对话框。</string>
-    <string name="setting_overView">概述</string>
+    <string name="setting_overView">书架</string>
     <string name="setting_overView_onStart_title">启动时显示</string>
-    <string name="setting_overView_onStart_summary">在每次本应用启动时打开“概述”。</string>
-    <string name="setting_overView_hide_title">隐藏标签预览</string>
-    <string name="setting_overView_hide_summary">在展开的概述中，标签页预览将隐藏。那就有更多的地方显示收藏夹了。</string>
+    <string name="setting_overView_onStart_summary">在每次本应用启动时打开“书架”。</string>
     <string name="setting_gestures">手势</string>
     <string name="setting_gestures_use_title">使用手势</string>
     <string name="setting_gestures_use_summary">使用工具栏和“导航按钮”上的手势。</string>

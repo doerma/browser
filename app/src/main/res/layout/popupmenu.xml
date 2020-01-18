@@ -104,18 +104,18 @@
 
 
             <ImageButton
-                android:id="@+id/menu_tabPreview"
+                android:id="@+id/menu_showfavorite"
                 android:layout_width="36dp"
                 android:layout_height="42dp"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/ic_favorite"/>
+                app:srcCompat="@drawable/icon_favorite"/>
 
             <ImageButton
                 android:id="@+id/menu_addFavorite"
                 android:layout_width="36dp"
                 android:layout_height="42dp"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/icon_bookmark"/>
+                app:srcCompat="@drawable/icon_favorite"/>
 
             <ImageButton
                 android:id="@+id/popupmenu_refresh"

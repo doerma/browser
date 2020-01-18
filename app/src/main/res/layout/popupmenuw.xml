@@ -137,11 +137,11 @@
                 android:background="?android:attr/selectableItemBackground" />
 
             <ImageButton
-                android:id="@+id/menu_tabPrevieww"
+                android:id="@+id/menu_showFavoritew"
                 android:layout_width="40dp"
                 android:layout_height="42dp"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/ic_favorite"/>
+                app:srcCompat="@drawable/icon_favorite"/>
 
         </LinearLayout>
     </RelativeLayout>

@@ -3,6 +3,8 @@ package de.baumann.browser.activity;
 import android.content.Context;
 import android.os.Bundle;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -61,20 +64,20 @@ public class Whitelist_Javascript extends AppCompatActivity {
                 EditText editText = findViewById(R.id.whitelist_edit);
                 String domain = editText.getText().toString().trim();
                 if (domain.isEmpty()) {
-                    NinjaToast.show(Whitelist_Javascript.this, R.string.toast_input_empty);
+                    NinjaToast.show(Whitelist_Javascript.this,R.string.toast_input_empty);
                 } else if (!BrowserUnit.isURL(domain)) {
-                    NinjaToast.show(Whitelist_Javascript.this, R.string.toast_invalid_domain);
+                    NinjaToast.show(Whitelist_Javascript.this,R.string.toast_invalid_domain);
                 } else {
                     RecordAction action = new RecordAction(Whitelist_Javascript.this);
                     action.open(true);
                     if (action.checkDomain(domain, RecordUnit.TABLE_JAVASCRIPT)) {
-                        NinjaToast.show(Whitelist_Javascript.this, R.string.toast_domain_already_exists);
+                        NinjaToast.show(Whitelist_Javascript.this,R.string.toast_domain_already_exists);
                     } else {
                         Javascript adBlock = new Javascript(Whitelist_Javascript.this);
                         adBlock.addDomain(domain.trim());
                         list.add(0, domain.trim());
                         adapter.notifyDataSetChanged();
-                        NinjaToast.show(Whitelist_Javascript.this, R.string.toast_add_whitelist_successful);
+                        NinjaToast.show(Whitelist_Javascript.this,R.string.toast_add_whitelist_successful);
                     }
                     action.close();
                 }

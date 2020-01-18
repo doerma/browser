@@ -165,14 +165,14 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private AppCompatImageButton popupmenu_backW;
     private AppCompatImageButton popupmenu_forwardW;
     private AppCompatImageButton popupmenu_search_websiteW;
-    private AppCompatImageButton popupmenu_tabPreviewW;
+    private AppCompatImageButton popupmenu_showFavoriteW;
     //popupmenu
     private TextView popupmenu_wintan;
     private TextView popupmenu_share;
     private TextView popupmenu_save;
     private TextView popupmenu_settings;
     private TextView popupmenu_other;
-    private AppCompatImageButton popupmenu_tabPreview;
+    private AppCompatImageButton popupmenu_showFavorite;
     private AppCompatImageButton popupmenu_search_website;
     private AppCompatImageButton popupmenu_refresh;
 
@@ -651,7 +651,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             case R.id.popupmenu_normalw:
                 setNormalUI();
                 popupMainMenuW.dismiss();
-                NinjaToast.show(context, getString(R.string.toast_Normal));
+                NinjaToast.show(context,getString(R.string.toast_Normal));
                 break;
             // Menu overflow
 
@@ -671,7 +671,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 removeAlbum(currentAlbumController);
                 break;
 
-            case R.id.menu_tabPreview:
+            case R.id.menu_showfavorite:
                 popupMainMenu.dismiss();
                 showRecords();
                 new Handler().postDelayed(new Runnable() {
@@ -681,7 +681,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     }
                 }, 250);
                 break;
-            case R.id.menu_tabPrevieww:
+            case R.id.menu_showFavoritew:
                 popupMainMenuW.dismiss();
                 showRecords();
                 open_bookmark.performClick();
@@ -719,7 +719,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             case R.id.submenu_shareLink:
                 popupSubmenuShare.dismiss();
                 if (prepareRecord()) {
-                    NinjaToast.show(context, getString(R.string.toast_share_failed));
+                    NinjaToast.show(context,getString(R.string.toast_share_failed));
                 } else {
                     IntentUnit.share(context, title, url);
                 }
@@ -766,15 +766,15 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     BookmarkList db = new BookmarkList(context);
                     db.open();
                     if (db.isExist(url)){
-                        NinjaToast.show(context, R.string.toast_newTitle);
+                        NinjaToast.show(context,R.string.toast_newTitle);
                     } else {
                         db.insert(HelperUnit.secString(ninjaWebView.getTitle()), url, encrypted_userName, encrypted_userPW, "01");
-                        NinjaToast.show(context, R.string.toast_edit_successful);
+                        NinjaToast.show(context,R.string.toast_edit_successful);
                         initBookmarkList();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    NinjaToast.show(context, R.string.toast_error);
+                    NinjaToast.show(context,R.string.toast_error);
                 }
                 break;
 
@@ -782,7 +782,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 popupSubmenuSave.dismiss();
                 action.open(true);
                 if (action.checkGridItem(url)) {
-                    NinjaToast.show(context, getString(R.string.toast_already_exist_in_home));
+                    NinjaToast.show(context,R.string.toast_already_exist_in_home);
                 } else {
 
                     int counter = sp.getInt("counter", 0);
@@ -793,9 +793,9 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     GridItem itemAlbum = new GridItem(title, url, filename, counter);
 
                     if (BrowserUnit.bitmap2File(context, bitmap, filename) && action.addGridItem(itemAlbum)) {
-                        NinjaToast.show(context, getString(R.string.toast_add_to_home_successful));
+                        NinjaToast.show(context,R.string.toast_add_to_home_successful);
                     } else {
-                        NinjaToast.show(context, getString(R.string.toast_add_to_home_failed));
+                        NinjaToast.show(context,R.string.toast_add_to_home_failed);
                     }
                 }
                 action.close();
@@ -911,7 +911,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     }
                 } else if (url == null ){
                     String text = getString(R.string.toast_load_error) + ": " + url;
-                    NinjaToast.show(context, text);
+                    NinjaToast.show(context,text);
                 } else {
                     ninjaWebView.stopLoading();
                 }
@@ -940,7 +940,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             sp.edit().putBoolean("pdf_create", true).commit();
 
         } catch (Exception e) {
-            NinjaToast.show(context, R.string.toast_error);
+            NinjaToast.show(context,R.string.toast_error);
             sp.edit().putBoolean("pdf_create", false).commit();
             e.printStackTrace();
         }
@@ -1180,7 +1180,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         popupmenu_backW = menuviewW.findViewById(R.id.popupmenu_backw);
         popupmenu_forwardW = menuviewW.findViewById(R.id.popupmenu_forwardw);
         popupmenu_search_websiteW = menuviewW.findViewById(R.id.popupmenu_search_websitew);
-        popupmenu_tabPreviewW = menuviewW.findViewById(R.id.menu_tabPrevieww);
+        popupmenu_showFavoriteW = menuviewW.findViewById(R.id.menu_showFavoritew);
         popupmenu_normalW = menuviewW.findViewById(R.id.popupmenu_normalw);
         popupmenu_otherW = menuviewW.findViewById(R.id.popupmenu_otherw);
         popupmenu_saveW = menuviewW.findViewById(R.id.popupmenu_savew);
@@ -1191,7 +1191,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         popupmenu_backW.setOnClickListener(BrowserActivity.this);
         popupmenu_forwardW.setOnClickListener(BrowserActivity.this);
         popupmenu_search_websiteW.setOnClickListener(BrowserActivity.this);
-        popupmenu_tabPreviewW.setOnClickListener(BrowserActivity.this);
+        popupmenu_showFavoriteW.setOnClickListener(BrowserActivity.this);
         popupmenu_normalW.setOnClickListener(BrowserActivity.this);
         popupmenu_saveW.setOnClickListener(BrowserActivity.this);
         popupmenu_shareW.setOnClickListener(BrowserActivity.this);
@@ -1236,7 +1236,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         popupMainMenu.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         popupmenu_search_website = menuview.findViewById(R.id.popupmenu_search_website);
-        popupmenu_tabPreview = menuview.findViewById(R.id.menu_tabPreview);
+        popupmenu_showFavorite = menuview.findViewById(R.id.menu_showfavorite);
         popupmenu_wintan = menuview.findViewById(R.id.popupmenu_wintan);
         popupmenu_other = menuview.findViewById(R.id.popupmenu_other);
         popupmenu_save = menuview.findViewById(R.id.popupmenu_save);
@@ -1245,7 +1245,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         popupmenu_refresh = menuview.findViewById(R.id.popupmenu_refresh);
 
         popupmenu_search_website.setOnClickListener(this);
-        popupmenu_tabPreview.setOnClickListener(this);
+        popupmenu_showFavorite.setOnClickListener(this);
         popupmenu_refresh.setOnClickListener(this);
         popupmenu_wintan.setOnClickListener(this);
         popupmenu_save.setOnClickListener(this);

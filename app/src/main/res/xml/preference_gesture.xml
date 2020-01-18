@@ -3,6 +3,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <CheckBoxPreference
+        android:icon="@drawable/gesture_tap"
         android:key="sp_gestures_use"
         android:defaultValue="true"
         android:title="@string/setting_gestures_use_title"
