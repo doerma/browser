@@ -173,8 +173,10 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private TextView popupmenu_settings;
     private TextView popupmenu_other;
     private AppCompatImageButton popupmenu_showFavorite;
+    private AppCompatImageButton popupmenu_addFavorite;
     private AppCompatImageButton popupmenu_search_website;
     private AppCompatImageButton popupmenu_refresh;
+
 
 
     // Views
@@ -653,6 +655,22 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 popupMainMenuW.dismiss();
                 NinjaToast.show(context,getString(R.string.toast_Normal));
                 break;
+            case R.id.popupmenu_backw:
+                popupMainMenuW.dismiss();
+                if (ninjaWebView.canGoBack()) {
+                    ninjaWebView.goBack();
+                } else {
+                    removeAlbum(currentAlbumController);
+                }
+                break;
+            case R.id.popupmenu_forwardw:
+                popupMainMenuW.dismiss();
+                if (ninjaWebView.canGoForward()) {
+                    ninjaWebView.goForward();
+                } else {
+                    NinjaToast.show(context,R.string.toast_webview_forward);
+                }
+                break;
             // Menu overflow
 
             case R.id.tab_plus:
@@ -754,7 +772,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     new ScreenshotTask(context, ninjaWebView).execute();
                 }
                 break;
-
+            case R.id.menu_addFavorite:
+                popupMainMenu.dismiss();
             case R.id.submenu_saveBookmark:
                 popupSubmenuSave.dismiss();
                 try {
@@ -1237,6 +1256,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         popupmenu_search_website = menuview.findViewById(R.id.popupmenu_search_website);
         popupmenu_showFavorite = menuview.findViewById(R.id.menu_showfavorite);
+        popupmenu_addFavorite = menuview.findViewById(R.id.menu_addFavorite);
         popupmenu_wintan = menuview.findViewById(R.id.popupmenu_wintan);
         popupmenu_other = menuview.findViewById(R.id.popupmenu_other);
         popupmenu_save = menuview.findViewById(R.id.popupmenu_save);
@@ -1246,6 +1266,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         popupmenu_search_website.setOnClickListener(this);
         popupmenu_showFavorite.setOnClickListener(this);
+        popupmenu_addFavorite.setOnClickListener(this);
         popupmenu_refresh.setOnClickListener(this);
         popupmenu_wintan.setOnClickListener(this);
         popupmenu_save.setOnClickListener(this);
@@ -1278,14 +1299,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_fileManager.setOnClickListener(BrowserActivity.this);
 
 
-        menu_openFav = submenumoreview.findViewById(R.id.submenu_openFav);
-        menu_openFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupSubmenuMore.dismiss();
-                updateAlbum(sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"));
-            }
-        });
         menu_openFav = submenumoreview.findViewById(R.id.submenu_openFav);
         menu_openFav.setOnClickListener(new View.OnClickListener() {
             @Override
