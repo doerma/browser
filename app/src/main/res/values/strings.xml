@@ -81,8 +81,8 @@
 
     <!-- browser setting -->
     <string name="setting_title_browser">Browser Settings</string>
-    <string name="setting_title_clear_control">Data Control</string>
-    <string name="setting_title_start_control">Start Control</string>
+    <string name="setting_title_clear_control">Privacy Control</string>
+    <string name="setting_title_start_control">Webpage Control</string>
     <string name="setting_summary_clear_control">Clear your browser data or decide what data will be cleared when you leave
     the application.</string>
     <string name="setting_summary_start_control">Decide which components of the browser will be enabled on start.</string>

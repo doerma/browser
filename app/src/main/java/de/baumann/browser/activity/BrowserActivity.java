@@ -1299,12 +1299,25 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_fileManager.setOnClickListener(BrowserActivity.this);
 
 
+        //todo
         menu_openFav = submenumoreview.findViewById(R.id.submenu_openFav);
         menu_openFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupSubmenuMore.dismiss();
-                updateAlbum(sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"));
+                if (sp.getBoolean("start_tabStart", false)){
+                    showRecords();
+                    if(!overViewTab.equals(getString(R.string.album_title_home)))
+                        open_startPage.performClick();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        }
+                    }, 250);
+                }else {
+                    updateAlbum(sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"));
+                }
             }
         });
 

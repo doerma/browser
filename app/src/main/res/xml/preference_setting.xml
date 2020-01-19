@@ -7,13 +7,6 @@
         android:title="@string/setting_title_browser"
         app:initialExpandedChildrenCount="3">
 
-        <EditTextPreference
-            android:defaultValue="https://github.com/scoute-dich/browser"
-            android:key="favoriteURL"
-            android:title="@string/setting_title_fav"
-            android:summary="@string/setting_summary_fav"
-            android:icon="@drawable/ic_homepage"/>
-
         <Preference
             android:key="settings_start"
             android:title="@string/setting_title_start_control"
