@@ -9,7 +9,7 @@
     <string name="list_empty">Current list is empty</string>
     <string name="album_title_bookmarks">Bookmarks</string>
     <string name="album_title_history">History</string>
-    <string name="album_title_home">Home</string>
+    <string name="album_title_favorite">Favorite</string>
     <string name="album_title_files">Files</string>
     <string name="search_hint">Search</string>
 
@@ -34,13 +34,13 @@
     <string name="menu_open_with">Open link with …</string>
 
     <string name="menu_quit">Quit</string>
-    <string name="menu_openFav">Open Favorite</string>
+    <string name="menu_openHome">Open Favorite</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_delete_list">Delete list</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_closeTab">Close tab</string>
     <string name="menu_download">Open downloads</string>
-    <string name="menu_fav">Save as favorite</string>
+    <string name="menu_homepage">Save as homepage</string>
     <string name="menu_sc">Shortcut on home screen</string>
     <string name="menu_sort">Sort by …</string>
     <string name="menu_filter">Filter by …</string>
@@ -49,7 +49,7 @@
     <string name="menu_share_link">Share link</string>
 
     <string name="menu_save_screenshot">Save screenshot</string>
-    <string name="menu_save_home">Save at Home</string>
+    <string name="menu_save_favorite">Save as favorite</string>
     <string name="menu_save_bookmark">Save as bookmark</string>
     <string name="menu_save_as">Save as …</string>
     <string name="menu_save_pdf">Save as PDF</string>
@@ -171,11 +171,11 @@
     <string name="setting_summary_data">Import and export several app data (whitelist/blacklists, bookmarks).</string>
 
     <string name="setting_filter">Bookmark filter</string>
-    <string name="setting_filter_summary">To show the filter dialog long press on the bookmark icon in the overview. Decide which
+    <string name="setting_filter_summary">To show the filter dialog long press on the bookmark icon in the Collections. Decide which
         filters you will use.</string>
 
-    <string name="setting_title_fav">Favorite</string>
-    <string name="setting_summary_fav">Here you can change the default website which loads on start of \"FOSS Browser\".
+    <string name="setting_title_homepage">Homepage</string>
+    <string name="setting_summary_homepage">Here you can change the default website which loads on start of \"FOSS Browser\".
     Enter \"about:blank\" to get an emty start site.</string>
 
     <string name="setting_title_searchEngine">Custom search engine</string>
@@ -209,7 +209,7 @@
     <string name="setting_summary_nav_pos_left">Left</string>
     <string name="setting_summary_nav_pos_center">Center</string>
 
-    <string name="setting_summary_tab">What should be shown at the start of the \"Overview\"? The Start Page, you bookmarks, …</string>
+    <string name="setting_summary_tab">What should be shown at the start of the \"Collections\"? favorite pages, you bookmarks, history,…</string>
 
     <string name="setting_title_confirm_exit">Confirm browser exit</string>
     <string name="setting_summary_confirm_exit">Confirmation dialog when closing browser.</string>
@@ -218,8 +218,8 @@
     <string name="setting_summary_confirm_tab_close">Confirmation dialog when closing a tab.</string>
 
     <string name="setting_overView">Collections</string>
-    <string name="setting_overView_onStart_title">Show on start</string>
-    <string name="setting_overView_onStart_summary">Open the \"Collections\" on every app start.</string>
+    <string name="setting_overView_onStart_title">Show Collections on start</string>
+    <string name="setting_overView_onStart_summary">Open favorite/bookmarks/history in \"Collections\" on every start.</string>
 
 
     <string name="setting_gestures">Gestures</string>

@@ -59,14 +59,14 @@
 
 
         <TextView
-            android:id="@+id/submenu_saveStart"
+            android:id="@+id/submenu_savefavorite"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:includeFontPadding="false"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/menu_save_home"
+            android:text="@string/menu_save_favorite"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="?android:attr/textColorPrimary"
             android:background="?android:attr/selectableItemBackground"
@@ -121,7 +121,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/menu_fav"
+            android:text="@string/menu_homepage"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="?android:attr/textColorPrimary"
             android:background="?android:attr/selectableItemBackground"

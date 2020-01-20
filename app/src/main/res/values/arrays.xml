@@ -71,7 +71,7 @@
 
     <!-- Start tab -->
     <string-array name="setting_entries_tab">
-        <item>@string/album_title_home</item>
+        <item>@string/album_title_favorite</item>
         <item>@string/album_title_bookmarks</item>
         <item>@string/album_title_history</item>
     </string-array>
@@ -83,30 +83,7 @@
     </string-array>
 
     <!-- Font size -->
-    <string-array name="setting_entries_font">
-        <item>75 %</item>
-        <item>90 %</item>
-        <item>95 %</item>
-        <item>100 %</item>
-        <item>110 %</item>
-        <item>115 %</item>
-        <item>120 %</item>
-        <item>125 %</item>
-        <item>150 %</item>
-        <item>175 %</item>
-    </string-array>
 
-    <string-array name="setting_values_font">
-        <item>75</item>
-        <item>90</item>
-        <item>100</item>
-        <item>110</item>
-        <item>115</item>
-        <item>120</item>
-        <item>125</item>
-        <item>150</item>
-        <item>175</item>
-    </string-array>
 
     <!-- theme -->
     <string-array name="setting_entries_theme">

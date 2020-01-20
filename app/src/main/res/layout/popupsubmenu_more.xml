@@ -65,7 +65,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/menu_openFav"
+            android:text="@string/menu_openHome"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="?android:attr/textColorPrimary"
             android:background="?android:attr/selectableItemBackground"

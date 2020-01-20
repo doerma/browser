@@ -159,7 +159,7 @@
                     android:src="@drawable/star_grey" />
 
                 <TextView
-                    android:text="@string/menu_fav"
+                    android:text="@string/menu_homepage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:includeFontPadding="false"

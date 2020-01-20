@@ -3,30 +3,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <PreferenceCategory android:title="@string/setting_title_behavior">
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:icon="@drawable/icon_exit"
-            android:key="sp_close_browser_confirm"
-            android:title="@string/setting_title_confirm_exit"
-            android:summary="@string/setting_summary_confirm_exit" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:icon="@drawable/icon_close"
-            android:key="sp_close_tab_confirm"
-            android:title="@string/setting_title_confirm_tab_close"
-            android:summary="@string/setting_summary_confirm_tab_close" />
-
-        <CheckBoxPreference android:key="sp_reopenLastTab"
-            android:icon="@drawable/icon_tab_plus"
-            android:defaultValue="false"
-            android:title="@string/setting_title_reopenLastTab"
-            android:summary="@string/setting_summary_reopenLastTab"/>
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/setting_title_theme">
 
         <ListPreference
@@ -38,14 +14,13 @@
             android:entries="@array/setting_entries_theme"
             android:entryValues="@array/setting_values_theme"/>
 
-        <ListPreference
+        <EditTextPreference
             android:icon="@drawable/icon_size"
             android:key="sp_fontSize"
             android:defaultValue="100"
+            android:inputType="numberDecimal"
             android:title="@string/setting_title_font"
-            android:summary="@string/setting_summary_font"
-            android:entries="@array/setting_entries_font"
-            android:entryValues="@array/setting_values_font"/>
+            android:summary="@string/setting_summary_font" />
 
         <CheckBoxPreference android:key="sp_invert"
             android:icon="@drawable/icon_night"
@@ -81,13 +56,13 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/setting_overView">
+    <PreferenceCategory android:title="@string/setting_title_behavior">
 
         <EditTextPreference
             android:defaultValue="https://github.com/scoute-dich/browser"
             android:key="favoriteURL"
-            android:title="@string/setting_title_fav"
-            android:summary="@string/setting_summary_fav"
+            android:title="@string/setting_title_homepage"
+            android:summary="@string/setting_summary_homepage"
             android:icon="@drawable/ic_homepage"/>
 
         <CheckBoxPreference android:key="start_tabStart"
@@ -104,6 +79,26 @@
             android:defaultValue="0"
             android:entries="@array/setting_entries_tab"
             android:entryValues="@array/setting_values_tab" />
+
+     <CheckBoxPreference
+            android:defaultValue="true"
+            android:icon="@drawable/icon_exit"
+            android:key="sp_close_browser_confirm"
+            android:title="@string/setting_title_confirm_exit"
+            android:summary="@string/setting_summary_confirm_exit" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:icon="@drawable/icon_close"
+            android:key="sp_close_tab_confirm"
+            android:title="@string/setting_title_confirm_tab_close"
+            android:summary="@string/setting_summary_confirm_tab_close" />
+
+        <CheckBoxPreference android:key="sp_reopenLastTab"
+            android:icon="@drawable/icon_tab_plus"
+            android:defaultValue="false"
+            android:title="@string/setting_title_reopenLastTab"
+            android:summary="@string/setting_summary_reopenLastTab"/>
 
     </PreferenceCategory>
 
