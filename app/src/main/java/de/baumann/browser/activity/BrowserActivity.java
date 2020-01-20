@@ -188,7 +188,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private ImageButton omniboxOverflow;
     private ImageButton omniboxOverview;
 
-    private ImageButton open_startPage;
+    private ImageButton open_favorite;
     private ImageButton open_bookmark;
     private ImageButton open_history;
     private ImageButton open_menu;
@@ -219,19 +219,16 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private LinearLayout tab_container;
     private FrameLayout fullscreenHolder;
 
-    private View open_startPageView;
+    private View open_favoriteView;
     private View open_bookmarkView;
     private View open_historyView;
 
-    //private View overview_titleIcons_startView;
-    //private View overview_titleIcons_bookmarksView;
-    //private View overview_titleIcons_historyView;
 
     // Others
 
     private String title;
     private String url;
-    private String overViewTab;
+    private String CollectionTab;
     private BroadcastReceiver downloadReceiver;
     private BottomSheetBehavior mBehavior;
     private int intFontzoom;
@@ -392,7 +389,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         dispatchIntent(getIntent());
 
         if (sp.getBoolean("start_tabStart", false)){
-            showRecords();
+            showCollections();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -524,7 +521,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             case KeyEvent.KEYCODE_BACK:
                 hideKeyboard(activity);
                 hideOverview();
-                hideRecords();
+                hideCollections();
                 if (fullscreenHolder != null || customView != null || videoView != null) {
                     return onHideCustomView();
                 } else if (omnibox.getVisibility() == View.GONE && sp.getBoolean("sp_toolbarShow", true)) {
@@ -604,7 +601,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }
         }, 250);
     }
-    private void showRecords() {
+    private void showCollections() {
 
         mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
@@ -616,7 +613,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             bottomSheetDialog_OverView.cancel();
         }
     }
-    public void hideRecords () {
+    public void hideCollections() {
         if (bottomSheetDialog_Records != null) {
             bottomSheetDialog_Records.cancel();
         }
@@ -657,11 +654,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
             case R.id.popupmenu_backw:
                 popupMainMenuW.dismiss();
-                if (ninjaWebView.canGoBack()) {
-                    ninjaWebView.goBack();
-                } else {
-                    removeAlbum(currentAlbumController);
-                }
+                goback();
                 break;
             case R.id.popupmenu_forwardw:
                 popupMainMenuW.dismiss();
@@ -673,17 +666,25 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
             // Menu overflow
 
+
+            case R.id.submenu_newTabOpen:
+                popupSubmenuMore.dismiss();
             case R.id.tab_plus:
                 hideBottomSheetDialog();
                 hideOverview();
                 addAlbum(getString(R.string.app_name), sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"), true);
+                if (sp.getBoolean("start_tabStart", false)){
+                    showCollections();
+                    if(!CollectionTab.equals(getString(R.string.album_title_favorite)))
+                        open_favorite.performClick();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        }
+                    }, 250);
+                }
                 break;
-            case R.id.submenu_newTabOpen:
-                popupSubmenuMore.dismiss();
-                hideOverview();
-                addAlbum(getString(R.string.app_name), sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"), true);
-                break;
-
             case R.id.submenu_closeTab:
                 popupSubmenuMore.dismiss();
                 removeAlbum(currentAlbumController);
@@ -691,7 +692,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
             case R.id.menu_showfavorite:
                 popupMainMenu.dismiss();
-                showRecords();
+                showCollections();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -701,7 +702,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
             case R.id.menu_showFavoritew:
                 popupMainMenuW.dismiss();
-                showRecords();
+                showCollections();
                 open_bookmark.performClick();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -772,8 +773,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     new ScreenshotTask(context, ninjaWebView).execute();
                 }
                 break;
-            case R.id.menu_addFavorite:
-                popupMainMenu.dismiss();
+
             case R.id.submenu_saveBookmark:
                 popupSubmenuSave.dismiss();
                 try {
@@ -797,11 +797,13 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
                 break;
 
+            case R.id.menu_addFavorite:
+                popupMainMenu.dismiss();
             case R.id.submenu_savefavorite:
                 popupSubmenuSave.dismiss();
                 action.open(true);
                 if (action.checkGridItem(url)) {
-                    NinjaToast.show(context,R.string.toast_already_exist_in_home);
+                    NinjaToast.show(context,R.string.toast_already_exist_in_favorite);
                 } else {
 
                     int counter = sp.getInt("counter", 0);
@@ -812,9 +814,9 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     GridItem itemAlbum = new GridItem(title, url, filename, counter);
 
                     if (BrowserUnit.bitmap2File(context, bitmap, filename) && action.addGridItem(itemAlbum)) {
-                        NinjaToast.show(context,R.string.toast_add_to_home_successful);
+                        NinjaToast.show(context,R.string.toast_add_to_favorite_successful);
                     } else {
-                        NinjaToast.show(context,R.string.toast_add_to_home_failed);
+                        NinjaToast.show(context,R.string.toast_add_to_favorite_failed);
                     }
                 }
                 action.close();
@@ -824,15 +826,14 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
             case R.id.popupmenu_search_website:
                 popupMainMenu.dismiss();
-                hideKeyboard(activity);
-                showSearchPanel();
-                break;
             case R.id.popupmenu_search_websitew:
                 popupMainMenuW.dismiss();
                 hideKeyboard(activity);
                 showSearchPanel();
                 break;
 
+            case R.id.submenu_contextLink_saveAsPDF:
+                popupSubmenuSave.dismiss();
             case R.id.contextLink_saveAs:
                 hideBottomSheetDialog ();
                 printPDF(false);
@@ -840,9 +841,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
             case R.id.popupmenu_settings:
                 popupMainMenu.dismiss();
-                settings = new Intent(BrowserActivity.this, Settings_Activity.class);
-                startActivity(settings);
-                break;
             case R.id.popupmenu_settingsw:
                 popupMainMenuW.dismiss();
                 settings = new Intent(BrowserActivity.this, Settings_Activity.class);
@@ -864,8 +862,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
             case R.id.popupmenu_other:
                 popupMainMenu.dismiss();
-                showMenuMore();
-                break;
             case R.id.popupmenu_otherw:
                 popupMainMenuW.dismiss();
                 showMenuMore();
@@ -873,8 +869,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
             case R.id.popupmenu_share:
                 popupMainMenu.dismiss();
-                showMenuShare();
-                break;
             case R.id.popupmenu_sharew:
                 popupMainMenuW.dismiss();
                 showMenuShare();
@@ -882,8 +876,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
             case R.id.popupmenu_save:
                 popupMainMenu.dismiss();
-                showMenuSave();
-                break;
             case R.id.popupmenu_savew:
                 popupMainMenuW.dismiss();
                 showMenuSave();
@@ -979,7 +971,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             filePathCallback = null;
         } else if ("sc_history".equals(action)) {
             addAlbum(null, sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"), true);
-            showRecords();
+            showCollections();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -988,7 +980,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }, 250);
         } else if ("sc_bookmark".equals(action)) {
             addAlbum(null, sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"), true);
-            showRecords();
+            showCollections();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -997,11 +989,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }, 250);
         } else if ("sc_startPage".equals(action)) {
             addAlbum(null, sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"), true);
-            showRecords();
+            showCollections();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    open_startPage.performClick();
+                    open_favorite.performClick();
                 }
             }, 250);
         } else if (Intent.ACTION_SEND.equals(action)) {
@@ -1148,11 +1140,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
                 break;
             case "03":
-                if (ninjaWebView.canGoBack()) {
-                    ninjaWebView.goBack();
-                } else {
-                    removeAlbum(currentAlbumController);
-                }
+                goback();
                 break;
             case "04":
                 ninjaWebView.pageUp(true);
@@ -1306,9 +1294,9 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             public void onClick(View v) {
                 popupSubmenuMore.dismiss();
                 if (sp.getBoolean("start_tabStart", false)){
-                    showRecords();
-                    if(!overViewTab.equals(getString(R.string.album_title_favorite)))
-                        open_startPage.performClick();
+                    showCollections();
+                    if(!CollectionTab.equals(getString(R.string.album_title_favorite)))
+                        open_favorite.performClick();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -1419,11 +1407,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     @SuppressLint("ClickableViewAccessibility")
     private void initRecords() {
         bottomSheetDialog_Records = new BottomSheetDialog(context);
-        View dialogView = View.inflate(context, R.layout.dialog_records, null);
+        View dialogView = View.inflate(context, R.layout.dialog_collections, null);
 
-        open_startPage = dialogView.findViewById(R.id.open_newTab_2);
-        open_bookmark = dialogView.findViewById(R.id.open_bookmark_2);
-        open_history = dialogView.findViewById(R.id.open_history_2);
+        open_favorite = dialogView.findViewById(R.id.open_favorite);
+        open_bookmark = dialogView.findViewById(R.id.open_bookmark);
+        open_history = dialogView.findViewById(R.id.open_history);
         open_menu = dialogView.findViewById(R.id.open_menu);
         //tab_container = dialogView.findViewById(R.id.tab_container);
         //tab_plus = dialogView.findViewById(R.id.tab_plus);
@@ -1436,7 +1424,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         listView = dialogView.findViewById(R.id.home_list_2);
         gridView = dialogView.findViewById(R.id.home_grid_2);
 
-        open_startPageView = dialogView.findViewById(R.id.open_newTabView);
+        open_favoriteView = dialogView.findViewById(R.id.open_favoriteView);
         open_bookmarkView = dialogView.findViewById(R.id.open_bookmarkView);
         open_historyView = dialogView.findViewById(R.id.open_historyView);
 
@@ -1492,13 +1480,13 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 LinearLayout bookmark_sort = dialogView.findViewById(R.id.bookmark_sort);
                 LinearLayout bookmark_filter = dialogView.findViewById(R.id.bookmark_filter);
 
-                if (overViewTab.equals(getString(R.string.album_title_bookmarks))) {
+                if (CollectionTab.equals(getString(R.string.album_title_bookmarks))) {
                     bookmark_filter.setVisibility(View.VISIBLE);
                     bookmark_sort.setVisibility(View.VISIBLE);
-                } else if (overViewTab.equals(getString(R.string.album_title_favorite))){
+                } else if (CollectionTab.equals(getString(R.string.album_title_favorite))){
                     bookmark_filter.setVisibility(View.GONE);
                     bookmark_sort.setVisibility(View.VISIBLE);
-                } else if (overViewTab.equals(getString(R.string.album_title_history))){
+                } else if (CollectionTab.equals(getString(R.string.album_title_history))){
                     bookmark_filter.setVisibility(View.GONE);
                     bookmark_sort.setVisibility(View.GONE);
                 }
@@ -1519,22 +1507,22 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                         LinearLayout dialog_sortName = dialogView.findViewById(R.id.dialog_sortName);
                         TextView bookmark_sort_tv = dialogView.findViewById(R.id.bookmark_sort_tv);
 
-                        if (overViewTab.equals(getString(R.string.album_title_bookmarks))) {
+                        if (CollectionTab.equals(getString(R.string.album_title_bookmarks))) {
                             bookmark_sort_tv.setText(getResources().getString(R.string.dialog_sortIcon));
-                        } else if (overViewTab.equals(getString(R.string.album_title_favorite))){
+                        } else if (CollectionTab.equals(getString(R.string.album_title_favorite))){
                             bookmark_sort_tv.setText(getResources().getString(R.string.dialog_sortDate));
                         }
 
                         dialog_sortName.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (overViewTab.equals(getString(R.string.album_title_bookmarks))) {
+                                if (CollectionTab.equals(getString(R.string.album_title_bookmarks))) {
                                     sp.edit().putString("sortDBB", "title").apply();
                                     initBookmarkList();
                                     hideBottomSheetDialog ();
-                                } else if (overViewTab.equals(getString(R.string.album_title_favorite))){
+                                } else if (CollectionTab.equals(getString(R.string.album_title_favorite))){
                                     sp.edit().putString("sort_startSite", "title").apply();
-                                    open_startPage.performClick();
+                                    open_favorite.performClick();
                                     hideBottomSheetDialog ();
                                 }
                             }
@@ -1543,13 +1531,13 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                         dialog_sortIcon.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (overViewTab.equals(getString(R.string.album_title_bookmarks))) {
+                                if (CollectionTab.equals(getString(R.string.album_title_bookmarks))) {
                                     sp.edit().putString("sortDBB", "icon").apply();
                                     initBookmarkList();
                                     hideBottomSheetDialog ();
-                                } else if (overViewTab.equals(getString(R.string.album_title_favorite))){
+                                } else if (CollectionTab.equals(getString(R.string.album_title_favorite))){
                                     sp.edit().putString("sort_startSite", "ordinal").apply();
-                                    open_startPage.performClick();
+                                    open_favorite.performClick();
                                     hideBottomSheetDialog ();
                                 }
 
@@ -1575,16 +1563,16 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                             @Override
                             public void onClick(View view) {
 
-                                if (overViewTab.equals(getString(R.string.album_title_favorite))) {
+                                if (CollectionTab.equals(getString(R.string.album_title_favorite))) {
                                     BrowserUnit.clearHome(context);
-                                    open_startPage.performClick();
-                                } else if (overViewTab.equals(getString(R.string.album_title_bookmarks))) {
+                                    open_favorite.performClick();
+                                } else if (CollectionTab.equals(getString(R.string.album_title_bookmarks))) {
                                     File data = Environment.getDataDirectory();
                                     String bookmarksPath_app = "//data//" + getPackageName() + "//databases//pass_DB_v01.db";
                                     final File bookmarkFile_app = new File(data, bookmarksPath_app);
                                     BrowserUnit.deleteDir(bookmarkFile_app);
                                     open_bookmark.performClick();
-                                } else if (overViewTab.equals(getString(R.string.album_title_history))) {
+                                } else if (CollectionTab.equals(getString(R.string.album_title_history))) {
                                     BrowserUnit.clearHistory(context);
                                     open_history.performClick();
                                 }
@@ -1620,13 +1608,13 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
 
                 if (newState == BottomSheetBehavior.STATE_HIDDEN){
-                    hideRecords();
+                    hideCollections();
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED){
 
-                    if (overViewTab.equals(getString(R.string.album_title_bookmarks))) {
+                    if (CollectionTab.equals(getString(R.string.album_title_bookmarks))) {
                         initBookmarkList();
-                    } else if (overViewTab.equals(getString(R.string.album_title_favorite))) {
-                        open_startPage.performClick();
+                    } else if (CollectionTab.equals(getString(R.string.album_title_favorite))) {
+                        open_favorite.performClick();
                     }
 
                 }
@@ -1638,17 +1626,17 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }
         });
 
-        open_startPage.setOnClickListener(new View.OnClickListener() {
+        open_favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 gridView.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
-                open_startPageView.setVisibility(View.VISIBLE);
+                open_favoriteView.setVisibility(View.VISIBLE);
                 open_bookmarkView.setVisibility(View.INVISIBLE);
                 open_historyView.setVisibility(View.INVISIBLE);
 
-                overViewTab = getString(R.string.album_title_favorite);
+                CollectionTab = getString(R.string.album_title_favorite);
 
                 RecordAction action = new RecordAction(context);
                 action.open(false);
@@ -1663,7 +1651,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         updateAlbum(gridList.get(position).getURL());
-                        hideRecords();
+                        hideCollections();
                     }
                 });
 
@@ -1685,11 +1673,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 gridView.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
-                open_startPageView.setVisibility(View.INVISIBLE);
+                open_favoriteView.setVisibility(View.INVISIBLE);
                 open_bookmarkView.setVisibility(View.VISIBLE);
                 open_historyView.setVisibility(View.INVISIBLE);
 
-                overViewTab = getString(R.string.album_title_bookmarks);
+                CollectionTab = getString(R.string.album_title_bookmarks);
                 sp.edit().putString("filter_bookmarks", "00").apply();
                 initBookmarkList();
             }
@@ -1709,11 +1697,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 gridView.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
-                open_startPageView.setVisibility(View.INVISIBLE);
+                open_favoriteView.setVisibility(View.INVISIBLE);
                 open_bookmarkView.setVisibility(View.INVISIBLE);
                 open_historyView.setVisibility(View.VISIBLE);
 
-                overViewTab = getString(R.string.album_title_history);
+                CollectionTab = getString(R.string.album_title_history);
 
                 RecordAction action = new RecordAction(context);
                 action.open(false);
@@ -1728,7 +1716,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         updateAlbum(list.get(position).getURL());
-                        hideRecords();
+                        hideCollections();
                     }
                 });
 
@@ -1753,7 +1741,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 open_history.performClick();
                 break;
             default:
-                open_startPage.performClick();
+                open_favorite.performClick();
                 break;
         }
     }
@@ -1875,7 +1863,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 final String pass_attachment = row.getString(row.getColumnIndexOrThrow("pass_attachment"));
                 updateAlbum(pass_content);
                 toast_login (pass_icon, pass_attachment);
-                hideRecords();
+                hideCollections();
             }
         });
 
@@ -2643,7 +2631,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 RecordAction action = new RecordAction(context);
                 action.open(true);
                 if (action.checkGridItem(url)) {
-                    NinjaToast.show(context, getString(R.string.toast_already_exist_in_home));
+                    NinjaToast.show(context, getString(R.string.toast_already_exist_in_favorite));
                 } else {
 
                     int counter = sp.getInt("counter", 0);
@@ -2655,9 +2643,9 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     GridItem itemAlbum = new GridItem(HelperUnit.domain(url), url, filename, counter);
 
                     if (BrowserUnit.bitmap2File(context, bitmap, filename) && action.addGridItem(itemAlbum)) {
-                        NinjaToast.show(context, getString(R.string.toast_add_to_home_successful));
+                        NinjaToast.show(context, getString(R.string.toast_add_to_favorite_successful));
                     } else {
-                        NinjaToast.show(context, getString(R.string.toast_add_to_home_failed));
+                        NinjaToast.show(context, getString(R.string.toast_add_to_favorite_failed));
                     }
                 }
                 action.close();
@@ -2910,7 +2898,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         LinearLayout contextList_newTabOpen = dialogView.findViewById(R.id.menu_contextList_newTabOpen);
         LinearLayout contextList_delete = dialogView.findViewById(R.id.menu_contextList_delete);
 
-        if (overViewTab.equals(getString(R.string.album_title_history))) {
+        if (CollectionTab.equals(getString(R.string.album_title_history))) {
             contextList_edit.setVisibility(View.GONE);
         } else {
             contextList_edit.setVisibility(View.VISIBLE);
@@ -2962,19 +2950,19 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 action_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (overViewTab.equals(getString(R.string.album_title_favorite))) {
+                        if (CollectionTab.equals(getString(R.string.album_title_favorite))) {
                             RecordAction action = new RecordAction(context);
                             action.open(true);
                             action.deleteGridItem(gridItem);
                             action.close();
                             deleteFile(gridItem.getFilename());
-                            open_startPage.performClick();
+                            open_favorite.performClick();
                             hideBottomSheetDialog ();
-                        } else if (overViewTab.equals(getString(R.string.album_title_bookmarks))){
+                        } else if (CollectionTab.equals(getString(R.string.album_title_bookmarks))){
                             db.delete(Integer.parseInt(_id));
                             initBookmarkList();
                             hideBottomSheetDialog ();
-                        } else if (overViewTab.equals(getString(R.string.album_title_history))){
+                        } else if (CollectionTab.equals(getString(R.string.album_title_history))){
                             Record record = recordList.get(location);
                             RecordAction action = new RecordAction(context);
                             action.open(true);
@@ -3006,7 +2994,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             public void onClick(View v) {
                 hideBottomSheetDialog ();
 
-                if (overViewTab.equals(getString(R.string.album_title_favorite))) {
+                if (CollectionTab.equals(getString(R.string.album_title_favorite))) {
                     bottomSheetDialog = new BottomSheetDialog(context);
                     View dialogView = View.inflate(context, R.layout.dialog_edit_title, null);
 
@@ -3029,7 +3017,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                                 action.updateGridItem(gridItem);
                                 action.close();
                                 hideKeyboard(activity);
-                                open_startPage.performClick();
+                                open_favorite.performClick();
                             }
                             hideBottomSheetDialog ();
                         }
@@ -3045,7 +3033,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     bottomSheetDialog.setContentView(dialogView);
                     bottomSheetDialog.show();
                     HelperUnit.setBottomSheetBehavior(bottomSheetDialog, dialogView, BottomSheetBehavior.STATE_EXPANDED);
-                } else if (overViewTab.equals(getString(R.string.album_title_bookmarks))){
+                } else if (CollectionTab.equals(getString(R.string.album_title_bookmarks))){
                     try {
 
                         bottomSheetDialog = new BottomSheetDialog(context);
@@ -3354,8 +3342,21 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }
 
         }
-        */
+       */
         sp.edit().putBoolean(getString(R.string.sp_wintan_mode),false).commit();
+    }
+
+    public void goback()
+    {
+        if (omnibox.getVisibility() == View.GONE && sp.getBoolean("sp_toolbarShow", true)) {
+            showOmnibox();
+        }else{
+            if (ninjaWebView.canGoBack()) {
+                ninjaWebView.goBack();
+            } else {
+                removeAlbum(currentAlbumController);
+            }
+        }
     }
 
 }

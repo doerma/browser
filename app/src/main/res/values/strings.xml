@@ -157,10 +157,10 @@
     <string name="clear_title_cache">Clear Cache</string>
     <string name="clear_title_cookie">Clear Cookies</string>
     <string name="clear_title_history">Clear History</string>
-    <string name="clear_title_indexedDB">Clear \"indexed databases\" and \"local webview storage\"</string>
-
+    <string name="clear_title_indexedDB">Clear others</string>
+    <string name="clear_summary_indexedDB">Clear \"indexed databases\" and \"local webview storage\"</string>
     <string name="clear_title_deleteDatabase">Delete database</string>
-    <string name="clear_summary_deleteDatabase">Delete the whole database (Startpage, bookmarks, history and all whitelist/blacklists).</string>
+    <string name="clear_summary_deleteDatabase">Delete the whole database (favorite, bookmarks, history and all whitelist/blacklists).</string>
 
 
     <!-- App setting -->
@@ -277,10 +277,10 @@
     <string name="setting_title_community">Contributing</string>
 
     <!-- Toast -->
-    <string name="toast_add_to_home_successful">Successfully added to Home</string>
-    <string name="toast_add_to_home_failed">Failed to add to Home</string>
+    <string name="toast_add_to_favorite_successful">Successfully added to Favorite</string>
+    <string name="toast_add_to_favorite_failed">Failed to add to Favorite</string>
     <string name="toast_add_whitelist_successful">Successfully added Domain</string>
-    <string name="toast_already_exist_in_home">Already exist in home</string>
+    <string name="toast_already_exist_in_favorite">Already exist in Favorite</string>
     <string name="toast_copy_successful">Successfully copied</string>
     <string name="toast_delete_successful">Successfully deleted</string>
     <string name="toast_domain_already_exists">Domain already exists</string>

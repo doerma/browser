@@ -66,14 +66,14 @@
             android:layout_height="wrap_content">
 
             <View
-                android:id="@+id/open_newTabView"
+                android:id="@+id/open_favoriteView"
                 android:layout_width="42dp"
                 android:layout_height="2dp"
                 android:background="?android:attr/colorAccent"
                 android:visibility="visible"/>
 
             <ImageButton
-                android:id="@+id/open_newTab_2"
+                android:id="@+id/open_favorite"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_gravity="center_vertical|center_horizontal"
@@ -99,7 +99,7 @@
                 android:visibility="visible" />
 
             <ImageButton
-                android:id="@+id/open_bookmark_2"
+                android:id="@+id/open_bookmark"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_gravity="center_vertical|center_horizontal"
@@ -125,7 +125,7 @@
                 android:visibility="visible" />
 
             <ImageButton
-                android:id="@+id/open_history_2"
+                android:id="@+id/open_history"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_gravity="center_vertical|center_horizontal"

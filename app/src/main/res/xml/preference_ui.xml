@@ -18,7 +18,7 @@
             android:icon="@drawable/icon_size"
             android:key="sp_fontSize"
             android:defaultValue="100"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:title="@string/setting_title_font"
             android:summary="@string/setting_summary_font" />
 

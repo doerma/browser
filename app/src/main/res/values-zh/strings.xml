@@ -120,9 +120,10 @@
     <string name="clear_title_cache">清除缓存</string>
     <string name="clear_title_cookie">清除Cookie</string>
     <string name="clear_title_history">清除历史记录</string>
-    <string name="clear_title_indexedDB">清除 \"indexed databases\" 和 \"local webview storage\"</string>
+    <string name="clear_title_indexedDB">清除其它</string>
+    <string name="clear_summary_indexedDB">清除 \"indexed databases\" 和 \"local webview storage\"</string>
     <string name="clear_title_deleteDatabase">删除数据库</string>
-    <string name="clear_summary_deleteDatabase">删除整个数据库（主页、书签、历史记录和所有白/黑名单）。</string>
+    <string name="clear_summary_deleteDatabase">删除整个数据库（收藏、书签、历史记录和所有白/黑名单）。</string>
     <!-- App setting -->
     <string name="setting_title_app">应用设置</string>
     <string name="setting_title_ui">行为/界面</string>
@@ -207,13 +208,13 @@
     <string name="setting_summary_appSettings">打开该应用系统设置界面。在那里，你可以根据你的Android版本不同进行授予权限，清除应用程序数据等等。</string>
     <string name="setting_title_community">贡献</string>
     <!-- Toast -->
-    <string name="toast_add_to_home_successful">Successfully added to Home</string>
-    <string name="toast_add_to_home_failed">Failed to add to Home</string>
-    <string name="toast_add_whitelist_successful">Successfully added Domain</string>
-    <string name="toast_already_exist_in_home">Already exist in home</string>
-    <string name="toast_copy_successful">Successfully copied</string>
-    <string name="toast_delete_successful">Successfully deleted</string>
-    <string name="toast_domain_already_exists">Domain already exists</string>
+    <string name="toast_add_to_favorite_successful">成功添加到收藏</string>
+    <string name="toast_add_to_favorite_failed">添加到收藏失败</string>
+    <string name="toast_add_whitelist_successful">已添加该域名</string>
+    <string name="toast_already_exist_in_favorite">收藏已存在相同网页</string>
+    <string name="toast_copy_successful">复制完成</string>
+    <string name="toast_delete_successful">成功删除</string>
+    <string name="toast_domain_already_exists">已存在相同域名</string>
     <string name="toast_export_successful">Exported as:&#160;</string>
     <string name="toast_export_failed">Failed to export</string>
     <string name="toast_import_successful">Imported count:&#160;</string>

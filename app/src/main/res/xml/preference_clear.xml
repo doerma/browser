@@ -12,16 +12,17 @@
         android:defaultValue="false"
         android:title="@string/clear_title_history"/>
 
-    <CheckBoxPreference android:key="sp_clearIndexedDB"
-        android:icon="@drawable/icon_export"
-        android:defaultValue="false"
-        android:title="@string/clear_title_indexedDB"/>
-
     <CheckBoxPreference android:key="@string/sp_clear_cookie"
         android:icon="@drawable/icon_cookie"
         android:defaultValue="false"
         android:title="@string/clear_title_cookie"
         android:summary="@string/setting_summary_cookie_delete"/>
+
+    <CheckBoxPreference android:key="sp_clearIndexedDB"
+        android:icon="@drawable/icon_export"
+        android:defaultValue="false"
+        android:title="@string/clear_title_indexedDB"
+        android:summary="@string/clear_summary_indexedDB"/>
 
     <CheckBoxPreference android:key="@string/sp_clear_quit"
         android:icon="@drawable/icon_exit"

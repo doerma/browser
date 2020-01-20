@@ -5,8 +5,8 @@
         android:enabled="true"
         android:icon="@drawable/qc_start"
         android:shortcutShortLabel="@string/album_title_files"
-        android:shortcutLongLabel="@string/album_title_home"
-        android:shortcutDisabledMessage="@string/album_title_home">
+        android:shortcutLongLabel="@string/album_title_favorite"
+        android:shortcutDisabledMessage="@string/album_title_favorite">
         <intent
             android:action="sc_startPage"
             android:targetPackage="de.baumann.browser"
