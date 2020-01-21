@@ -94,25 +94,6 @@
             android:textSize="16sp"/>
 
 
-
-        <TextView
-            android:id="@+id/submenu_sc"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:includeFontPadding="false"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:text="@string/menu_sc"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimary"
-            android:background="?android:attr/selectableItemBackground"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:clickable="true"
-            android:textSize="16sp"/>
-
-
         <TextView
             android:id="@+id/submenu_fav"
             android:layout_width="match_parent"
@@ -130,7 +111,22 @@
             android:clickable="true"
             android:textSize="16sp"/>
 
-
+        <TextView
+            android:id="@+id/submenu_sc"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/menu_sc"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp" />
 
 
     </LinearLayout>

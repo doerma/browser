@@ -35,7 +35,7 @@
     <string name="menu_edit">编辑</string>
     <string name="menu_closeTab">关闭标签页</string>
     <string name="menu_download">Open downloads</string>
-    <string name="menu_homepage">存为主页</string>
+    <string name="menu_homepage">设为主页</string>
     <string name="menu_sc">保存到主屏幕</string>
     <string name="menu_sort">按…排序</string>
     <string name="menu_filter">按…过滤</string>
@@ -398,5 +398,14 @@
 
     <string name="settings_Wintan_title">Wintan布局</string>
     <string name="settings_Wintan_summary">应用启动时显示Wintan布局。</string>
+
+    <string name="setting_orientation_sensor">自动旋转(按传感器)</string>
+    <string name="setting_orientation_device">自动旋转(按系统设置)</string>
+    <string name="setting_orientation_portrait">竖屏</string>
+    <string name="setting_orientation_landscape">横屏</string>
+
+    <string name="setting_useragent_default">默认</string>
+    <string name="setting_useragent_desktop">桌面电脑</string>
+    <string name="setting_useragent_custom">自定义</string>
 
 </resources>

@@ -182,8 +182,11 @@
     <string name="setting_summary_searchEngine">Here you can enter a custom search URL. Also choose \"Custom search engine\" as search
     provider.</string>
 
-    <string name="setting_title_userAgent">Custom user agent</string>
-    <string name="setting_summary_userAgent">Here you can enter a custom user agent. Let empty to use default one.</string>
+    <string name="setting_title_userAgent">User Agent</string>
+    <string name="setting_summary_userAgent">Here you can choose your preferred user agent.</string>
+
+    <string name="setting_title_userAgent_custom">Custom user agent</string>
+    <string name="setting_summary_userAgent_custom">Here you can enter a custom user agent. Let empty to use default one.</string>
 
     <!-- App behavior -->
     <string name="setting_title_hideToolbar">Hide toolbar</string>
@@ -496,5 +499,15 @@
     <string name="settings_Wintan_summary">Use wintan mode on start.</string>
     <string name="toast_Wintan">Wintan mode</string>
     <string name="toast_Normal">YueYue mode</string>
+
+    <string name="setting_orientation_sensor">Auto rotate (sensor)</string>
+    <string name="setting_orientation_device">Auto rotate (device)</string>
+    <string name="setting_orientation_portrait">portrait</string>
+    <string name="setting_orientation_landscape">landscape</string>
+
+    <string name="setting_useragent_default">Default</string>
+    <string name="setting_useragent_desktop">Desktop</string>
+    <string name="setting_useragent_custom">Custom</string>
+
 
 </resources>

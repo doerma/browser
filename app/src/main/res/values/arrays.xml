@@ -30,6 +30,18 @@
     </string-array>
 
     <!-- User agent -->
+    <string-array name="setting_entries_useragent">
+        <item>@string/setting_useragent_default</item>
+        <item>@string/setting_useragent_desktop</item>
+        <item>@string/setting_useragent_custom</item>
+    </string-array>
+
+    <string-array name="setting_values_useragent">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="setting_entries_nav_pos">
         <item>@string/setting_summary_nav_pos_right</item>
         <item>@string/setting_summary_nav_pos_left</item>
@@ -113,7 +125,8 @@
     <string name="sp_wintan_mode">SP_WINTAN_9</string>
     <string name="sp_orientation">SP_ORIENTATION_9</string>
     <string name="sp_translucentstatus">SP_TRANSLUCENT_9</string>
-
+    <string name="sp_useragent_custom">SP_CUSTOM_UA_9</string>
+    <string name="sp_useragent">SP_UA_9</string>
 
     <!-- Clear -->
     <string name="sp_clear_quit">SP_CLEAR_QUIT_9</string>
@@ -121,12 +134,12 @@
     <string name="sp_clear_cookie">SP_CLEAR_COOKIE_9</string>
     <string name="sp_clear_history">SP_CLEAR_HISTORY_9</string>
 
-
+    <!-- Orientation -->
     <string-array name="listArrayOrientation">
-        <item>Auto rotate (sensor)</item>
-        <item>Auto rotate (device)</item>
-        <item>Portrait</item>
-        <item>Landscape</item>
+        <item>@string/setting_orientation_sensor</item>
+        <item>@string/setting_orientation_device</item>
+        <item>@string/setting_orientation_portrait</item>
+        <item>@string/setting_orientation_landscape</item>
     </string-array>
 
     <string-array name="listValuesOrientation">
