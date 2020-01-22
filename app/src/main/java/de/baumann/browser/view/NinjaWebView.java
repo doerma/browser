@@ -24,6 +24,8 @@ import de.baumann.browser.unit.ViewUnit;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NinjaWebView extends WebView implements AlbumController {
 
@@ -90,6 +92,7 @@ public class NinjaWebView extends WebView implements AlbumController {
 
     private SharedPreferences sp;
     private WebSettings webSettings;
+    private String defaultUA;
 
     private boolean foreground;
 
@@ -128,6 +131,9 @@ public class NinjaWebView extends WebView implements AlbumController {
 
         initWebView();
         initWebSettings();
+
+        defaultUA = webSettings.getUserAgentString();
+
         initPreferences();
         initAlbum();
     }
@@ -158,17 +164,36 @@ public class NinjaWebView extends WebView implements AlbumController {
         if (android.os.Build.VERSION.SDK_INT >= 26) {
             webSettings.setSafeBrowsingEnabled(true);
         }
+
     }
 
     public synchronized void initPreferences() {
         sp = PreferenceManager.getDefaultSharedPreferences(context);
-        String userAgent = sp.getString("userAgent", "");
+
         webSettings = getSettings();
 
-        if (!userAgent.isEmpty()) {
-            String MyUA = "\"" + userAgent + "\"";
-            webSettings.setUserAgentString(MyUA);
-        }
+        switch (sp.getString("S_UA_9","0"))
+        {
+            case "1":
+                String insertStr = "(X11;Linux x86_64)";
+                Pattern pattern = Pattern.compile("Mozilla/5.0 (.*) A");
+                Matcher matcher = pattern.matcher(defaultUA);
+                if (matcher.find()) {
+                    webSettings.setUserAgentString(defaultUA.replace(matcher.group(1), insertStr));
+                }
+                break;
+            case "2":
+                String userAgent = sp.getString("userAgent", "");
+                if (!userAgent.isEmpty()) {
+                    String MyUA = "\"" + userAgent + "\"";
+                    webSettings.setUserAgentString(MyUA);
+                }
+                break;
+            default:
+                webSettings.setUserAgentString(defaultUA);
+                break;
+        };
+
 
         webViewClient.enableAdBlock(sp.getBoolean(context.getString(R.string.sp_ad_block), true));
         webSettings = getSettings();
@@ -183,6 +208,7 @@ public class NinjaWebView extends WebView implements AlbumController {
         CookieManager manager = CookieManager.getInstance();
         manager.setAcceptCookie(sp.getBoolean(context.getString(R.string.sp_cookies), true));
     }
+
 
     private synchronized void initAlbum() {
         album.setAlbumCover(null);

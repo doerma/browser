@@ -156,169 +156,6 @@
                 android:layout_height="1dp"
                 android:background="?android:attr/colorButtonNormal" />
 
-            <!--doer deleted begin
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:minHeight="46dp"
-                android:padding="@dimen/defaultMaggintogglebar">
-
-                <ImageView
-                    android:id="@+id/abIcon"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginEnd="16dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/icon_block" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/abIcon"
-                    android:layout_toStartOf="@+id/imageButton_ab"
-                    android:includeFontPadding="false"
-                    android:gravity="center_vertical"
-                    android:text="@string/setting_title_adblock"
-                    android:textAppearance="?android:attr/textAppearance"
-                    android:textColor="?android:attr/textColorPrimary" />
-
-                <CheckBox
-                    android:layout_centerVertical="true"
-                    android:id="@+id/switch_adBlock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:checked="false" />
-
-                <ImageButton
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:id="@+id/imageButton_ab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_toStartOf="@+id/switch_adBlock"
-                    android:background="?attr/actionBarItemBackground"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_action_close_red" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:minHeight="46dp"
-                android:padding="@dimen/defaultMaggintogglebar">
-
-                <ImageView
-                    android:id="@+id/jsIcon"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginEnd="16dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/icon_java"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/jsIcon"
-                    android:layout_toStartOf="@+id/imageButton_js"
-                    android:includeFontPadding="false"
-                    android:gravity="center_vertical"
-                    android:text="@string/setting_title_javascript"
-                    android:textAppearance="?android:attr/textAppearance"
-                    android:textColor="?android:attr/textColorPrimary" />
-
-                <CheckBox
-                    android:layout_centerVertical="true"
-                    android:id="@+id/switch_js"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:checked="false" />
-
-                <ImageButton
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:id="@+id/imageButton_js"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_toStartOf="@+id/switch_js"
-                    android:background="?attr/actionBarItemBackground"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_action_close_red"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:minHeight="46dp"
-                android:padding="@dimen/defaultMaggintogglebar"
-                android:layout_marginBottom="8dp">
-
-                <ImageView
-                    android:layout_centerVertical="true"
-                    android:id="@+id/cookieIcon"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginEnd="16dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/icon_cookie"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/cookieIcon"
-                    android:layout_toStartOf="@+id/imageButton_cookie"
-                    android:includeFontPadding="false"
-                    android:gravity="center_vertical"
-                    android:text="@string/setting_title_cookie"
-                    android:textAppearance="?android:attr/textAppearance"
-                    android:textColor="?android:attr/textColorPrimary"/>
-
-                <CheckBox
-                    android:layout_centerVertical="true"
-                    android:id="@+id/switch_cookie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:checked="false"/>
-
-                <ImageButton
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:id="@+id/imageButton_cookie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_toStartOf="@+id/switch_cookie"
-                    android:background="?attr/actionBarItemBackground"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_action_close_red"/>
-
-            </RelativeLayout>
-
-            <View
-                android:layout_margin="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/colorButtonNormal" />
-            doer deleted end-->
-
             <HorizontalScrollView
 
                 android:layout_width="match_parent"
@@ -357,7 +194,7 @@
                     <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="3dp"
                         android:layout_marginEnd="3dp"
                         android:orientation="vertical">
 
@@ -380,9 +217,9 @@
                     </LinearLayout>
                     <View
                         android:layout_width="0.5dp"
-                        android:layout_margin="2dp"
+                        android:layout_margin="3dp"
                         android:layout_height="match_parent"
-                        android:background="@color/color_shadow_light"/>
+                        android:background="?android:attr/colorButtonNormal"/>
 
                     <LinearLayout
                         android:layout_width="42dp"
@@ -409,7 +246,7 @@
                     <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="3dp"
                         android:layout_marginEnd="3dp"
                         android:orientation="vertical">
 
@@ -433,9 +270,9 @@
                     </LinearLayout>
                     <View
                         android:layout_width="0.5dp"
-                        android:layout_margin="2dp"
+                        android:layout_margin="3dp"
                         android:layout_height="match_parent"
-                        android:background="@color/color_shadow_light"/>
+                        android:background="?android:attr/colorButtonNormal"/>
 
                     <LinearLayout
                         android:layout_width="42dp"
@@ -463,8 +300,8 @@
                     <LinearLayout
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="3dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="6dp"
                         android:orientation="vertical">
 
 
@@ -506,8 +343,8 @@
                         android:id="@+id/toggle_inverttheme"
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="3dp"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -529,11 +366,67 @@
                             android:background="?android:attr/colorAccent"/>
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="42dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/toggle_images"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:background="?attr/actionBarItemBackground"
+                            android:src="@drawable/icon_image" />
+                        <View
+                            android:id="@+id/toggle_imagesView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="?android:attr/colorAccent" />
+
+
+                    </LinearLayout>
+
+
                     <View
                         android:layout_width="0.5dp"
-                        android:layout_margin="2dp"
+                        android:layout_margin="3dp"
                         android:layout_height="match_parent"
-                        android:background="@color/color_shadow_light"/>
+                        android:background="?android:attr/colorButtonNormal"/>
+
+                    <LinearLayout
+                        android:layout_width="42dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/toggle_desktop"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:background="?attr/actionBarItemBackground"
+                            android:src="@drawable/icon_desktop" />
+                        <View
+                            android:id="@+id/toggle_desktopView"
+                            android:layout_width="42dp"
+                            android:layout_height="2dp"
+                            android:background="?android:attr/colorAccent" />
+
+
+                    </LinearLayout>
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_margin="3dp"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/colorButtonNormal"/>
 
                     <LinearLayout
                         android:layout_width="42dp"
@@ -589,32 +482,7 @@
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="3dp"
-                        android:layout_marginEnd="3dp"
-                        android:orientation="vertical">
-
-                        <ImageButton
-                            android:id="@+id/toggle_images"
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp"
-                            android:background="?attr/actionBarItemBackground"
-                            android:src="@drawable/icon_image" />
-                        <View
-                            android:id="@+id/toggle_imagesView"
-                            android:layout_width="42dp"
-                            android:layout_height="2dp"
-                            android:background="?android:attr/colorAccent" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="42dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginEnd="3dp"
+                        android:layout_marginEnd="6dp"
                         android:orientation="vertical">
 
 

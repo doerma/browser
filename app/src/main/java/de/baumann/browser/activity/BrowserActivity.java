@@ -89,6 +89,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.baumann.browser.browser.AdBlock;
 import de.baumann.browser.browser.AlbumController;
@@ -2097,6 +2099,28 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         });
         //doer added end
 
+        final ImageButton toggle_desktop = dialogView.findViewById(R.id.toggle_desktop);
+        final View toggle_desktopView = dialogView.findViewById(R.id.toggle_desktopView);
+        if (sp.getString(getString(R.string.sp_useragent), "0")=="1") {
+            toggle_desktopView.setVisibility(View.VISIBLE);
+        } else {
+            toggle_desktopView.setVisibility(View.INVISIBLE);
+        }
+
+        toggle_desktop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (sp.getString(getString(R.string.sp_useragent), "0")=="1") {
+                    toggle_desktopView.setVisibility(View.INVISIBLE);
+                    sp.edit().putString(getString(R.string.sp_useragent), "0").commit();
+                    toggle_tips.setText(R.string.text_useagent_default_tips);
+                } else {
+                    toggle_desktopView.setVisibility(View.VISIBLE);
+                    sp.edit().putString(getString(R.string.sp_useragent), "1").commit();
+                    toggle_tips.setText(R.string.text_useagent_desktop_tips);
+                }
+            }
+        });
 
         final ImageButton toggle_history = dialogView.findViewById(R.id.toggle_history);
         final View toggle_historyView = dialogView.findViewById(R.id.toggle_historyView);

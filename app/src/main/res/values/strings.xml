@@ -483,6 +483,9 @@
     <string name="text_cookie_off_tips">Cookies disabled.</string>
     <string name="text_adblock_on_tips">Ads blocked.</string>
     <string name="text_adblock_off_tips">Don\'t block Ads.</string>
+    <string name="text_useagent_default_tips">Defaut User Agent.</string>
+    <string name="text_useagent_desktop_tips">Desktop mode.</string>
+
 
     <string name="setting_Wintan">Wintan</string>
     <string name="preference_left_hand">left-hand</string>
