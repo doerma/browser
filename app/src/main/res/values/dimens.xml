@@ -18,6 +18,9 @@
     <dimen name="default_Maggin_togglebar_8dp">8dp</dimen>
     <dimen name="large_Title_Size_18sp">18sp</dimen>
     <dimen name="menu_elevation">8dp</dimen>
+    <dimen name="defaultUrlSize">10dp</dimen>
+    <dimen name="defaultTitleSize">14dp</dimen>
+
 
 
 </resources>

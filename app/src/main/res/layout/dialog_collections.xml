@@ -47,120 +47,24 @@
             android:background="@drawable/shadow_above"/>
 
     </RelativeLayout>
-
     <LinearLayout
-        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/home_buttons"
-        android:layout_width="fill_parent"
-        android:layout_height="56dp"
-        android:minHeight="56dp"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-
-        <LinearLayout
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
-            android:orientation="vertical"
-            android:layout_width="42dp"
-            android:layout_height="wrap_content">
-
-            <View
-                android:id="@+id/open_favoriteView"
-                android:layout_width="42dp"
-                android:layout_height="2dp"
-                android:background="?android:attr/colorAccent"
-                android:visibility="visible"/>
-
-            <ImageButton
-                android:id="@+id/open_favorite"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="2dp"
-                android:background="?attr/actionBarItemBackground"
-                android:src="@drawable/icon_heart" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
-            android:orientation="vertical"
-            android:layout_width="42dp"
-            android:layout_height="wrap_content">
-
-            <View
-                android:id="@+id/open_bookmarkView"
-                android:layout_width="42dp"
-                android:layout_height="2dp"
-                android:background="?android:attr/colorAccent"
-                android:visibility="visible" />
-
-            <ImageButton
-                android:id="@+id/open_bookmark"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="2dp"
-                android:background="?attr/actionBarItemBackground"
-                android:src="@drawable/icon_favorite" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
-            android:orientation="vertical"
-            android:layout_width="42dp"
-            android:layout_height="wrap_content">
-
-            <View
-                android:id="@+id/open_historyView"
-                android:layout_width="42dp"
-                android:layout_height="2dp"
-                android:background="?android:attr/colorAccent"
-                android:visibility="visible" />
-
-            <ImageButton
-                android:id="@+id/open_history"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="2dp"
-                android:background="?attr/actionBarItemBackground"
-                android:src="@drawable/ic_action_history" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
-            android:orientation="vertical"
-            android:layout_width="42dp"
-            android:layout_height="wrap_content">
-
-            <View
-                android:layout_width="42dp"
-                android:layout_height="2dp"
-                android:background="?android:attr/colorAccent"
-                android:visibility="invisible" />
-
-            <ImageButton
-                android:id="@+id/open_menu"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="2dp"
-                android:background="?attr/actionBarItemBackground"
-                android:src="@drawable/icon_dots" />
-
-        </LinearLayout>
-
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+        <ViewStub
+            android:id="@+id/vs_dialog_collections_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_margin_56dp"
+            android:layout_gravity="bottom"
+            android:layout="@layout/dialog_collections_toolbar" />
+        <ViewStub
+            android:id="@+id/vs_dialog_collections_toolbar_rtl"
+            android:layout="@layout/dialog_collections_toolbar_rtl"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_margin_56dp"
+            android:layout_gravity="bottom"/>
     </LinearLayout>
 
 </RelativeLayout>

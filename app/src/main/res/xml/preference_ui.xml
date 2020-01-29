@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sample="http://schemas.android.com/apk/res-auto">
 
 
     <PreferenceCategory android:title="@string/setting_title_theme">
@@ -14,13 +15,18 @@
             android:entries="@array/setting_entries_theme"
             android:entryValues="@array/setting_values_theme"/>
 
-        <EditTextPreference
-            android:icon="@drawable/icon_size"
-            android:key="sp_fontSize"
-            android:defaultValue="100"
-            android:inputType="number"
+        <com.pavelsikun.seekbarpreference.iconSeekBarPreferenceCompat
+            android:key="sp_fontSize_seekbar"
             android:title="@string/setting_title_font"
-            android:summary="@string/setting_summary_font" />
+            android:summary="@string/setting_summary_font"
+            android:enabled="true"
+            android:defaultValue="100"
+
+            sample:icon="@drawable/icon_size"
+            sample:msbp_minValue="30"
+            sample:msbp_maxValue="300"
+            sample:msbp_measurementUnit="%"
+            sample:msbp_dialogEnabled="true"/>
 
         <CheckBoxPreference android:key="sp_invert"
             android:icon="@drawable/icon_night"
@@ -116,7 +122,7 @@
             android:defaultValue="false"
             android:key="@string/sp_translucentstatus"
             android:summary="@string/action_translucentstatus_summary"
-            android:icon="@drawable/fullscreen"/>
+            android:icon="@drawable/icon_fullscreen"/>
 
 
         <ListPreference

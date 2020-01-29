@@ -58,7 +58,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/submenu_openFav"
+            android:id="@+id/submenu_openFavorite"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:includeFontPadding="false"
@@ -74,6 +74,39 @@
             android:clickable="true"
             android:textSize="16sp"/>
 
+        <TextView
+            android:id="@+id/submenu_openBookmark"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:includeFontPadding="false"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/menu_openBookmark"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/selectableItemBackground"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/submenu_openHistory"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:includeFontPadding="false"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/menu_openHistory"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:background="?android:attr/selectableItemBackground"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/submenu_fileManager"

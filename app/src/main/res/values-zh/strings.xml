@@ -29,12 +29,14 @@
     <string name="main_omnibox_input_hint">搜索或键入网址</string>
     <string name="menu_open_with">用其他应用打开</string>
     <string name="menu_quit">退出</string>
-    <string name="menu_openHome">返回主页</string>
+    <string name="menu_openHome">打开收藏夹</string>
+    <string name="menu_openBookmark">打开书签</string>
+    <string name="menu_openHistory">浏览历史</string>
     <string name="menu_delete">删除</string>
     <string name="menu_delete_list">清空列表</string>
     <string name="menu_edit">编辑</string>
     <string name="menu_closeTab">关闭标签页</string>
-    <string name="menu_download">Open downloads</string>
+    <string name="menu_download">打开下载</string>
     <string name="menu_homepage">设为主页</string>
     <string name="menu_sc">保存到主屏幕</string>
     <string name="menu_sort">按…排序</string>
@@ -49,7 +51,7 @@
     <string name="menu_share_pdf">分享PDF到</string>
     <string name="menu_shareClipboard">复制链接</string>
     <string name="menu_other_searchSite">页内搜索</string>
-    <string name="menu_other_fileManager">Open file manager</string>
+    <string name="menu_other_fileManager">打开文件管理</string>
     <string name="menu_other_info">关于 \"FOSS Browser\"</string>
     <string name="menu_other_help">帮助</string>
     <!-- Dialog -->
@@ -356,7 +358,7 @@
     <string name="menu_share">分享…</string>
     <string name="menu_save">保存…</string>
     <string name="menu_more">更多…</string>
-
+    <string name="menu_open">打开…</string>
 
     <string name="text_default">默认</string>
     <string name="text_green">绿色</string>

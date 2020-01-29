@@ -52,6 +52,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -89,8 +90,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import de.baumann.browser.browser.AdBlock;
 import de.baumann.browser.browser.AlbumController;
@@ -129,6 +128,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private TextView menu_newTabOpen;
     private TextView menu_closeTab;
     private TextView popupmenu_quitW;
+    private TextView popupmenu_quit;
 
     private TextView menu_shareScreenshot;
     private TextView menu_shareLink;
@@ -142,9 +142,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private TextView menu_saveStart;
     private TextView menu_fileManager;
 
-    private TextView menu_fav;
-    private TextView menu_sc;
-    private TextView menu_openFav;
+    private TextView menu_homepage;
+    private TextView menu_shortcut;
+    private TextView menu_openFavorite;
+    private TextView menu_openBookmark;
+    private TextView menu_openHistory;
     private TextView menu_shareCP;
 
     private ImageButton tab_plus;
@@ -160,22 +162,28 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private PopupWindow popupSubmenuShare;
     //popupmenuw
     private TextView popupmenu_normalW;
-    private TextView popupmenu_shareW;
-    private TextView popupmenu_saveW;
-    private TextView popupmenu_settingsW;
-    private TextView popupmenu_otherW;
     private AppCompatImageButton popupmenu_backW;
     private AppCompatImageButton popupmenu_forwardW;
     private AppCompatImageButton popupmenu_search_websiteW;
-    private AppCompatImageButton popupmenu_showFavoriteW;
-    //popupmenu
-    private TextView popupmenu_wintan;
+    private AppCompatImageButton popupmenu_overvieww;
+    private AppCompatImageButton popupmenu_addBookmarkw;
+    //popupmenu&popupmenuw
+    private LinearLayout popups;
+    private LinearLayout popupsW;
     private TextView popupmenu_share;
     private TextView popupmenu_save;
     private TextView popupmenu_settings;
     private TextView popupmenu_other;
-    private AppCompatImageButton popupmenu_showFavorite;
-    private AppCompatImageButton popupmenu_addFavorite;
+    private TextView popupmenu_shareW;
+    private TextView popupmenu_saveW;
+    private TextView popupmenu_settingsW;
+    private TextView popupmenu_otherW;
+    //popupmenuw
+    private TextView popupmenu_wintan;
+    private AppCompatImageButton popupmenu_overview;
+    private AppCompatImageButton popupmenu_homepage;
+    private AppCompatImageButton popupmenu_addBookmark;
+    //private AppCompatImageButton popupmenu_showFavorite;
     private AppCompatImageButton popupmenu_search_website;
     private AppCompatImageButton popupmenu_refresh;
 
@@ -187,7 +195,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private ImageButton searchDown;
     private ImageButton searchCancel;
     private ImageButton omniboxRefresh;
-    private ImageButton omniboxOverflow;
+    private ImageButton omniboxMainmenu;
     private ImageButton omniboxOverview;
 
     private ImageButton open_favorite;
@@ -199,6 +207,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private AutoCompleteTextView inputBox;
     private ProgressBar progressBar;
     private EditText searchBox;
+    private TextView howMatch;
     private BottomSheetDialog bottomSheetDialog;
     private BottomSheetDialog bottomSheetDialog_OverView;
     private BottomSheetDialog bottomSheetDialog_Records;
@@ -217,6 +226,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private RelativeLayout appBar;
     private RelativeLayout omnibox;
     private RelativeLayout searchPanel;
+
     private FrameLayout contentFrame;
     private LinearLayout tab_container;
     private FrameLayout fullscreenHolder;
@@ -235,6 +245,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private BottomSheetBehavior mBehavior;
     private int intFontzoom;
 
+    private boolean rtl;
+    protected  boolean isUIWintan;
 
     private Activity activity;
     private Context context;
@@ -304,6 +316,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putInt("restart_changed", 0).apply();
         sp.edit().putBoolean("pdf_create", false).commit();
+        rtl = sp.getBoolean("SP_RTL_9",false);
 
         HelperUnit.applyTheme(context);
         setContentView(R.layout.activity_main);
@@ -350,7 +363,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         initOmnibox();
         initSearchPanel();
         initOverview();
-        initRecords();
+        initCollections();
         initMenu();
 
         new AdBlock(context); // For AdBlock cold boot
@@ -604,11 +617,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         }, 250);
     }
     private void showCollections() {
-
         mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
         bottomSheetDialog_Records.show();
-
     }
     public void hideOverview () {
         if (bottomSheetDialog_OverView != null) {
@@ -633,6 +643,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         RecordAction action = new RecordAction(context);
         ninjaWebView = (NinjaWebView) currentAlbumController;
         Intent settings;
+        boolean isWintan = sp.getBoolean(getString(R.string.sp_wintan_mode),false);
 
         try {
             title = ninjaWebView.getTitle().trim();
@@ -652,7 +663,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             case R.id.popupmenu_normalw:
                 setNormalUI();
                 popupMainMenuW.dismiss();
-                NinjaToast.show(context,getString(R.string.toast_Normal));
+                NinjaToast.show(context, getString(R.string.toast_Normal));
                 break;
             case R.id.popupmenu_backw:
                 popupMainMenuW.dismiss();
@@ -663,7 +674,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (ninjaWebView.canGoForward()) {
                     ninjaWebView.goForward();
                 } else {
-                    NinjaToast.show(context,R.string.toast_webview_forward);
+                    NinjaToast.show(context, R.string.toast_webview_forward);
                 }
                 break;
             // Menu overflow
@@ -675,9 +686,9 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 hideBottomSheetDialog();
                 hideOverview();
                 addAlbum(getString(R.string.app_name), sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"), true);
-                if (sp.getBoolean("start_tabStart", false)){
+                if (sp.getBoolean("start_tabStart", false)) {
                     showCollections();
-                    if(!CollectionTab.equals(getString(R.string.album_title_favorite)))
+                    if (!CollectionTab.equals(getString(R.string.album_title_favorite)))
                         open_favorite.performClick();
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -692,9 +703,29 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 removeAlbum(currentAlbumController);
                 break;
 
-            case R.id.menu_showfavorite:
+
+            case R.id.popupmenu_homepage:
                 popupMainMenu.dismiss();
+                if (sp.getBoolean("start_tabStart", false)) {
+                    showCollections();
+                    if (!CollectionTab.equals(getString(R.string.album_title_favorite)))
+                        open_favorite.performClick();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        }
+                    }, 250);
+                } else {
+                    updateAlbum(sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"));
+                }
+                break;
+
+            case R.id.submenu_openFavorite:
+                popupSubmenuMore.dismiss();
                 showCollections();
+                if (!CollectionTab.equals(getString(R.string.album_title_favorite)))
+                    open_favorite.performClick();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -702,10 +733,25 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     }
                 }, 250);
                 break;
-            case R.id.menu_showFavoritew:
-                popupMainMenuW.dismiss();
+
+            case R.id.submenu_openBookmark:
+                popupSubmenuMore.dismiss();
                 showCollections();
-                open_bookmark.performClick();
+                if (!CollectionTab.equals(getString(R.string.album_title_bookmarks)))
+                    open_bookmark.performClick();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
+                }, 250);
+                break;
+
+            case R.id.submenu_openHistory:
+                popupSubmenuMore.dismiss();
+                showCollections();
+                if(!CollectionTab.equals(getString(R.string.album_title_history)))
+                    open_history.performClick();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -715,8 +761,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
 
 
-            case R.id.popupmenu_quitw:
-                popupMainMenuW.dismiss();
+            case R.id.popupmenu_quit:
+                if(isWintan)
+                    popupMainMenuW.dismiss();
+                else
+                    popupMainMenu.dismiss();
                 doubleTapsQuit();
                 break;
 
@@ -778,8 +827,13 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
             case R.id.submenu_saveBookmark:
                 popupSubmenuSave.dismiss();
+            case R.id.popupmenu_addBookmark:
+            case R.id.popupmenu_addBookmarkw:
+                if(isWintan)
+                    popupMainMenuW.dismiss();
+                else
+                    popupMainMenu.dismiss();
                 try {
-
                     MAHEncryptor mahEncryptor = MAHEncryptor.newInstance(Objects.requireNonNull(sp.getString("saved_key", "")));
                     String encrypted_userName = mahEncryptor.encode("");
                     String encrypted_userPW = mahEncryptor.encode("");
@@ -799,8 +853,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
                 break;
 
-            case R.id.menu_addFavorite:
-                popupMainMenu.dismiss();
             case R.id.submenu_savefavorite:
                 popupSubmenuSave.dismiss();
                 action.open(true);
@@ -827,9 +879,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 // Omnibox
 
             case R.id.popupmenu_search_website:
-                popupMainMenu.dismiss();
             case R.id.popupmenu_search_websitew:
-                popupMainMenuW.dismiss();
+                if(isWintan)
+                    popupMainMenuW.dismiss();
+                else
+                    popupMainMenu.dismiss();
                 hideKeyboard(activity);
                 showSearchPanel();
                 break;
@@ -842,9 +896,10 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
 
             case R.id.popupmenu_settings:
-                popupMainMenu.dismiss();
-            case R.id.popupmenu_settingsw:
-                popupMainMenuW.dismiss();
+                if(isWintan)
+                    popupMainMenuW.dismiss();
+                else
+                    popupMainMenu.dismiss();
                 settings = new Intent(BrowserActivity.this, Settings_Activity.class);
                 startActivity(settings);
                 break;
@@ -863,35 +918,43 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
 
             case R.id.popupmenu_other:
-                popupMainMenu.dismiss();
-            case R.id.popupmenu_otherw:
-                popupMainMenuW.dismiss();
+                if(isWintan)
+                    popupMainMenuW.dismiss();
+                else
+                    popupMainMenu.dismiss();
                 showMenuMore();
                 break;
 
             case R.id.popupmenu_share:
-                popupMainMenu.dismiss();
-            case R.id.popupmenu_sharew:
-                popupMainMenuW.dismiss();
+                if(isWintan)
+                    popupMainMenuW.dismiss();
+                else
+                    popupMainMenu.dismiss();
                 showMenuShare();
                 break;
 
             case R.id.popupmenu_save:
-                popupMainMenu.dismiss();
-            case R.id.popupmenu_savew:
-                popupMainMenuW.dismiss();
+                if(isWintan)
+                    popupMainMenuW.dismiss();
+                else
+                    popupMainMenu.dismiss();
                 showMenuSave();
                 break;
 
             // Buttons
 
 
-            case R.id.omnibox_overview:
+            case R.id.popupmenu_overview:
+            case R.id.popupmenu_overvieww:
+                if(isWintan)
+                    popupMainMenuW.dismiss();
+                else
+                    popupMainMenu.dismiss();
                 showOverview();
                 break;
 
             case R.id.popupmenu_refresh:
-                popupMainMenu.dismiss();
+                if(!isWintan) popupMainMenu.dismiss();
             case R.id.omnibox_refresh:
                 if (url != null && ninjaWebView.isLoadFinish()) {
 
@@ -1014,8 +1077,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         omnibox = findViewById(R.id.main_omnibox);
         inputBox = findViewById(R.id.main_omnibox_input);
         omniboxRefresh = findViewById(R.id.omnibox_refresh);
-        omniboxOverview = findViewById(R.id.omnibox_overview);
-        omniboxOverflow = findViewById(R.id.omnibox_overflow);
+        omniboxOverview = findViewById(R.id.popupmenu_overview);
+        omniboxMainmenu = findViewById(R.id.omnibox_mainmenu);
         omniboxTitle = findViewById(R.id.omnibox_title);
         progressBar = findViewById(R.id.main_progress_bar);
 
@@ -1041,7 +1104,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }
         });
 
-        omniboxOverflow.setOnLongClickListener(new View.OnLongClickListener() {
+        omniboxMainmenu.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 show_dialogFastToggle();
@@ -1056,7 +1119,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }
         });
 
-        omniboxOverflow.setOnClickListener(new View.OnClickListener() {
+        omniboxMainmenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showOverflow();
@@ -1071,7 +1134,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 public void onSwipeLeft() { performGesture("setting_gesture_nav_left"); }
             });
 
-            omniboxOverflow.setOnTouchListener(new SwipeTouchListener(context) {
+            omniboxMainmenu.setOnTouchListener(new SwipeTouchListener(context) {
                 public void onSwipeTop() { performGesture("setting_gesture_nav_up"); }
                 public void onSwipeBottom() { performGesture("setting_gesture_nav_down"); }
                 public void onSwipeRight() { performGesture("setting_gesture_nav_right"); }
@@ -1172,7 +1235,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
     @SuppressLint("ClickableViewAccessibility")
     private void initMenu() {
-
+        //popupmenu main
         View menuviewW = LayoutInflater.from(this).inflate(R.layout.popupmenuw, null);
         popupMainMenuW = new PopupWindow(menuviewW);
         popupMainMenuW.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1186,28 +1249,19 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             popupMainMenuW.setElevation(getResources().getDimension(R.dimen.menu_elevation));
         popupMainMenuW.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        popupmenu_backW = menuviewW.findViewById(R.id.popupmenu_backw);
-        popupmenu_forwardW = menuviewW.findViewById(R.id.popupmenu_forwardw);
-        popupmenu_search_websiteW = menuviewW.findViewById(R.id.popupmenu_search_websitew);
-        popupmenu_showFavoriteW = menuviewW.findViewById(R.id.menu_showFavoritew);
         popupmenu_normalW = menuviewW.findViewById(R.id.popupmenu_normalw);
-        popupmenu_otherW = menuviewW.findViewById(R.id.popupmenu_otherw);
-        popupmenu_saveW = menuviewW.findViewById(R.id.popupmenu_savew);
-        popupmenu_shareW = menuviewW.findViewById(R.id.popupmenu_sharew);
-        popupmenu_settingsW = menuviewW.findViewById(R.id.popupmenu_settingsw);
-        popupmenu_quitW=menuviewW.findViewById(R.id.popupmenu_quitw);
+        popupmenu_backW = menuviewW.findViewById(R.id.popupmenu_backw);
+        popupmenu_search_websiteW = menuviewW.findViewById(R.id.popupmenu_search_websitew);
+        popupmenu_overvieww = menuviewW.findViewById(R.id.popupmenu_overvieww);
+        popupmenu_addBookmarkw = menuviewW.findViewById(R.id.popupmenu_addBookmarkw);
+        popupmenu_forwardW = menuviewW.findViewById(R.id.popupmenu_forwardw);
 
-        popupmenu_backW.setOnClickListener(BrowserActivity.this);
-        popupmenu_forwardW.setOnClickListener(BrowserActivity.this);
-        popupmenu_search_websiteW.setOnClickListener(BrowserActivity.this);
-        popupmenu_showFavoriteW.setOnClickListener(BrowserActivity.this);
         popupmenu_normalW.setOnClickListener(BrowserActivity.this);
-        popupmenu_saveW.setOnClickListener(BrowserActivity.this);
-        popupmenu_shareW.setOnClickListener(BrowserActivity.this);
-        popupmenu_settingsW.setOnClickListener(BrowserActivity.this);
-        popupmenu_otherW.setOnClickListener(BrowserActivity.this);
-        popupmenu_quitW.setOnClickListener(BrowserActivity.this);
-
+        popupmenu_backW.setOnClickListener(BrowserActivity.this);
+        popupmenu_search_websiteW.setOnClickListener(BrowserActivity.this);
+        popupmenu_overvieww.setOnClickListener(BrowserActivity.this);
+        popupmenu_addBookmarkw.setOnClickListener(BrowserActivity.this);
+        popupmenu_forwardW.setOnClickListener(BrowserActivity.this);
 
         /*
         fab_share = dialogView.findViewById(R.id.floatButton_share);
@@ -1230,7 +1284,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_settings.setOnClickListener(BrowserActivity.this);
       */
 
-
+        //popupmenu main for Wintan
         View menuview = LayoutInflater.from(this).inflate(R.layout.popupmenu, null);
         popupMainMenu = new PopupWindow(menuview);
         popupMainMenu.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1244,27 +1298,52 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             popupMainMenu.setElevation(getResources().getDimension(R.dimen.menu_elevation));
         popupMainMenu.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        popupmenu_search_website = menuview.findViewById(R.id.popupmenu_search_website);
-        popupmenu_showFavorite = menuview.findViewById(R.id.menu_showfavorite);
-        popupmenu_addFavorite = menuview.findViewById(R.id.menu_addFavorite);
         popupmenu_wintan = menuview.findViewById(R.id.popupmenu_wintan);
-        popupmenu_other = menuview.findViewById(R.id.popupmenu_other);
-        popupmenu_save = menuview.findViewById(R.id.popupmenu_save);
-        popupmenu_share = menuview.findViewById(R.id.popupmenu_share);
-        popupmenu_settings = menuview.findViewById(R.id.popupmenu_settings);
+        popupmenu_overview = menuview.findViewById(R.id.popupmenu_overview);
+        popupmenu_homepage= menuview.findViewById(R.id.popupmenu_homepage);
+        //popupmenu_showFavorite = menuview.findViewById(R.id.popupmenu_showfavorite);
+        popupmenu_addBookmark = menuview.findViewById(R.id.popupmenu_addBookmark);
         popupmenu_refresh = menuview.findViewById(R.id.popupmenu_refresh);
+        popupmenu_search_website = menuview.findViewById(R.id.popupmenu_search_website);
 
-        popupmenu_search_website.setOnClickListener(this);
-        popupmenu_showFavorite.setOnClickListener(this);
-        popupmenu_addFavorite.setOnClickListener(this);
-        popupmenu_refresh.setOnClickListener(this);
         popupmenu_wintan.setOnClickListener(this);
+        popupmenu_search_website.setOnClickListener(this);
+        //popupmenu_showFavorite.setOnClickListener(this);
+        popupmenu_overview.setOnClickListener(this);
+        popupmenu_homepage.setOnClickListener(this);
+        popupmenu_addBookmark.setOnClickListener(this);
+        popupmenu_refresh.setOnClickListener(this);
+
+        //popupmenu main for Wintan&YCY
+        popups =menuview.findViewById(R.id.mainmenu_item);
+        popupsW =menuviewW.findViewById(R.id.mainmenu_itemW);
+
+
+        popupmenu_other = popups.findViewById(R.id.popupmenu_other);
+        popupmenu_save = popups.findViewById(R.id.popupmenu_save);
+        popupmenu_share = popups.findViewById(R.id.popupmenu_share);
+        popupmenu_quit = popups.findViewById(R.id.popupmenu_quit);
+        popupmenu_settings = popups.findViewById(R.id.popupmenu_settings);
+
         popupmenu_save.setOnClickListener(this);
         popupmenu_share.setOnClickListener(this);
         popupmenu_settings.setOnClickListener(this);
         popupmenu_other.setOnClickListener(this);
+        popupmenu_quit.setOnClickListener(this);
 
+        popupmenu_otherW = popupsW.findViewById(R.id.popupmenu_other);
+        popupmenu_saveW = popupsW.findViewById(R.id.popupmenu_save);
+        popupmenu_shareW = popupsW.findViewById(R.id.popupmenu_share);
+        popupmenu_quitW = popupsW.findViewById(R.id.popupmenu_quit);
+        popupmenu_settingsW = popupsW.findViewById(R.id.popupmenu_settings);
 
+        popupmenu_saveW.setOnClickListener(this);
+        popupmenu_shareW.setOnClickListener(this);
+        popupmenu_settingsW.setOnClickListener(this);
+        popupmenu_otherW.setOnClickListener(this);
+        popupmenu_quitW.setOnClickListener(this);
+
+        //popupmenu more
         View submenumoreview = View.inflate(context,R.layout.popupsubmenu_more, null);
         popupSubmenuMore = new PopupWindow(submenumoreview);
         popupSubmenuMore.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1288,30 +1367,14 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_fileManager = submenumoreview.findViewById(R.id.submenu_fileManager);
         menu_fileManager.setOnClickListener(BrowserActivity.this);
 
+        menu_openFavorite = submenumoreview.findViewById(R.id.submenu_openFavorite);
+        menu_openFavorite.setOnClickListener(this);
+        menu_openBookmark = submenumoreview.findViewById(R.id.submenu_openBookmark);
+        menu_openBookmark.setOnClickListener(BrowserActivity.this);
+        menu_openHistory = submenumoreview.findViewById(R.id.submenu_openHistory);
+        menu_openHistory.setOnClickListener(BrowserActivity.this);
 
-        //todo
-        menu_openFav = submenumoreview.findViewById(R.id.submenu_openFav);
-        menu_openFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupSubmenuMore.dismiss();
-                if (sp.getBoolean("start_tabStart", false)){
-                    showCollections();
-                    if(!CollectionTab.equals(getString(R.string.album_title_favorite)))
-                        open_favorite.performClick();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                        }
-                    }, 250);
-                }else {
-                    updateAlbum(sp.getString("favoriteURL", "https://github.com/scoute-dich/browser"));
-                }
-            }
-        });
-
-
+        //popupmenu save
         View submenusaveview = View.inflate(context, R.layout.popupsubmenu_save, null);
         popupSubmenuSave = new PopupWindow(submenusaveview);
         popupSubmenuSave.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1335,16 +1398,16 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_saveStart.setOnClickListener(BrowserActivity.this);
 
 
-        menu_sc = submenusaveview.findViewById(R.id.submenu_sc);
-        menu_sc.setOnClickListener(new View.OnClickListener() {
+        menu_shortcut = submenusaveview.findViewById(R.id.submenu_shortcut);
+        menu_shortcut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupSubmenuSave.dismiss();
                 HelperUnit.createShortcut(context, ninjaWebView.getTitle(), ninjaWebView.getUrl());
             }
         });
-        menu_fav = submenusaveview.findViewById(R.id.submenu_fav);
-        menu_fav.setOnClickListener(new View.OnClickListener() {
+        menu_homepage = submenusaveview.findViewById(R.id.submenu_homepage);
+        menu_homepage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupSubmenuSave.dismiss();
@@ -1352,7 +1415,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }
         });
 
-
+        //popupmenu share
         View submenushareview = View.inflate(context, R.layout.popupsubmenu_share, null);
         popupSubmenuShare = new PopupWindow(submenushareview);
         popupSubmenuShare.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1389,13 +1452,21 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 NinjaToast.show(context, R.string.toast_copy_successful);
             }
         });
-
-
     }
+
     @SuppressLint("ClickableViewAccessibility")
     private void initOverview() {
         bottomSheetDialog_OverView = new BottomSheetDialog(context);
         View dialogView = View.inflate(context, R.layout.dialog_overview, null);
+        //todo
+        ViewStub vs_toolbar = dialogView.findViewById(R.id.vs_dialog_overview_toolbar);
+        ViewStub vs_toolbar_rtl = dialogView.findViewById(R.id.vs_dialog_overview_toolbar_rtl);
+
+        if (rtl) {
+            vs_toolbar_rtl.inflate();
+        } else{
+            vs_toolbar.inflate();
+        }
 
         tab_container = dialogView.findViewById(R.id.tab_container);
         tab_plus = dialogView.findViewById(R.id.tab_plus);
@@ -1407,22 +1478,23 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void initRecords() {
+    private void initCollections() {
         bottomSheetDialog_Records = new BottomSheetDialog(context);
         View dialogView = View.inflate(context, R.layout.dialog_collections, null);
+        ViewStub vs_toolbar = dialogView.findViewById(R.id.vs_dialog_collections_toolbar);
+        ViewStub vs_toolbar_rtl = dialogView.findViewById(R.id.vs_dialog_collections_toolbar_rtl);
+
+        if (rtl) {
+            vs_toolbar_rtl.inflate();
+        } else{
+            vs_toolbar.inflate();
+        }
 
         open_favorite = dialogView.findViewById(R.id.open_favorite);
         open_bookmark = dialogView.findViewById(R.id.open_bookmark);
         open_history = dialogView.findViewById(R.id.open_history);
         open_menu = dialogView.findViewById(R.id.open_menu);
-        //tab_container = dialogView.findViewById(R.id.tab_container);
-        //tab_plus = dialogView.findViewById(R.id.tab_plus);
-        //tab_plus.setOnClickListener(this);
-        //tab_plus_bottom = dialogView.findViewById(R.id.tab_plus_bottom);
-       // tab_plus_bottom.setOnClickListener(this);
-        //tab_ScrollView = dialogView.findViewById(R.id.tab_ScrollView);
-        //overview_top = dialogView.findViewById(R.id.overview_top);
-        //overview_topButtons = dialogView.findViewById(R.id.overview_topButtons);
+
         listView = dialogView.findViewById(R.id.home_list_2);
         gridView = dialogView.findViewById(R.id.home_grid_2);
 
@@ -1430,16 +1502,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         open_bookmarkView = dialogView.findViewById(R.id.open_bookmarkView);
         open_historyView = dialogView.findViewById(R.id.open_historyView);
 
-        //overview_titleIcons_startView = dialogView.findViewById(R.id.overview_titleIcons_startView);
-        //overview_titleIcons_bookmarksView = dialogView.findViewById(R.id.overview_titleIcons_bookmarksView);
-        //overview_titleIcons_historyView = dialogView.findViewById(R.id.overview_titleIcons_historyView);
-
-
-        //final ImageButton overview_titleIcons_start = dialogView.findViewById(R.id.overview_titleIcons_start);
-        //final ImageButton overview_titleIcons_bookmarks = dialogView.findViewById(R.id.overview_titleIcons_bookmarks);
-        //final ImageButton overview_titleIcons_history = dialogView.findViewById(R.id.overview_titleIcons_history);
-
-        // allow scrolling in listView without closing the bottomSheetDialog
         listView.setOnTouchListener(new ListView.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
@@ -1754,6 +1816,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         searchUp = findViewById(R.id.main_search_up);
         searchDown = findViewById(R.id.main_search_down);
         searchCancel = findViewById(R.id.main_search_cancel);
+        howMatch = findViewById(R.id.main_search_howmatch);
 
         searchBox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1761,9 +1824,15 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable key) {
                 if (currentAlbumController != null) {
-                    ((NinjaWebView) currentAlbumController).findAllAsync(s.toString());
+                    ((NinjaWebView) currentAlbumController).findAllAsync(key.toString());
+                    ((NinjaWebView) currentAlbumController).setFindListener(new NinjaWebView.FindListener() {
+                        @Override
+                        public void onFindResultReceived(int position, int all, boolean b) {
+                            howMatch.setText("( "+(position+1)+"/"+all+" )");
+                        }
+                    });
                 }
             }
         });
@@ -1905,7 +1974,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         final String url = ninjaWebView.getUrl();
 
-        final int intFontzoomOld=Integer.parseInt(Objects.requireNonNull(sp.getString("sp_fontSize", "100")));
+        //final int intFontzoomOld=Integer.parseInt(Objects.requireNonNull(sp.getString("sp_fontSize", "100")));
+        final int intFontzoomOld=Objects.requireNonNull(sp.getInt("sp_fontSize_seekbar", 100));
         intFontzoom = intFontzoomOld;
 
         final ImageButton toggle_adblock = dialogView.findViewById(R.id.toggle_adblock);
@@ -2107,6 +2177,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             toggle_desktopView.setVisibility(View.INVISIBLE);
         }
 
+        //todo
+        // not work well
         toggle_desktop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -2264,7 +2336,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (ninjaWebView != null) {
                     if(intFontzoomOld!=intFontzoom)
                     {
-                        sp.edit().putString("sp_fontSize",Integer.toString(intFontzoom)).commit();
+                        sp.edit().putInt("sp_fontSize_seekbar",intFontzoom).commit();
+                        //sp.edit().putString("sp_fontSize",Integer.toString(intFontzoom)).commit();
                     }
 
                     ninjaWebView.initPreferences();
@@ -2869,37 +2942,37 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             popupmenu_backW.setEnabled(ninjaWebView.canGoBack());
             popupmenu_forwardW.setEnabled(ninjaWebView.canGoForward());
             if (sp.getBoolean(getString(R.string.sp_rtl),false))
-                popupMainMenuW.showAtLocation(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
+                popupMainMenuW.showAtLocation(omniboxMainmenu, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
             else
-                popupMainMenuW.showAtLocation(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
+                popupMainMenuW.showAtLocation(omniboxMainmenu, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         }
         else {
             if (sp.getBoolean(getString(R.string.sp_rtl),false))
-                popupMainMenu.showAtLocation(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
+                popupMainMenu.showAtLocation(omniboxMainmenu, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
             else
-                popupMainMenu.showAtLocation(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
+                popupMainMenu.showAtLocation(omniboxMainmenu, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         }
         return true;
     }
     private boolean showMenuMore() {
         if (sp.getBoolean(getString(R.string.sp_rtl),false))
-            popupSubmenuMore.showAtLocation(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
+            popupSubmenuMore.showAtLocation(omniboxMainmenu, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         else
-            popupSubmenuMore.showAtLocation(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
+            popupSubmenuMore.showAtLocation(omniboxMainmenu, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         return true;
     }
     private boolean showMenuSave() {
         if (sp.getBoolean(getString(R.string.sp_rtl),false))
-            popupSubmenuSave.showAtLocation(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
+            popupSubmenuSave.showAtLocation(omniboxMainmenu, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         else
-            popupSubmenuSave.showAtLocation(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
+            popupSubmenuSave.showAtLocation(omniboxMainmenu, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         return true;
     }
     private boolean showMenuShare() {
         if (sp.getBoolean(getString(R.string.sp_rtl),false))
-            popupSubmenuShare.showAtLocation(omniboxOverflow, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
+            popupSubmenuShare.showAtLocation(omniboxMainmenu, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         else
-            popupSubmenuShare.showAtLocation(omniboxOverflow, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
+            popupSubmenuShare.showAtLocation(omniboxMainmenu, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         return true;
     }
 
@@ -2916,8 +2989,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         db.open();
 
         LinearLayout contextList_edit = dialogView.findViewById(R.id.menu_contextList_edit);
-        LinearLayout contextList_fav = dialogView.findViewById(R.id.menu_contextList_fav);
-        LinearLayout contextList_sc = dialogView.findViewById(R.id.menu_contextLink_sc);
+        LinearLayout contextList_homepage = dialogView.findViewById(R.id.menu_contextList_homepage);
+        LinearLayout contextList_shortcut = dialogView.findViewById(R.id.menu_contextLink_shortcut);
         LinearLayout contextList_newTab = dialogView.findViewById(R.id.menu_contextList_newTab);
         LinearLayout contextList_newTabOpen = dialogView.findViewById(R.id.menu_contextList_newTabOpen);
         LinearLayout contextList_delete = dialogView.findViewById(R.id.menu_contextList_delete);
@@ -2928,7 +3001,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             contextList_edit.setVisibility(View.VISIBLE);
         }
 
-        contextList_fav.setOnClickListener(new View.OnClickListener() {
+        contextList_homepage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideBottomSheetDialog ();
@@ -2936,7 +3009,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             }
         });
 
-        contextList_sc.setOnClickListener(new View.OnClickListener() {
+        contextList_shortcut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideBottomSheetDialog ();

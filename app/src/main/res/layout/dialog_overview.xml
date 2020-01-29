@@ -35,26 +35,20 @@
 
         </HorizontalScrollView>
 
-        <LinearLayout
-            android:id="@+id/overview_topButtons"
-            android:layout_width="fill_parent"
-            android:layout_height="56dp"
+        <ViewStub
+            android:id="@+id/vs_dialog_overview_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_margin_56dp"
             android:minHeight="56dp"
-            android:orientation="horizontal"
             android:gravity="end"
-            android:paddingEnd="@dimen/layout_margin_16dp">
-
-            <ImageButton
-                android:id="@+id/tab_plus"
-                android:layout_width="42dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="2dp"
-                android:background="?attr/actionBarItemBackground"
-                android:src="@drawable/icon_plus" />
-
-        </LinearLayout>
+            android:layout="@layout/dialog_overview_toolbar" />
+        <ViewStub
+            android:id="@+id/vs_dialog_overview_toolbar_rtl"
+            android:layout="@layout/dialog_overview_toolbar_rtl"
+            android:layout_width="match_parent"
+            android:minHeight="56dp"
+            android:layout_height="@dimen/layout_margin_56dp"
+            android:gravity="end"/>
 
     </LinearLayout>
 

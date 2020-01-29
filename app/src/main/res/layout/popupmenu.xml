@@ -11,24 +11,18 @@
     app:cardCornerRadius="4dp"
     app:cardElevation="10dp"
     android:background="?android:attr/selectableItemBackground">
+
     <RelativeLayout
         android:layout_width="188dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/popups"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            >
         <TextView
             android:id="@+id/popupmenu_wintan"
             android:text="@string/mode_namewintan"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:paddingTop="4dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:clickable="true"
@@ -38,84 +32,48 @@
             android:lines="1"
             android:ellipsize="end" />
 
-            <TextView
-                android:id="@+id/popupmenu_settings"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:lines="1"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/setting_label"
-                android:textSize="16sp" />
-
-            <TextView
-            android:id="@+id/popupmenu_share"
-            android:text="@string/menu_share"
+        <include layout="@layout/popupmenuitem"
+            android:id="@+id/mainmenu_item"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:clickable="true"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:background="?android:attr/selectableItemBackground"
-            android:lines="1"
-            android:ellipsize="end" />
-        <TextView
-            android:id="@+id/popupmenu_save"
-            android:text="@string/menu_save"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:clickable="true"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:background="?android:attr/selectableItemBackground"
-            android:lines="1"
-            android:ellipsize="end" />
-
-            <TextView
-            android:id="@+id/popupmenu_other"
-            android:text="@string/menu_more"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:clickable="true"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:background="?android:attr/selectableItemBackground"
-            android:lines="1"
-            android:ellipsize="end" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/popupmenu_wintan"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/popups"
+            android:layout_below="@+id/mainmenu_item"
             android:background="@color/finestBlack20"
             android:gravity="center_horizontal">
 
 
             <ImageButton
-                android:id="@+id/menu_showfavorite"
+                android:id="@+id/popupmenu_search_website"
                 android:layout_width="36dp"
                 android:layout_height="42dp"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/icon_favorite"/>
+                app:srcCompat="@drawable/ic_search" />
 
             <ImageButton
-                android:id="@+id/menu_addFavorite"
+                android:id="@+id/popupmenu_overview"
+                android:layout_width="36dp"
+                android:layout_height="42dp"
+                android:background="?attr/actionBarItemBackground"
+                android:src="@drawable/icon_preview" />
+
+            <ImageButton
+                android:id="@+id/popupmenu_addBookmark"
                 android:layout_width="36dp"
                 android:layout_height="42dp"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/icon_favorite"/>
+                app:srcCompat="@drawable/icon_favorite" />
+
+            <ImageButton
+                android:id="@+id/popupmenu_homepage"
+                android:layout_width="36dp"
+                android:layout_height="42dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:srcCompat="@drawable/ic_homepage" />
 
             <ImageButton
                 android:id="@+id/popupmenu_refresh"
@@ -124,13 +82,6 @@
                 android:background="?android:attr/selectableItemBackground"
                 app:srcCompat="@drawable/ic_refresh"
                 android:tooltipText="refresh"/>
-
-            <ImageButton
-                android:id="@+id/popupmenu_search_website"
-                android:layout_width="36dp"
-                android:layout_height="42dp"
-                app:srcCompat="@drawable/ic_search"
-                android:background="?android:attr/selectableItemBackground" />
 
 
         </LinearLayout>
