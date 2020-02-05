@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         applicationId "de.baumann.browser"
@@ -31,10 +31,11 @@ dependencies {
     implementation project(':library')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.mobapphome.library:mah-encryptor-lib:1.0.1'
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
+    implementation 'com.github.XuDaojie:QRCode-Android:v0.4.2'
 }

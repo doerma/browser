@@ -515,5 +515,11 @@
     <string name="setting_useragent_desktop">Desktop</string>
     <string name="setting_useragent_custom">Custom</string>
 
+    <string name="setting_title_navibuttonShow">Navigation button</string>
+    <string name="setting_summary_navibuttonShow">Check to enable the \"Navigation Button\".</string>
+
     <string name="app_search_hint">Enter url or search term …</string>
+
+    <string name="qr_from_photo">Photo</string>
+
 </resources>

@@ -51,6 +51,12 @@
             android:title="@string/setting_title_toolbarShow"
             android:summary="@string/setting_summary_toolbarShow"/>
 
+        <CheckBoxPreference android:key="sp_navibuttonShow"
+            android:icon="@drawable/icon_more"
+            android:defaultValue="false"
+            android:title="@string/setting_title_navibuttonShow"
+            android:summary="@string/setting_summary_navibuttonShow"/>
+
         <ListPreference
             android:title="@string/setting_title_nav_pos"
             android:icon="@drawable/icon_arrow_expand"

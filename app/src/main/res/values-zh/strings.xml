@@ -138,8 +138,11 @@
     <string name="setting_summary_homepage">在这里，您可以更改默认网站，该网站在本浏览器开始时自动加载。输入“about:blank”以获取空白的起始站点。</string>
     <string name="setting_title_searchEngine">自定义搜索引擎</string>
     <string name="setting_summary_searchEngine">您可以在此处输入自定义搜索URL。同时选择“自定义搜索引擎”作为默认搜索引擎。</string>
-    <string name="setting_title_userAgent">自定义user agent</string>
-    <string name="setting_summary_userAgent">在这里您可以输入自定义用户代理。设为空以使用默认值。</string>
+    <string name="setting_title_userAgent">user agent</string>
+    <string name="setting_summary_userAgent">在这里您可以指定使用的user agent。</string>
+    <string name="setting_title_userAgent_custom">自定义user agent</string>
+    <string name="setting_summary_userAgent_custom">在这里您可以输入自定义用户代理。设为空以使用默认值。</string>
+
     <!-- App behavior -->
     <string name="setting_title_hideToolbar">隐藏工具栏</string>
     <string name="setting_summary_hide">在浏览网站时使用整个屏幕。如果您按下后退按钮，您将离开全屏模式。</string>
@@ -409,5 +412,11 @@
     <string name="setting_useragent_default">默认</string>
     <string name="setting_useragent_desktop">桌面电脑</string>
     <string name="setting_useragent_custom">自定义</string>
+
+
+    <string name="setting_title_navibuttonShow">导航按钮</string>
+    <string name="setting_summary_navibuttonShow">是否使用“导航按钮”？选中即显示。</string>
+
+    <string name="qr_from_photo">相册</string>
 
 </resources>

@@ -36,12 +36,27 @@
             android:id="@+id/mainmenu_itemW"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/popupmenu_normalw"/>
+            android:layout_below="@id/popupmenu_normalw"/>
+
+        <TextView
+            android:id="@+id/popupmenu_quit"
+            android:layout_below="@id/mainmenu_itemW"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/menu_quit"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mainmenu_itemW"
+            android:layout_below="@id/popupmenu_quit"
             android:background="@color/finestBlack20"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
