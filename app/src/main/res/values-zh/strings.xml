@@ -418,5 +418,6 @@
     <string name="setting_summary_navibuttonShow">是否使用“导航按钮”？选中即显示。</string>
 
     <string name="qr_from_photo">相册</string>
+    <string name="menu_share_QRcode">分享二维码</string>
 
 </resources>

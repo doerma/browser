@@ -522,4 +522,6 @@
 
     <string name="qr_from_photo">Photo</string>
 
+    <string name="menu_share_QRcode">Share QRcode</string>
+
 </resources>

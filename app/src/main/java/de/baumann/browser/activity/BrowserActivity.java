@@ -300,6 +300,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private AlbumController currentAlbumController = null;
 
     private static final int INPUT_FILE_REQUEST_CODE = 1;
+    private static final int REQUEST_QR_CODE = 2;
 
     private ValueCallback<Uri[]> mFilePathCallback;
 
@@ -443,14 +444,32 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if(requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null) {
+        //todo
+        // 获取二维码扫码结果
+        if (resultCode == RESULT_OK
+                && requestCode == REQUEST_QR_CODE
+                && data != null) {
+            super.onActivityResult(requestCode, resultCode, data);
+            final String result = data.getStringExtra("result");
+            boolean isNum = result.matches("[0-9]+");
+            if (isNum == false) {
+                //如果是网址，则访问
+                updateAlbum(result);
+                hideUrlPanel();
+            } else {
+                //如果是数字（条形码）
+                NinjaToast.show(BrowserActivity.this, result);
+            }
+            return;
+        }
+        if (requestCode != INPUT_FILE_REQUEST_CODE  || mFilePathCallback == null) {
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
         Uri[] results = null;
         // Check that the response is a good one
-        if(resultCode == Activity.RESULT_OK) {
-            if(data != null) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (data != null) {
                 // If there is not data, then we may have taken a photo
                 String dataString = data.getDataString();
                 if (dataString != null) {
@@ -926,10 +945,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 break;
             case  R.id.action_search_go:
                 updateAlbum(inputBox.getText().toString().trim());
-                showOmnibox();
-                urlbar.setVisibility(View.GONE);
-                toolbar.setVisibility(View.VISIBLE);
-                hideKeyboard(activity);
+                hideUrlPanel();
                 break;
             case R.id.toolbarLayout:
                 if (!isUIWintan)
@@ -938,8 +954,9 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
             case R.id.title:
             case R.id.url:
-                toolbar.setVisibility(View.GONE);
-                urlbar.setVisibility(View.VISIBLE);
+                //todo
+                // urlbar正常显示
+                showUrlPanel();
                 String s = ninjaWebView.getUrl();
                 if(s==null || s.isEmpty()){
                     inputBox.setText(R.string.app_name);
@@ -947,13 +964,13 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 else {
                     inputBox.setText(s);
                 }
+                inputBox.selectAll();
                 break;
             case R.id.action_scan:
                 //todo
                 Intent i = new Intent(BrowserActivity.this, io.github.xudaojie.qrcodelib.CaptureActivity.class);
                 startActivityForResult(i, REQUEST_QR_CODE);
                 break;
-            break;
 
 
             case R.id.submenu_contextLink_saveAsPDF:
@@ -1250,10 +1267,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
                         updateAlbum( geturlwithsearchengine(query,item));
-                        showOmnibox();
-                        urlbar.setVisibility(View.GONE);
-                        toolbar.setVisibility(View.VISIBLE);
-                        hideKeyboard(activity);
+                        hideUrlPanel();
                     }
                 }).show();
             }
@@ -1330,12 +1344,14 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         inputBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                String query = inputBox.getText().toString().trim();
-                if (query.isEmpty()) {
-                    NinjaToast.show(context, getString(R.string.toast_input_empty));
-                    return true;
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_GO)) {
+                    String query = inputBox.getText().toString().trim();
+                    if (query.isEmpty()) {
+                        NinjaToast.show(context, getString(R.string.toast_input_empty));
+                        return true;
+                    }
+                    search_go.performClick();
                 }
-                search_go.performClick();
                 return false;
             }
         });
@@ -1354,12 +1370,10 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     }, 250);
                 } else {
                     //TODO
-                    urlbar.setVisibility(View.GONE);
-                    toolbar.setVisibility(View.VISIBLE);
+                    hideUrlPanel();
                     TitleTv.setText(ninjaWebView.getTitle());
                     titleTv.setText(ninjaWebView.getTitle());
                     urlTv.setText(ninjaWebView.getUrl());
-                    hideKeyboard(activity);
                 }
             }
         });
@@ -2754,13 +2768,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         titleTv.requestLayout();
         urlTv.requestLayout();
     }
-    private int getMaxWidth() {
-        if (forward.getVisibility() == View.VISIBLE) {
-            return getResources().getDisplayMetrics().widthPixels - (int) (100 * getResources().getDisplayMetrics().density + 0.5f)-4;
-        } else {
-            return getResources().getDisplayMetrics().widthPixels - (int) (52 * getResources().getDisplayMetrics().density + 0.5f)-4;
-        }
-    }
 
 
     private void scrollChange () {
@@ -3147,12 +3154,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private void showOmnibox() {
         if (!searchOnSite)  {
             fab_imageButtonNav.setVisibility(View.GONE);
-            searchPanel.setVisibility(View.GONE);
-            toolbar.setVisibility(View.VISIBLE);
-            urlbar.setVisibility(View.GONE);
+            //searchPanel.setVisibility(View.GONE);
+            //toolbar.setVisibility(View.VISIBLE);
+            //urlbar.setVisibility(View.GONE);
             //omniboxTitle.setVisibility(View.VISIBLE);
             appBar.setVisibility(View.VISIBLE);
-            hideKeyboard(activity);
         }
     }
 
@@ -3169,20 +3175,39 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         }
     }
 
-    private void hideSearchPanel() {
-        searchOnSite = false;
-        searchBox.setText("");
-        showOmnibox();
-    }
-
     @SuppressLint("RestrictedApi")
     private void showSearchPanel() {
         searchOnSite = true;
         fab_imageButtonNav.setVisibility(View.GONE);
         toolbar.setVisibility(View.GONE);
         searchPanel.setVisibility(View.VISIBLE);
-        //TitleTv.setVisibility(View.GONE);
-        appBar.setVisibility(View.VISIBLE);
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void hideSearchPanel() {
+        searchOnSite = false;
+        if(sp.getBoolean("sp_navibuttonShow",false)) {
+            fab_imageButtonNav.setVisibility(View.VISIBLE);
+        }
+        searchBox.setText("");
+        searchPanel.setVisibility(View.GONE);
+        toolbar.setVisibility(View.VISIBLE);
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void showUrlPanel() {
+        fab_imageButtonNav.setVisibility(View.GONE);
+        toolbar.setVisibility(View.GONE);
+        urlbar.setVisibility(View.VISIBLE);
+    }
+    @SuppressLint("RestrictedApi")
+    private void hideUrlPanel() {
+        if(sp.getBoolean("sp_navibuttonShow",false)) {
+            fab_imageButtonNav.setVisibility(View.VISIBLE);
+        }
+        urlbar.setVisibility(View.GONE);
+        toolbar.setVisibility(View.VISIBLE);
+        hideKeyboard(activity);
     }
 
     @SuppressWarnings("SameReturnValue")
@@ -3699,8 +3724,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     public void goback()
     {
         if (urlbar.getVisibility() == View.VISIBLE) {
-            urlbar.setVisibility(View.GONE);
-            toolbar.setVisibility(View.VISIBLE);
+            hideUrlPanel();
         }else if (toolbar.getVisibility() == View.GONE && sp.getBoolean("sp_toolbarShow", true)) {
             showOmnibox();
         }else{

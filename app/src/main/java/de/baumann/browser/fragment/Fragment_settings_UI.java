@@ -35,10 +35,6 @@ public class Fragment_settings_UI extends PreferenceFragmentCompat implements Sh
                 || key.equals("overView_place") || key.equals("overView_hide")|| key.equals("sp_fontSize")|| key.equals("sp_navibuttonShow")) {
             sp.edit().putInt("restart_changed", 1).apply();
         }
-        if (key.equals("sp_fontSize_seekbar")) {
-            int size=sp.getInt("sp_fontSize_seekbar",100);
-            sp.edit().putString("sp_fontSize",Integer.toString(size));
-        }
     }
 
 
