@@ -79,6 +79,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.google.zxing.BarcodeFormat;
 import com.mobapphome.mahencryptorlib.MAHEncryptor;
 import com.warkiz.widget.IndicatorSeekBar;
 import com.warkiz.widget.OnSeekChangeListener;
@@ -449,7 +450,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         if (resultCode == RESULT_OK
                 && requestCode == REQUEST_QR_CODE
                 && data != null) {
-            super.onActivityResult(requestCode, resultCode, data);
             final String result = data.getStringExtra("result");
             boolean isNum = result.matches("[0-9]+");
             if (isNum == false) {
@@ -460,25 +460,25 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 //如果是数字（条形码）
                 NinjaToast.show(BrowserActivity.this, result);
             }
+
             return;
-        }
-        if (requestCode != INPUT_FILE_REQUEST_CODE  || mFilePathCallback == null) {
-            super.onActivityResult(requestCode, resultCode, data);
-            return;
-        }
-        Uri[] results = null;
-        // Check that the response is a good one
-        if (resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                // If there is not data, then we may have taken a photo
-                String dataString = data.getDataString();
-                if (dataString != null) {
-                    results = new Uri[]{Uri.parse(dataString)};
+        }else if (requestCode == INPUT_FILE_REQUEST_CODE  && mFilePathCallback != null) {
+            Uri[] results = null;
+            // Check that the response is a good one
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    // If there is not data, then we may have taken a photo
+                    String dataString = data.getDataString();
+                    if (dataString != null) {
+                        results = new Uri[]{Uri.parse(dataString)};
+                    }
                 }
             }
+            mFilePathCallback.onReceiveValue(results);
+            mFilePathCallback = null;
+            return;
         }
-        mFilePathCallback.onReceiveValue(results);
-        mFilePathCallback = null;
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -970,8 +970,25 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 //todo
                 Intent i = new Intent(BrowserActivity.this, io.github.xudaojie.qrcodelib.CaptureActivity.class);
                 startActivityForResult(i, REQUEST_QR_CODE);
-                break;
 
+                break;
+            case R.id.submenu_shareQRcode:
+                //todo
+                // share with qrcode
+            try {
+                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                Bitmap bitmap = barcodeEncoder.encodeBitmap("content", BarcodeFormat.QR_CODE, 400, 400);
+                ImageView imageViewQrCode = (ImageView) findViewById(R.id.qrCode);
+                imageViewQrCode.setImageBitmap(bitmap);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(BrowserActivity.this);
+                builder.setView(imageViewQrCode);
+                builder.setMessage(ninjaWebView.getTitle());
+                builder.setPositiveButton(R.string.app_ok, null);
+                builder.show();
+            } catch(Exception e) {
+
+            }
 
             case R.id.submenu_contextLink_saveAsPDF:
                 popupSubmenuSave.dismiss();
