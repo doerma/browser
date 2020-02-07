@@ -79,7 +79,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.google.zxing.BarcodeFormat;
 import com.mobapphome.mahencryptorlib.MAHEncryptor;
 import com.warkiz.widget.IndicatorSeekBar;
 import com.warkiz.widget.OnSeekChangeListener;
@@ -118,8 +117,10 @@ import de.baumann.browser.view.NinjaToast;
 import de.baumann.browser.view.NinjaWebView;
 import de.baumann.browser.view.Adapter_Record;
 import de.baumann.browser.view.SwipeTouchListener;
+import io.github.xudaojie.qrcodelib.CaptureActivity;
 
 import static android.content.ContentValues.TAG;
+import static io.github.xudaojie.qrcodelib.zxing.encoding.EncodingHandler.createQRCode;
 
 @SuppressWarnings({"FieldCanBeLocal", "ApplySharedPref"})
 public class BrowserActivity extends AppCompatActivity implements BrowserController, View.OnClickListener {
@@ -135,6 +136,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private TextView menu_shareLink;
     private TextView menu_sharePDF;
     private TextView menu_openWith;
+    private TextView menu_shareQR;
 
     private TextView menu_download;
     private TextView menu_saveScreenshot;
@@ -445,12 +447,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        //todo
         // 获取二维码扫码结果
         if (resultCode == RESULT_OK
                 && requestCode == REQUEST_QR_CODE
                 && data != null) {
-            final String result = data.getStringExtra("result");
+            final String result = data.getStringExtra("SCAN_RESULT");
             boolean isNum = result.matches("[0-9]+");
             if (isNum == false) {
                 //如果是网址，则访问
@@ -954,41 +955,38 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 }
             case R.id.title:
             case R.id.url:
-                //todo
-                // urlbar正常显示
                 showUrlPanel();
-                String s = ninjaWebView.getUrl();
-                if(s==null || s.isEmpty()){
+                if(url == null || url.isEmpty()){
                     inputBox.setText(R.string.app_name);
                 }
                 else {
-                    inputBox.setText(s);
+                    inputBox.setText(url);
                 }
                 inputBox.selectAll();
+                inputBox.requestFocus();
                 break;
             case R.id.action_scan:
-                //todo
-                Intent i = new Intent(BrowserActivity.this, io.github.xudaojie.qrcodelib.CaptureActivity.class);
+                //sacn QRcode
+                Intent i = new Intent(BrowserActivity.this, CaptureActivity.class);
                 startActivityForResult(i, REQUEST_QR_CODE);
-
                 break;
             case R.id.submenu_shareQRcode:
-                //todo
                 // share with qrcode
-            try {
-                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                Bitmap bitmap = barcodeEncoder.encodeBitmap("content", BarcodeFormat.QR_CODE, 400, 400);
-                ImageView imageViewQrCode = (ImageView) findViewById(R.id.qrCode);
-                imageViewQrCode.setImageBitmap(bitmap);
+                popupSubmenuShare.dismiss();
+                try {
+                    Bitmap bitmap = createQRCode(url,  500);
+                    ImageView imageViewQrCode = new ImageView(this);
+                    imageViewQrCode.setImageBitmap(bitmap);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(BrowserActivity.this);
-                builder.setView(imageViewQrCode);
-                builder.setMessage(ninjaWebView.getTitle());
-                builder.setPositiveButton(R.string.app_ok, null);
-                builder.show();
-            } catch(Exception e) {
-
-            }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(BrowserActivity.this);
+                    builder.setView(imageViewQrCode);
+                    builder.setMessage(title);
+                    builder.setPositiveButton(R.string.app_ok, null);
+                    builder.show();
+                } catch(Exception e) {
+                    NinjaToast.show(BrowserActivity.this,"error");
+                }
+                break;
 
             case R.id.submenu_contextLink_saveAsPDF:
                 popupSubmenuSave.dismiss();
@@ -1220,7 +1218,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         history_refresh.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-              //todo
                 showCollections();
                 if(!CollectionTab.equals(getString(R.string.album_title_history)))
                     open_history.performClick();
@@ -1238,7 +1235,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         bookmark_home.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                //todo
                 showCollections();
                 if(!CollectionTab.equals(getString(R.string.album_title_bookmarks)))
                     open_bookmark.performClick();
@@ -1674,7 +1670,8 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         menu_sharePDF.setOnClickListener(BrowserActivity.this);
         menu_openWith = submenushareview.findViewById(R.id.submenu_openWith);
         menu_openWith.setOnClickListener(BrowserActivity.this);
-
+        menu_shareQR = submenushareview.findViewById(R.id.submenu_shareQRcode);
+        menu_shareQR.setOnClickListener(BrowserActivity.this);
 
         menu_shareCP = submenushareview.findViewById(R.id.submenu_shareClipboard);
         menu_shareCP.setOnClickListener(new View.OnClickListener() {
@@ -1693,7 +1690,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     private void initOverview() {
         bottomSheetDialog_OverView = new BottomSheetDialog(context);
         View dialogView = View.inflate(context, R.layout.dialog_overview, null);
-        //todo
+
         ViewStub vs_toolbar = dialogView.findViewById(R.id.vs_dialog_overview_toolbar);
         ViewStub vs_toolbar_rtl = dialogView.findViewById(R.id.vs_dialog_overview_toolbar_rtl);
 
@@ -3688,8 +3685,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     }
 
     public void setWintanUI(){
-        //todo
-
         {//Show something in Wintan
             history_refresh.setVisibility(View.VISIBLE);
             bookmark_home.setVisibility(View.VISIBLE);
@@ -3698,8 +3693,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         {//Hide something in normal
             normalCenterLayout.setVisibility(View.GONE);
             close.setVisibility(View.GONE);
-            back.setVisibility(View.GONE);
-            forward.setVisibility(View.GONE);
         }
 
         isUIWintan=true;
@@ -3707,13 +3700,10 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     }
 
     public void setNormalUI() {
-        //todo
-
         {//Hide something in Wintan
             //wintan button
             history_refresh.setVisibility(View.GONE);
             bookmark_home.setVisibility(View.GONE);
-
             //Wintan title
             TitleTv.setVisibility(View.GONE);
         }
@@ -3731,7 +3721,6 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 back.setVisibility(View.GONE);
                 forward.setVisibility(View.GONE);
             }
-
         }
 
         isUIWintan=false;

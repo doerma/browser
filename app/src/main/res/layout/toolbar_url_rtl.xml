@@ -23,7 +23,7 @@
         android:textColor="?android:attr/textColorPrimaryNoDisable"
         android:textColorHint="?android:attr/textColorHint"
         android:layout_toEndOf="@id/action_scan"
-        android:paddingStart="10dp"
+        android:paddingHorizontal="10dp"
         android:background="?android:attr/colorBackground"/>
 
 
