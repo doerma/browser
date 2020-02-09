@@ -115,7 +115,6 @@ import de.baumann.browser.view.GridAdapter_filter;
 import de.baumann.browser.view.GridItem;
 
 import de.baumann.browser.view.GridItem_filter;
-import de.baumann.browser.view.NinjaToast;
 import de.baumann.browser.view.NinjaWebView;
 import de.baumann.browser.view.Adapter_Record;
 import de.baumann.browser.view.SwipeTouchListener;
@@ -455,19 +454,20 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 && requestCode == REQUEST_QR_CODE
                 && data != null) {
             final String result = data.getStringExtra("result");
-            boolean isNum = result.matches("[0-9]+");
-            if (!isNum) {
-                //如果是网址，则访问
-                updateAlbum(result);
-                hideUrlPanel();
-            } else {
-                //如果是数字（条形码）
-                Snackbar.make(contentFrame,result,Snackbar.LENGTH_LONG)
-                .setAction(R.string.app_ok,null)
-                .show();
-                //NinjaToast.show(BrowserActivity.this, result);
+            if (result != null) {
+                boolean isNum  = result.matches("[0-9]+");
+                if (!isNum) {
+                    //如果是网址，则访问
+                    updateAlbum(result);
+                    hideUrlPanel();
+                } else {
+                    //如果是数字（条形码）
+                    Snackbar.make(contentFrame, result, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.app_ok, null)
+                            .show();
+                    //NinjaToast.show(BrowserActivity.this, result);
+                }
             }
-
             return;
         }else if (requestCode == INPUT_FILE_REQUEST_CODE  && mFilePathCallback != null) {
             Uri[] results = null;
@@ -593,7 +593,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                     return showMainMenu(more);
                 }
                 else if(fab_imageButtonNav.getVisibility()==View.VISIBLE) {
-                    return showMainMenu(more);
+                    return showMainMenu(fab_imageButtonNav);
                 }
             case KeyEvent.KEYCODE_BACK:
                 // TODO: 2020-02-02
@@ -2086,6 +2086,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
                 if (currentAlbumController != null) {
                     ((NinjaWebView) currentAlbumController).findAllAsync(key.toString());
                     ((NinjaWebView) currentAlbumController).setFindListener(new NinjaWebView.FindListener() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onFindResultReceived(int position, int all, boolean b) {
                             howMatch.setText("[ "+(position+1)+"/"+all+" ]");
@@ -2288,11 +2289,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             @Override
             public void onClick(View view) {
                 if(sp.getBoolean(getString(R.string.sp_ad_block), true)){
-                    toggle_adblockView.setVisibility(view.INVISIBLE);
+                    toggle_adblockView.setVisibility(View.INVISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_ad_block), false).commit();
                     toggle_tips.setText(R.string.text_adblock_off_tips);
                 }else{
-                    toggle_adblockView.setVisibility(view.VISIBLE);
+                    toggle_adblockView.setVisibility(View.VISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_ad_block), true).commit();
                     toggle_tips.setText(R.string.text_adblock_on_tips);
                 }
@@ -2303,11 +2304,11 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
             @Override
             public void onClick(View view) {
                 if(sp.getBoolean(getString(R.string.sp_cookies), true)){
-                    toggle_cookiesView.setVisibility(view.INVISIBLE);
+                    toggle_cookiesView.setVisibility(View.INVISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_cookies), false).commit();
                     toggle_tips.setText(R.string.text_cookie_off_tips);
                 }else{
-                    toggle_cookiesView.setVisibility(view.VISIBLE);
+                    toggle_cookiesView.setVisibility(View.VISIBLE);
                     sp.edit().putBoolean(getString(R.string.sp_cookies), true).commit();
                     toggle_tips.setText(R.string.text_cookie_on_tips);
                 }
@@ -2432,7 +2433,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
 
         final ImageButton toggle_desktop = dialogView.findViewById(R.id.toggle_desktop);
         final View toggle_desktopView = dialogView.findViewById(R.id.toggle_desktopView);
-        if (sp.getString(getString(R.string.sp_useragent), "0")=="1") {
+        if (sp.getString(getString(R.string.sp_useragent), "0").equals("1")) {
             toggle_desktopView.setVisibility(View.VISIBLE);
         } else {
             toggle_desktopView.setVisibility(View.INVISIBLE);
@@ -2443,7 +2444,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         toggle_desktop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sp.getString(getString(R.string.sp_useragent), "0")=="1") {
+                if (sp.getString(getString(R.string.sp_useragent), "0").equals("1")) {
                     toggle_desktopView.setVisibility(View.INVISIBLE);
                     sp.edit().putString(getString(R.string.sp_useragent), "0").commit();
                     toggle_tips.setText(R.string.text_useagent_default_tips);
@@ -2708,11 +2709,10 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         if (currentAlbumController != null) {
             int index = BrowserContainer.indexOf(currentAlbumController) + 1;
             BrowserContainer.add(ninjaWebView, index);
-            tab_container.addView(albumView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         } else {
             BrowserContainer.add(ninjaWebView);
-            tab_container.addView(albumView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         }
+        tab_container.addView(albumView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         if (!foreground) {
             ViewUnit.bound(context, ninjaWebView);
@@ -2882,10 +2882,7 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
     }
 
     private boolean cantainsreservedstring(String  s) {
-        if (s.contains("https://") || s.contains("about:blank"))
-            return true;
-        else
-            return false;
+        return s.contains("https://") || s.contains("about:blank");
     }
     @Override
     public void showFileChooser(ValueCallback<Uri[]> filePathCallback) {
@@ -3281,26 +3278,23 @@ public class BrowserActivity extends AppCompatActivity implements BrowserControl
         return true;
     }
 
-    private boolean showMenuMore() {
+    private void showMenuMore() {
         if (sp.getBoolean(getString(R.string.sp_rtl),false))
             popupSubmenuMore.showAtLocation(more, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         else
             popupSubmenuMore.showAtLocation(more, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
-        return true;
     }
-    private boolean showMenuSave() {
+    private void showMenuSave() {
         if (sp.getBoolean(getString(R.string.sp_rtl),false))
             popupSubmenuSave.showAtLocation(more, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         else
             popupSubmenuSave.showAtLocation(more, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
-        return true;
     }
-    private boolean showMenuShare() {
+    private void showMenuShare() {
         if (sp.getBoolean(getString(R.string.sp_rtl),false))
             popupSubmenuShare.showAtLocation(more, Gravity.START | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
         else
             popupSubmenuShare.showAtLocation(more, Gravity.END | Gravity.BOTTOM, 8, appBar.getHeight() + 20);
-        return true;
     }
 
     private void show_contextMenu_list (final String title, final String url,
