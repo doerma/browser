@@ -230,7 +230,7 @@ public class NinjaWebView extends WebView implements AlbumController {
     @Override
     public synchronized void loadUrl(String url) {
         if (url == null || url.trim().isEmpty()) {
-            //NinjaToast.show(context, R.string.toast_load_error);
+            NinjaToast.show(context, R.string.toast_load_error);
             return;
         } else {
             if (sp.getBoolean(context.getString(R.string.sp_javascript), true)) {
