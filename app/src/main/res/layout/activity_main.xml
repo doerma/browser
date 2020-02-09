@@ -166,20 +166,20 @@
 
         </RelativeLayout>
 
+         <!--urlbar-->
+         <ViewStub
+             android:id="@+id/vs_urlbar"
+             android:layout="@layout/toolbar_url"
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/layout_margin_56dp"/>
+         <ViewStub
+             android:id="@+id/vs_urlbar_rtl"
+             android:layout="@layout/toolbar_url_rtl"
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/layout_margin_56dp"/>
+
     </RelativeLayout>
-    <!--urlbar-->
-    <ViewStub
-        android:id="@+id/vs_urlbar"
-        android:layout="@layout/toolbar_url"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/layout_margin_56dp"
-        android:layout_alignParentBottom="true"/>
-    <ViewStub
-        android:id="@+id/vs_urlbar_rtl"
-        android:layout="@layout/toolbar_url_rtl"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/layout_margin_56dp"
-        android:layout_alignParentBottom="true"/>
+
 
     <include layout="@layout/activity_main_content"
         android:layout_width="match_parent"

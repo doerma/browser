@@ -38,4 +38,5 @@ dependencies {
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
     implementation 'com.github.XuDaojie:QRCode-Android:v0.4.2'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
 }
