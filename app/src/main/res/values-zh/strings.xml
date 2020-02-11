@@ -419,5 +419,10 @@
 
     <string name="qr_from_photo">相册</string>
     <string name="menu_share_QRcode">分享二维码</string>
+    <string name="setting_title_content">Content</string>
+    <string name="setting_title_on_toolbar">Define actions when gesture on toolbar</string>
+    <string name="setting_title_on_nav">Define action when gesture on navigation button</string>
+    <string name="action_fullscreen">全屏显示</string>
+    <string name="action_fullscreen_summary">浏览时隐藏工具栏 和/或 系统状态栏。</string>
 
 </resources>

@@ -14,43 +14,11 @@
             android:icon="@drawable/icon_earth"/>
 
         <Preference
-            android:key="settings_clear"
+            android:key="settings_privacy"
             android:title="@string/setting_title_clear_control"
             android:icon="@drawable/ic_lock"
             android:summary="@string/setting_summary_clear_control" />
 
-        <ListPreference
-            android:icon="@drawable/icon_search"
-            android:key="@string/sp_search_engine"
-            android:defaultValue="0"
-            android:title="@string/setting_title_search_engine"
-            android:summary="@string/setting_summary_search_engine"
-            android:entries="@array/setting_entries_search_engine"
-            android:entryValues="@array/setting_values_search_engine"/>
-
-        <EditTextPreference
-            android:defaultValue="https://www.ecosia.org/search?q="
-            android:key="sp_search_engine_custom"
-            android:title="@string/setting_title_searchEngine"
-            android:summary="@string/setting_summary_searchEngine"
-            android:icon="@drawable/icon_edit"/>
-
-        <ListPreference
-            android:icon="@drawable/icon_useragent"
-            android:key="@string/sp_useragent"
-            android:defaultValue="0"
-            android:title="@string/setting_title_userAgent"
-            android:summary="@string/setting_summary_userAgent"
-            android:entries="@array/setting_entries_useragent"
-            android:entryValues="@array/setting_values_useragent"/>
-
-
-        <EditTextPreference
-            android:selectable="true"
-            android:key="@string/sp_useragent_custom"
-            android:title="@string/setting_title_userAgent_custom"
-            android:summary="@string/setting_summary_userAgent_custom"
-            android:icon="@drawable/icon_edit"/>
 
 
     </PreferenceCategory>

@@ -523,5 +523,10 @@
     <string name="qr_from_photo">Photo</string>
 
     <string name="menu_share_QRcode">Share QRcode</string>
+    <string name="setting_title_content">Content</string>
+    <string name="setting_title_on_toolbar">Define actions when gesture on toolbar</string>
+    <string name="setting_title_on_nav">Define action when gesture on navigation button</string>
+    <string name="action_fullscreen">Fullscreen</string>
+    <string name="action_fullscreen_summary">Hide statusbar and/or toolbar while browsing.</string>
 
 </resources>

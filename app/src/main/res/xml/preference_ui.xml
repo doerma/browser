@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sample="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <PreferenceCategory android:title="@string/setting_title_theme">
@@ -15,18 +14,7 @@
             android:entries="@array/setting_entries_theme"
             android:entryValues="@array/setting_values_theme"/>
 
-        <com.pavelsikun.seekbarpreference.iconSeekBarPreferenceCompat
-            android:key="sp_fontSize_seekbar"
-            android:title="@string/setting_title_font"
-            android:summary="@string/setting_summary_font"
-            android:enabled="true"
-            android:defaultValue="100"
 
-            sample:icon="@drawable/icon_size"
-            sample:msbp_minValue="30"
-            sample:msbp_maxValue="300"
-            sample:msbp_measurementUnit="%"
-            sample:msbp_dialogEnabled="true"/>
 
         <CheckBoxPreference android:key="sp_invert"
             android:icon="@drawable/icon_night"
@@ -37,6 +25,15 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/setting_title_toolbar">
+
+        <ListPreference
+            android:title="@string/action_fullscreen"
+            android:icon="@drawable/icon_fullscreen"
+            android:summary="@string/action_fullscreen_summary"
+            android:key="fullscreen"
+            android:defaultValue="2"
+            android:entries="@array/listArrayFull"
+            android:entryValues="@array/listValuesFull" />
 
         <CheckBoxPreference
             android:key="hideToolbar"
@@ -148,5 +145,91 @@
             android:defaultValue="true" />
 
     </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/setting_gestures">
+
+    <CheckBoxPreference
+        android:icon="@drawable/gesture_tap"
+        android:key="sp_gestures_use"
+        android:defaultValue="true"
+        android:title="@string/setting_gestures_use_title"
+        android:summary="@string/setting_gestures_use_summary"/>
+
+    <PreferenceCategory android:summary="@string/setting_title_on_toolbar">
+
+        <ListPreference
+            android:icon="@drawable/icon_arrow_up_gest"
+            android:title="@string/setting_gesture_up"
+            android:key="setting_gesture_tb_up"
+            android:defaultValue="08"
+            android:entries="@array/setting_entries_gestures"
+            android:entryValues="@array/setting_values_gestures" />
+
+        <ListPreference
+            android:icon="@drawable/icon_arrow_down_gest"
+            android:title="@string/setting_gesture_down"
+            android:key="setting_gesture_tb_down"
+            android:defaultValue="01"
+            android:entries="@array/setting_entries_gestures"
+            android:entryValues="@array/setting_values_gestures" />
+
+        <ListPreference
+            android:icon="@drawable/icon_arrow_left_gest"
+            android:title="@string/setting_gesture_left"
+            android:key="setting_gesture_tb_left"
+            android:defaultValue="07"
+            android:entries="@array/setting_entries_gestures"
+            android:entryValues="@array/setting_values_gestures" />
+
+        <ListPreference
+            android:icon="@drawable/icon_arrow_right_gest"
+            android:title="@string/setting_gesture_right"
+            android:key="setting_gesture_tb_right"
+            android:defaultValue="06"
+            android:entries="@array/setting_entries_gestures"
+            android:entryValues="@array/setting_values_gestures" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:summary="@string/setting_title_on_nav">
+
+        <ListPreference
+            android:icon="@drawable/icon_arrow_up_gest"
+            android:title="@string/setting_gesture_up"
+            android:key="setting_gesture_nav_up"
+            android:defaultValue="04"
+            android:entries="@array/setting_entries_gestures"
+            android:entryValues="@array/setting_values_gestures" />
+
+        <ListPreference
+            android:icon="@drawable/icon_arrow_down_gest"
+            android:title="@string/setting_gesture_down"
+            android:key="setting_gesture_nav_down"
+            android:defaultValue="05"
+            android:entries="@array/setting_entries_gestures"
+            android:entryValues="@array/setting_values_gestures" />
+
+        <ListPreference
+            android:icon="@drawable/icon_arrow_left_gest"
+            android:title="@string/setting_gesture_left"
+            android:key="setting_gesture_nav_left"
+            android:defaultValue="03"
+            android:entries="@array/setting_entries_gestures"
+            android:entryValues="@array/setting_values_gestures" />
+
+        <ListPreference
+            android:icon="@drawable/icon_arrow_right_gest"
+            android:title="@string/setting_gesture_right"
+            android:key="setting_gesture_nav_right"
+            android:defaultValue="02"
+            android:entries="@array/setting_entries_gestures"
+            android:entryValues="@array/setting_values_gestures" />
+
+    </PreferenceCategory>
+
+</PreferenceCategory>
+
 
 </PreferenceScreen>
