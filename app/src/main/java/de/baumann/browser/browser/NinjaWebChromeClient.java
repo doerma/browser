@@ -66,5 +66,4 @@ public class NinjaWebChromeClient extends WebChromeClient {
         callback.invoke(origin, true, false);
         super.onGeolocationPermissionsShowPrompt(origin, callback);
     }
-
 }
